@@ -1,0 +1,70 @@
+{
+  "id": "s4",
+  "titulo": "Memorias y conectores",
+  "objetivos": [
+    "Diferenciar RAM, ROM, caché y flash, y ordenarlas en la jerarquía de memoria.",
+    "Leer la etiqueta de un módulo de RAM: generación, capacidad, velocidad, latencia y formato.",
+    "Reconocer los conectores internos (SATA, M.2) y externos (USB, HDMI, DisplayPort, RJ45)."
+  ],
+  "bloques": [
+    { "tipo": "h", "texto": "Tipos de memoria" },
+    { "tipo": "tabla", "cab": ["Memoria", "¿Volátil?", "Dónde está", "Para qué se usa"], "filas": [
+      ["Caché (SRAM)", "Sí", "Dentro del procesador", "Lo que la CPU usa más a menudo"],
+      ["RAM (DRAM)", "Sí", "Módulos en la placa", "Programas y datos en uso"],
+      ["Flash de la UEFI", "No", "Chip de la placa base", "Firmware de arranque"],
+      ["Flash (SSD, USB, SD)", "No", "Unidades y tarjetas", "Guardar archivos y programas"]
+    ] },
+    { "tipo": "p", "texto": "La **ROM** ha evolucionado: PROM (se graba una vez), EPROM (se borra con luz ultravioleta), EEPROM (se borra eléctricamente) y **flash** (borra y graba por bloques, muy deprisa). Por eso el firmware de la placa hoy se puede **actualizar**." },
+    { "tipo": "p", "texto": "La **caché** tiene niveles: **L1** (la más pequeña y rápida, una por núcleo), **L2** y **L3** (la más grande, compartida por todos los núcleos)." },
+    { "tipo": "analogia", "texto": "Cocinando: los **registros** son lo que tienes en la mano; la **caché**, la encimera; la **RAM**, la nevera; y el **almacenamiento**, el supermercado. Cuanto más cerca, más rápido pero menos cabe." },
+
+    { "tipo": "h", "texto": "La RAM en detalle" },
+    { "tipo": "lista", "items": [
+      "**Formato**: **DIMM** (largo, sobremesa) o **SO-DIMM** (corto, portátiles). En muchos portátiles finos va **soldada** y no se puede ampliar.",
+      "**Generación**: DDR3, **DDR4**, **DDR5**. No son compatibles entre sí: la **muesca** está en otro sitio. **Nunca se fuerza un módulo.**",
+      "**Capacidad** (GB): la suma de todos los módulos. Windows 11 pide un mínimo de 4 GB.",
+      "**Velocidad** (MT/s): DDR4-3200 = 3200 MT/s (también PC4-25600). Para alcanzar la velocidad anunciada hay que activar el perfil **XMP** o **EXPO** en la UEFI.",
+      "**Latencia CL**: ciclos que tarda en empezar a entregar un dato. A igual velocidad, **menos es mejor**."
+    ] },
+    { "tipo": "ver3d", "modelo": "ram", "texto": "Fíjate en la muesca del módulo: no está en el centro. Por eso solo entra en una posición y en las ranuras de su generación." },
+    { "tipo": "tabla", "cab": ["Generación", "Contactos (DIMM)", "Tensión", "Velocidades"], "filas": [
+      ["DDR3", "240", "1,5 V", "Equipos antiguos"],
+      ["DDR4", "288", "1,2 V", "1600 a 3200 MT/s"],
+      ["DDR5", "288", "1,1 V", "Desde 4800 MT/s"]
+    ] },
+    { "tipo": "h", "texto": "Canales de memoria" },
+    { "tipo": "p", "texto": "Los equipos normales tienen **dos canales** (*dual channel*). Con **dos módulos iguales** en las ranuras que indica el manual, el procesador lee de los dos a la vez y el ancho de banda se duplica en teoría. Con un solo módulo funciona, pero se desaprovecha la mitad. Por eso se venden **kits** de 2 módulos." },
+    { "tipo": "analogia", "texto": "Dos canales son dos cajas abiertas en el supermercado en vez de una: la cola avanza el doble de rápido." },
+
+    { "tipo": "h", "texto": "Conectores internos" },
+    { "tipo": "lista", "items": [
+      "**SATA**: discos duros, SSD de 2,5\" y unidades ópticas. Cada unidad necesita **dos cables**: el de **datos** (fino, en «L», a la placa) y el de **corriente** (más ancho, de la fuente). Llega a unos 600 MB/s.",
+      "**M.2**: SSD en forma de tarjeta, sin cables, sujeto con un tornillo. **2280** = 22 mm de ancho y 80 mm de largo. Puede ser **NVMe** (por PCIe, muy rápido) o **SATA**. **No todas las ranuras M.2 admiten los dos tipos**: hay que mirar el manual."
+    ] },
+    { "tipo": "ver3d", "modelo": "almac", "texto": "Compara un SSD M.2 (tarjeta) con uno de 2,5\" (necesita cable de datos y de corriente)." },
+
+    { "tipo": "h", "texto": "Conectores externos" },
+    { "tipo": "tabla", "cab": ["Conector", "Para qué sirve"], "filas": [
+      ["USB (A, C…)", "Periféricos, discos externos, carga. La forma no dice la velocidad: un USB-C puede ser desde USB 2.0 hasta USB4"],
+      ["HDMI", "Vídeo y audio: televisores, proyectores, monitores"],
+      ["DisplayPort", "Vídeo y audio, pensado para monitores; habitual en tarjetas gráficas"],
+      ["RJ45", "Red Ethernet por cable (8 contactos y pestaña)"],
+      ["Minijack 3,5 mm", "Audio: verde altavoces, rosa micrófono, azul entrada de línea"]
+    ] },
+    { "tipo": "p", "texto": "En equipos antiguos verás **VGA** (azul, vídeo analógico), **DVI** (blanco, ancho) y **PS/2** (redondos: morado teclado, verde ratón)." },
+    { "tipo": "resumen", "texto": "La **RAM** es la memoria de trabajo (volátil), la **caché** es la más rápida y está dentro del procesador, y la **flash** guarda el firmware y es la memoria de SSD y pendrives. Un módulo de RAM se define por **generación** (DDR4/DDR5, no compatibles), **formato** (DIMM/SO-DIMM), **capacidad**, **velocidad** y **latencia**; con dos módulos iguales se aprovecha el **doble canal**. Internos: **SATA** y **M.2**; externos: **USB, HDMI, DisplayPort y RJ45**." },
+
+    { "tipo": "pregunta", "enunciado": "Tienes una placa con ranuras DDR4 y un módulo DDR5. ¿Qué pasa?",
+      "opciones": ["Funciona más lento", "No entra: la muesca está en otro sitio", "Funciona si activas XMP", "Funciona solo en una ranura"],
+      "correcta": 1, "explicacion": "DDR4 y DDR5 tienen el mismo número de contactos pero la muesca en otra posición, justo para que no se puedan confundir." },
+    { "tipo": "pregunta", "enunciado": "¿Qué es mejor para un sobremesa: 1 módulo de 16 GB o un kit de 2 × 8 GB iguales?",
+      "opciones": ["1 × 16 GB, porque es un solo módulo", "2 × 8 GB, porque aprovecha el doble canal", "Da igual", "Ninguno, hace falta SO-DIMM"],
+      "correcta": 1, "explicacion": "Con dos módulos iguales en las ranuras correctas se usa el doble canal y el ancho de banda se duplica en teoría." },
+    { "tipo": "pregunta", "enunciado": "Compras un SSD M.2 NVMe y la ranura M.2 de la placa solo admite SATA. ¿Qué ocurre?",
+      "opciones": ["Funciona a velocidad SATA", "No funciona en esa ranura", "Funciona con un cable SATA", "Funciona si actualizas la BIOS"],
+      "correcta": 1, "explicacion": "No todas las ranuras M.2 admiten NVMe y SATA. Hay que comprobarlo en el manual de la placa antes de comprar." },
+    { "tipo": "pregunta", "enunciado": "Un SSD SATA de 2,5\". ¿Cuántos cables necesita?",
+      "opciones": ["Ninguno", "Uno: el de datos", "Dos: datos (a la placa) y corriente (de la fuente)", "Tres"],
+      "correcta": 2, "explicacion": "Cada unidad SATA necesita el cable de datos a la placa y el de alimentación de la fuente." }
+  ]
+}

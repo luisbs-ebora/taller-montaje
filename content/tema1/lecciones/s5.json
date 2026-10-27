@@ -1,0 +1,88 @@
+{
+  "id": "s5",
+  "titulo": "Software base e identificación",
+  "objetivos": [
+    "Diferenciar software base y software de aplicación.",
+    "Saber qué acompaña a un componente y de dónde se descargan los controladores.",
+    "Usar el Administrador de dispositivos e identificar componentes sin abrir el equipo.",
+    "Conocer las medidas de seguridad para abrir un equipo."
+  ],
+  "bloques": [
+    { "tipo": "h", "texto": "Software base y software de aplicación" },
+    { "tipo": "tabla", "cab": ["Tipo", "Ejemplos", "Quién lo instala"], "filas": [
+      ["Firmware", "UEFI de la placa, firmware del SSD", "Viene de fábrica; lo actualiza el técnico"],
+      ["Sistema operativo", "Windows 11, Ubuntu", "El técnico"],
+      ["Controladores", "Chipset, gráfica, red, sonido", "El sistema o el técnico"],
+      ["Utilidades", "Panel de la gráfica, monitorización", "El técnico"],
+      ["Aplicaciones", "Ofimática, navegador, facturación", "El técnico o el usuario"]
+    ] },
+    { "tipo": "p", "texto": "Las cuatro primeras filas son **software base**: hacen funcionar el hardware y las instala y mantiene el técnico. La última es **software de aplicación**: lo que usa la persona para su trabajo." },
+
+    { "tipo": "h", "texto": "Lo que acompaña a un componente" },
+    { "tipo": "lista", "items": [
+      "**Documentación**: manual (con el esquema de la placa), guía rápida, seguridad y garantía.",
+      "**Controladores**: hoy casi siempre en la web de soporte.",
+      "**Utilidades**: programas del fabricante (ventiladores, luces, firmware).",
+      "**Accesorios**: cables, tornillos (como el del M.2), chapa del panel trasero, antenas Wi-Fi."
+    ] },
+
+    { "tipo": "h", "texto": "Los controladores (drivers)" },
+    { "tipo": "p", "texto": "Un **controlador** es un programa que permite al sistema operativo comunicarse con un dispositivo concreto. Es un **intérprete**: el sistema da órdenes generales y el controlador las traduce al idioma de ese modelo." },
+    { "tipo": "pasos", "items": [
+      "**Windows Update** (también en *Actualizaciones opcionales*).",
+      "**Web del fabricante del equipo**, si es de marca (HP, Dell, Lenovo…), buscando por modelo o número de serie.",
+      "**Web del fabricante del componente**, si el equipo es por piezas (placa, gráfica…)."
+    ] },
+    { "tipo": "nota", "texto": "Nunca uses webs ni programas que prometen «todos los drivers gratis»: pueden instalar controladores incorrectos o software malicioso." },
+
+    { "tipo": "h", "texto": "El Administrador de dispositivos" },
+    { "tipo": "p", "texto": "Se abre con clic derecho en **Inicio > Administrador de dispositivos** (o **Windows + R** y `devmgmt.msc`)." },
+    { "tipo": "tabla", "cab": ["Lo que ves", "Qué significa"], "filas": [
+      ["Icono normal", "Funciona correctamente"],
+      ["Triángulo amarillo", "Hay un problema con el controlador"],
+      ["Flecha hacia abajo", "Dispositivo deshabilitado"],
+      ["«Otros dispositivos» / «Dispositivo desconocido»", "Windows no tiene controlador"]
+    ] },
+    { "tipo": "p", "texto": "En **Propiedades > Detalles > Id. de hardware** aparece la «matrícula» del dispositivo: **VEN_xxxx** (fabricante) y **DEV_xxxx** (modelo). Por ejemplo, **VEN_8086** es Intel y **VEN_10EC** es Realtek." },
+
+    { "tipo": "h", "texto": "Actualizar el firmware" },
+    { "tipo": "lista", "items": [
+      "Solo con un **motivo concreto** y con autorización.",
+      "Del **fabricante**, para el **modelo y revisión exactos**, leyendo antes las instrucciones.",
+      "Con el equipo conectado a la corriente sin riesgo de corte (portátiles, **con el cargador**).",
+      "**No se apaga ni se reinicia** durante el proceso: el componente podría quedar inservible."
+    ] },
+
+    { "tipo": "h", "texto": "Identificar un equipo sin abrirlo" },
+    { "tipo": "tabla", "cab": ["Herramienta", "Cómo se abre", "Qué te dice"], "filas": [
+      ["Información del sistema", "Windows + R → msinfo32", "Procesador, placa, versión y modo de BIOS, RAM"],
+      ["Administrador de tareas", "Ctrl + Mayús + Esc → Rendimiento", "Núcleos, hilos, caché, RAM, discos, gráfica"],
+      ["dxdiag", "Windows + R → dxdiag", "Tarjeta gráfica y su controlador"],
+      ["CPU-Z / HWiNFO", "Programas gratuitos (web oficial)", "Todo el hardware y los sensores"]
+    ] },
+
+    { "tipo": "h", "texto": "Si hay que abrir el equipo: seguridad" },
+    { "tipo": "pasos", "items": [
+      "Equipo **apagado y desenchufado**. Pulsa unos segundos el botón de encendido para descargar la energía que queda.",
+      "**Pulsera antiestática** conectada a tierra o a una parte metálica sin pintar del chasis, sobre una superficie **no conductora**.",
+      "Coge placas y módulos **por los bordes**, sin tocar contactos ni chips. Saca las piezas de su **bolsa antiestática** justo antes de montarlas.",
+      "**No abras nunca la fuente de alimentación**: sus condensadores pueden guardar carga aunque esté desenchufada.",
+      "**No fuerces** ningún componente: si no entra, revisa la muesca o el triángulo."
+    ] },
+    { "tipo": "ver3d", "modelo": "fuente", "texto": "La fuente de alimentación nunca se abre. Fíjate en su interruptor (I/O): durante el montaje, en O y desenchufada." },
+    { "tipo": "resumen", "texto": "El **software base** (firmware, sistema, controladores y utilidades) lo instala el técnico. Los **controladores** se descargan siempre de la **web oficial** y para el **modelo exacto**. El **Administrador de dispositivos** muestra su estado y el **Id. de hardware**. Para identificar un equipo: **msinfo32, Administrador de tareas, dxdiag, CPU-Z**. Para abrirlo: **desenchufado, pulsera, por los bordes, nunca abrir la fuente y no forzar**." },
+
+    { "tipo": "pregunta", "enunciado": "En el Administrador de dispositivos ves un triángulo amarillo en la tarjeta de red. ¿Qué haces primero?",
+      "opciones": ["Descargar un programa de «drivers gratis»", "Buscar el Id. de hardware y el controlador en la web oficial", "Abrir el equipo y cambiar la tarjeta", "Actualizar la BIOS"],
+      "correcta": 1, "explicacion": "El triángulo indica un problema de controlador. Con el Id. de hardware sabes qué es y descargas el controlador oficial." },
+    { "tipo": "pregunta", "enunciado": "¿Qué herramienta te dice el modelo de la placa base y la versión de la BIOS sin abrir el equipo?",
+      "opciones": ["msinfo32", "dxdiag", "devmgmt.msc", "El Explorador de archivos"],
+      "correcta": 0, "explicacion": "La Información del sistema (msinfo32) muestra el modelo de placa, la versión y el modo de BIOS." },
+    { "tipo": "pregunta", "enunciado": "¿Por qué no se abre nunca la fuente de alimentación?",
+      "opciones": ["Porque se pierde la garantía de la placa", "Porque sus condensadores pueden guardar carga aunque esté desenchufada", "Porque tiene pasta térmica", "Porque está soldada a la caja"],
+      "correcta": 1, "explicacion": "Los condensadores pueden mantener una carga peligrosa incluso desenchufada." },
+    { "tipo": "pregunta", "enunciado": "Un controlador, ¿es software base o de aplicación?",
+      "opciones": ["De aplicación", "Software base", "Es firmware", "Es hardware"],
+      "correcta": 1, "explicacion": "Los controladores forman parte del software base: hacen que el hardware funcione con el sistema operativo." }
+  ]
+}

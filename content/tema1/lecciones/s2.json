@@ -1,0 +1,81 @@
+{
+  "id": "s2",
+  "titulo": "Buses y procesadores",
+  "objetivos": [
+    "Saber qué es un bus y diferenciar el de datos, el de direcciones y el de control.",
+    "Entender las ranuras PCI Express: carriles y generaciones.",
+    "Leer las características de un procesador y comprobar si es compatible con una placa."
+  ],
+  "bloques": [
+    { "tipo": "h", "texto": "¿Qué es un bus?" },
+    { "tipo": "p", "texto": "Un **bus** es un conjunto de líneas eléctricas (las pistas de cobre de la placa, cables o contactos) por las que viajan las señales entre componentes. Sin buses, la CPU no podría leer la memoria ni mandar nada a la pantalla." },
+    { "tipo": "lista", "items": [
+      "**Ancho**: cuántos bits viajan a la vez (8, 16, 32, 64…). Como el número de carriles de una carretera.",
+      "**Frecuencia**: cuántas veces por segundo se envía un paquete de bits (MHz, GHz). Como la velocidad de los coches.",
+      "**Ancho de banda**: cuánta información se mueve por segundo (MB/s, GB/s, Gb/s). Depende de las dos anteriores."
+    ] },
+    { "tipo": "nota", "texto": "**b** minúscula = **bit** y **B** mayúscula = **byte** (1 byte = 8 bits). 8 GB/s es ocho veces más rápido que 8 Gb/s." },
+
+    { "tipo": "h", "texto": "Bus de datos, de direcciones y de control" },
+    { "tipo": "tabla", "cab": ["Bus", "Qué lleva", "Sentido"], "filas": [
+      ["Datos", "Los datos y las instrucciones", "Ida y vuelta (bidireccional)"],
+      ["Direcciones", "La «casilla» de memoria o el dispositivo de destino", "Solo sale de la CPU (unidireccional)"],
+      ["Control", "Órdenes: lectura o escritura, reloj, interrupciones…", "Según la señal"]
+    ] },
+    { "tipo": "analogia", "texto": "El bus de **datos** es el camión que lleva la mercancía; el de **direcciones**, la dirección escrita en el paquete; y el de **control**, el semáforo que dice quién pasa y cuándo." },
+    { "tipo": "p", "texto": "Con un bus de direcciones de 32 líneas solo se pueden señalar unos 4.300 millones de casillas: **4 GB** como máximo. Por eso hoy se usan sistemas de **64 bits**." },
+
+    { "tipo": "h", "texto": "Buses en paralelo y en serie" },
+    { "tipo": "p", "texto": "Los equipos antiguos usaban buses **paralelos** (PCI, IDE): muchos bits a la vez, uno por cable. A mucha velocidad los cables se interfieren, así que hoy casi todo es **serie** (PCI Express, SATA, USB): los bits van uno detrás de otro, pero muchísimo más deprisa." },
+
+    { "tipo": "h", "texto": "PCI Express (PCIe)" },
+    { "tipo": "p", "texto": "Es el bus de las tarjetas de expansión: gráfica, SSD NVMe, tarjetas de red… Cada conexión está formada por **carriles** (*lanes*). Las ranuras se nombran por el número de carriles: **x1, x4, x8, x16**." },
+    { "tipo": "ver3d", "modelo": "placa", "foco": "pcie16", "texto": "Localiza la ranura PCIe x16 (la larga, para la gráfica) y la x1 (la corta)." },
+    { "tipo": "tabla", "cab": ["Generación", "Por carril (aprox.)", "Ranura x16 (aprox.)"], "filas": [
+      ["PCIe 3.0", "≈ 1 GB/s", "≈ 16 GB/s"],
+      ["PCIe 4.0", "≈ 2 GB/s", "≈ 32 GB/s"],
+      ["PCIe 5.0", "≈ 4 GB/s", "≈ 64 GB/s"]
+    ] },
+    { "tipo": "p", "texto": "Las generaciones son compatibles entre sí: una tarjeta PCIe 4.0 funciona en una ranura 3.0, pero a la velocidad de la **más antigua**." },
+
+    { "tipo": "h", "texto": "Qué mirar en un procesador" },
+    { "tipo": "lista", "items": [
+      "**Frecuencia base y turbo** (GHz).",
+      "**Núcleos** e **hilos**: «6 núcleos / 12 hilos» = 6 núcleos con dos hilos cada uno.",
+      "**Caché L3** (MB).",
+      "**TDP** (W): el calor que genera trabajando y que la refrigeración debe evacuar.",
+      "**Gráficos integrados**: si no los tiene, el equipo **necesita una tarjeta gráfica** para dar imagen.",
+      "**Socket**: el conector de la placa donde va. Un procesador solo encaja en su socket."
+    ] },
+    { "tipo": "tabla", "cab": ["Socket", "Fabricante", "Tipo", "Memoria"], "filas": [
+      ["AM4", "AMD", "PGA (pines en el procesador)", "DDR4"],
+      ["AM5", "AMD", "LGA (pines en la placa)", "DDR5"],
+      ["LGA1700", "Intel", "LGA (pines en la placa)", "DDR4 o DDR5, según la placa"]
+    ] },
+    { "tipo": "ver3d", "modelo": "placa", "foco": "socket", "texto": "Mira el socket: en los LGA los pines están en la placa y son muy delicados. Un pin doblado puede inutilizarla." },
+    { "tipo": "analogia", "texto": "El socket es como el enchufe de un país: un enchufe británico no entra en una toma española, por bueno que sea el aparato." },
+
+    { "tipo": "h", "texto": "¿Puedo montar este procesador en esta placa?" },
+    { "tipo": "pasos", "items": [
+      "**Socket**: el del procesador y el de la placa tienen que ser el mismo.",
+      "**Lista de procesadores compatibles** de la placa (web del fabricante): a veces pide una versión mínima de BIOS.",
+      "**Potencia**: la placa y el disipador soportan el TDP del procesador.",
+      "**Memoria**: el tipo de RAM (DDR4 o DDR5) que admiten procesador y placa.",
+      "**Gráficos**: si el procesador no tiene gráficos integrados, hace falta tarjeta gráfica."
+    ] },
+    { "tipo": "resumen", "texto": "El bus de **datos** lleva la información, el de **direcciones** indica el destino y el de **control** coordina. **PCIe** se organiza en **carriles** (x1, x4, x16) y **generaciones**. De un procesador hay que mirar **GHz, núcleos, hilos, TDP, gráficos integrados y socket**; que encaje no basta: hay que comprobar la **lista de compatibles**." },
+
+    { "tipo": "pregunta", "enunciado": "¿Qué bus solo «sale» de la CPU, porque es ella quien dice a qué casilla quiere ir?",
+      "opciones": ["Bus de datos", "Bus de direcciones", "Bus de control", "PCI Express"],
+      "correcta": 1, "explicacion": "El bus de direcciones es unidireccional: lo emite la CPU para indicar el destino." },
+    { "tipo": "pregunta", "enunciado": "Un cliente tiene una placa AM4 y quiere un procesador AM5. ¿Qué le dices?",
+      "opciones": ["Que funciona, pero más lento", "Que funciona si actualiza la BIOS", "Que no encaja: el socket es distinto", "Que funciona con memoria DDR5"],
+      "correcta": 2, "explicacion": "Un procesador solo encaja en su socket. AM4 y AM5 son distintos (además, AM5 usa DDR5)." },
+    { "tipo": "pregunta", "enunciado": "Montas un procesador sin gráficos integrados y no pones tarjeta gráfica. ¿Qué pasa?",
+      "opciones": ["Funciona con los gráficos de la placa", "El equipo no da imagen", "Va más lento", "Solo funciona en HDMI"],
+      "correcta": 1, "explicacion": "Las salidas de vídeo de la placa usan los gráficos del procesador. Sin ellos y sin tarjeta gráfica, no hay imagen." },
+    { "tipo": "pregunta", "enunciado": "Pones una tarjeta PCIe 4.0 en una ranura PCIe 3.0. ¿Qué ocurre?",
+      "opciones": ["No entra", "Funciona a velocidad PCIe 3.0", "Funciona a velocidad PCIe 4.0", "Se estropea la ranura"],
+      "correcta": 1, "explicacion": "PCIe es compatible entre generaciones y el enlace va a la velocidad de la más antigua." }
+  ]
+}

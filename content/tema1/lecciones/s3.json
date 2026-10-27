@@ -1,0 +1,82 @@
+{
+  "id": "s3",
+  "titulo": "Placa base y refrigeración",
+  "objetivos": [
+    "Reconocer los elementos principales de una placa base.",
+    "Saber qué hacen el chipset y la UEFI, y qué se configura en ella.",
+    "Diferenciar los formatos ATX, MicroATX y Mini-ITX.",
+    "Explicar por qué se calientan los componentes y cómo se refrigeran."
+  ],
+  "bloques": [
+    { "tipo": "h", "texto": "La placa base" },
+    { "tipo": "p", "texto": "Es la placa de circuito principal del ordenador. Sobre ella se conectan, directa o indirectamente, **todos** los demás componentes. Las finas líneas de cobre que ves en su superficie (las **pistas**) son los buses de la lección anterior." },
+    { "tipo": "ver3d", "modelo": "placa", "texto": "Gira la placa y toca cada elemento para ver su nombre: socket, ranuras de memoria, PCIe, M.2, SATA, conectores de alimentación, chipset, pila…" },
+    { "tipo": "tabla", "cab": ["Elemento", "Para qué sirve", "Cómo reconocerlo"], "filas": [
+      ["Socket", "Alojar el procesador", "Zócalo cuadrado con palanca o marco"],
+      ["Ranuras DIMM", "Instalar la RAM", "Ranuras largas con pestañas, junto al socket"],
+      ["Ranuras PCIe", "Tarjetas de expansión", "Ranuras de distintas longitudes (x1, x16)"],
+      ["Ranura M.2", "SSD en formato tarjeta", "Conector pequeño con un tornillo a cierta distancia"],
+      ["Puertos SATA", "Discos y SSD de 2,5\"", "Conectores pequeños en forma de «L»"],
+      ["Conector ATX 24 pines y EPS", "Recibir corriente de la fuente", "El más grande de la placa / 4 u 8 pines junto al socket"],
+      ["Chipset", "Organizar la comunicación con discos, USB, red…", "Chip con un disipador plano"],
+      ["Pila CR2032", "Mantener el reloj con el equipo desenchufado", "Pila de botón plateada"],
+      ["VRM", "Fabricar la tensión del procesador", "Componentes con disipadores alrededor del socket"]
+    ] },
+
+    { "tipo": "h", "texto": "El chipset" },
+    { "tipo": "p", "texto": "Organiza la comunicación entre el procesador y lo que no se conecta directamente a él: puertos SATA, muchos USB, algunas ranuras M.2 y PCIe, la red y el sonido. **Determina qué permite la placa**: cuántos puertos tiene, qué procesadores admite y si deja hacer *overclocking*." },
+    { "tipo": "analogia", "texto": "Si la placa es una ciudad, el chipset es la **estación de autobuses** que organiza los viajes hacia los barrios (discos, USB, sonido)." },
+
+    { "tipo": "h", "texto": "BIOS y UEFI" },
+    { "tipo": "p", "texto": "Es el **firmware** de la placa, guardado en un chip de memoria flash. Es lo primero que se ejecuta al encender:" },
+    { "tipo": "lista", "items": [
+      "**POST**: comprueba que procesador, memoria y gráfica responden. Si falla algo, avisa con pitidos, luces o mensajes.",
+      "**Configura** el hardware de la placa.",
+      "**Arranca** el sistema operativo según el **orden de arranque**."
+    ] },
+    { "tipo": "tabla", "cab": ["", "BIOS (antigua)", "UEFI (actual)"], "filas": [
+      ["Aspecto", "Texto, solo teclado", "Gráfica, admite ratón"],
+      ["Discos de arranque", "MBR, hasta 2 TB", "GPT, más de 2 TB"],
+      ["Arranque seguro", "No", "Sí (Secure Boot)"],
+      ["Windows 11", "No compatible", "Necesaria"]
+    ] },
+    { "tipo": "p", "texto": "Opciones importantes de la UEFI: **orden de arranque**, **dispositivos integrados**, **perfil de memoria** (XMP/EXPO), **virtualización**, **seguridad** (Secure Boot, TPM) y **monitorización** (temperaturas y ventiladores)." },
+    { "tipo": "nota", "texto": "En la UEFI cambia solo lo que sepas para qué sirve y anota el valor original. En el aula, entra solo cuando lo indique el profesor." },
+
+    { "tipo": "h", "texto": "Formatos de placa" },
+    { "tipo": "tabla", "cab": ["Formato", "Medidas", "Ranuras de expansión", "Ranuras RAM"], "filas": [
+      ["ATX", "305 × 244 mm", "Hasta 7", "4"],
+      ["MicroATX", "244 × 244 mm", "Hasta 4", "2 o 4"],
+      ["Mini-ITX", "170 × 170 mm", "1", "2"]
+    ] },
+    { "tipo": "p", "texto": "Una caja ATX suele admitir también MicroATX y Mini-ITX. Al revés no: una placa ATX no cabe en una caja Mini-ITX. Lo confirma la **ficha técnica de la caja**." },
+    { "tipo": "ver3d", "modelo": "caja", "texto": "Mira la caja por dentro: la placa se atornilla en el panel del fondo, la fuente va abajo y la gráfica sale hacia ti." },
+
+    { "tipo": "h", "texto": "¿Por qué se calientan los componentes?" },
+    { "tipo": "p", "texto": "Toda la energía que consume un chip acaba convertida en **calor**. Si no se evacua: el procesador **baja su frecuencia** (*thermal throttling*), y si sigue subiendo, el equipo **se apaga** para protegerse. El calor continuo además acorta la vida de las piezas." },
+
+    { "tipo": "h", "texto": "Disipadores, pasta y ventiladores" },
+    { "tipo": "lista", "items": [
+      "**Disipador**: pieza de metal con **aletas** que absorbe el calor y lo pasa al aire. Muchos llevan **heat pipes** (tubos de cobre).",
+      "**Pasta térmica**: rellena los huecos de aire entre procesador y disipador. Se pone **poca cantidad**; algunos disipadores la traen ya puesta.",
+      "**Ventilador**: mueve el aire. Tamaños habituales: 120 y 140 mm. El del procesador va al conector **CPU_FAN** (4 pines, PWM).",
+      "**Refrigeración líquida (AIO)**: un bloque sobre el procesador, una bomba, tubos y un **radiador** con ventiladores."
+    ] },
+    { "tipo": "ver3d", "modelo": "refri", "texto": "Mira el disipador de torre: base de contacto, heat pipes, aletas y ventilador." },
+    { "tipo": "p", "texto": "**Flujo de aire**: el aire frío entra **por delante** y el caliente sale **por detrás y por arriba**." },
+    { "tipo": "resumen", "texto": "La **placa base** conecta todo. El **chipset** organiza la comunicación con discos y periféricos. La **UEFI** comprueba el hardware (POST), lo configura y arranca el sistema. Formatos: **ATX, MicroATX, Mini-ITX**. El calor se evacua con **disipador, pasta térmica, ventiladores** o **líquida**; si no, el procesador baja su frecuencia o el equipo se apaga." },
+
+    { "tipo": "pregunta", "enunciado": "El ordenador pierde la fecha y la hora cada vez que se desenchufa. ¿Qué es lo más probable?",
+      "opciones": ["El chipset está roto", "La pila de la placa está agotada", "Falta pasta térmica", "La UEFI es antigua"],
+      "correcta": 1, "explicacion": "La pila (normalmente CR2032) mantiene el reloj cuando el equipo no tiene corriente." },
+    { "tipo": "pregunta", "enunciado": "Tienes una placa ATX y una caja Mini-ITX. ¿Puedes montarla?",
+      "opciones": ["Sí, todas las placas caben en todas las cajas", "Sí, si quitas la gráfica", "No: la placa ATX es más grande que lo que admite la caja", "Solo con una fuente SFX"],
+      "correcta": 2, "explicacion": "La caja tiene que admitir el formato de la placa. Una caja Mini-ITX solo admite placas Mini-ITX." },
+    { "tipo": "pregunta", "enunciado": "El equipo va lento sin motivo y el procesador está muy caliente. ¿Qué está pasando?",
+      "opciones": ["Estrangulamiento térmico: baja la frecuencia para calentarse menos", "Le falta RAM", "La UEFI está en modo BIOS", "El bus de datos es de 32 bits"],
+      "correcta": 0, "explicacion": "Es el thermal throttling: el procesador reduce su frecuencia para protegerse del calor." },
+    { "tipo": "pregunta", "enunciado": "¿Para qué sirve la pasta térmica?",
+      "opciones": ["Para pegar el disipador", "Para rellenar los huecos de aire entre procesador y disipador", "Para aislar eléctricamente el procesador", "Para que el ventilador haga menos ruido"],
+      "correcta": 1, "explicacion": "El aire conduce muy mal el calor; la pasta rellena las pequeñas irregularidades entre las dos superficies." }
+  ]
+}

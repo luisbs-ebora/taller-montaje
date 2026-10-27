@@ -1,0 +1,78 @@
+{
+  "id": "s1",
+  "titulo": "El ordenador por dentro",
+  "objetivos": [
+    "Saber qué es un sistema microinformático.",
+    "Reconocer los cuatro bloques de un ordenador y para qué sirve cada uno.",
+    "Entender qué hace la CPU y cómo trabaja (el ciclo de instrucción)."
+  ],
+  "bloques": [
+    { "tipo": "h", "texto": "¿Qué es un sistema microinformático?" },
+    { "tipo": "p", "texto": "Es un conjunto de **hardware** (las piezas físicas: lo que puedes tocar) y **software** (los programas: lo que no se toca) que procesa, guarda y transmite datos. Su pieza central es un **microprocesador**." },
+    { "tipo": "p", "texto": "Se llama «micro» porque está pensado para una persona o para una tarea concreta: un PC de casa, el ordenador de una oficina, un portátil. No es un superordenador ni un centro de datos." },
+
+    { "tipo": "h", "texto": "Los cuatro bloques de un ordenador" },
+    { "tipo": "p", "texto": "Casi todos los ordenadores se organizan según el **modelo de Von Neumann**: el ordenador se divide en bloques que se comunican entre sí por unas líneas eléctricas llamadas **buses**." },
+    { "tipo": "tabla", "cab": ["Bloque", "Para qué sirve", "Ejemplo"], "filas": [
+      ["CPU (procesador)", "Interpreta y ejecuta las instrucciones de los programas y coordina al resto", "El chip que va en el socket de la placa"],
+      ["Memoria principal", "Guarda los programas y datos que se están usando ahora mismo", "La memoria RAM"],
+      ["Almacenamiento secundario", "Guarda todo de forma permanente, aunque se apague el equipo", "SSD, disco duro"],
+      ["Entrada/salida (E/S)", "Permite al ordenador comunicarse con el exterior", "Teclado, monitor, tarjeta de red"]
+    ] },
+    { "tipo": "ver3d", "modelo": "placa", "texto": "Busca en la placa base dónde va cada bloque: el socket (CPU), las ranuras de memoria (RAM), la ranura M.2 (almacenamiento) y el panel trasero (E/S)." },
+
+    { "tipo": "h", "texto": "RAM y ROM: dos memorias muy distintas" },
+    { "tipo": "lista", "items": [
+      "**RAM**: se puede leer y escribir, es muy rápida y es **volátil**: al apagar el equipo se borra todo lo que tiene.",
+      "**ROM**: es de solo lectura y **no volátil**: conserva su contenido sin corriente. Guarda las instrucciones de arranque del ordenador (el **firmware**: BIOS/UEFI)."
+    ] },
+    { "tipo": "analogia", "texto": "La RAM es como la **pizarra** de clase: se escribe y se borra rápido, y al final del día se limpia. El almacenamiento es el **cuaderno**: más lento de consultar, pero lo que apuntas se queda." },
+
+    { "tipo": "h", "texto": "Entrada y salida" },
+    { "tipo": "lista", "items": [
+      "**Entrada**: meten datos en el ordenador (teclado, ratón, escáner).",
+      "**Salida**: sacan o muestran resultados (monitor, impresora).",
+      "**Mixtos o de comunicación**: hacen las dos cosas (tarjeta de red, pantalla táctil)."
+    ] },
+
+    { "tipo": "h", "texto": "La CPU por dentro" },
+    { "tipo": "p", "texto": "La CPU no «piensa»: lee instrucciones de la RAM, las ejecuta muy deprisa y deja el resultado donde corresponde. Dentro tiene:" },
+    { "tipo": "lista", "items": [
+      "**Unidad de Control (UC)**: el director de orquesta. Lee cada instrucción, la interpreta y dice a las demás partes qué hacer.",
+      "**Unidad Aritmético-Lógica (ALU)**: la calculadora. Hace sumas, restas y comparaciones.",
+      "**Registros**: casillas de memoria dentro del chip. Muy pequeñas pero las más rápidas que existen.",
+      "**Caché (L1, L2, L3)**: memoria rápida que guarda lo que la CPU usa más a menudo para no tener que ir a la RAM."
+    ] },
+    { "tipo": "ver3d", "modelo": "cpu", "texto": "Mira el procesador: la tapa metálica protege el chip y el triángulo dorado de una esquina indica cómo se coloca en el socket." },
+
+    { "tipo": "h", "texto": "El ciclo de instrucción" },
+    { "tipo": "p", "texto": "La CPU repite sin parar, millones de veces por segundo, estos cuatro pasos:" },
+    { "tipo": "pasos", "items": [
+      "**Captura** (*fetch*): la Unidad de Control lee de la RAM la siguiente instrucción.",
+      "**Decodificación** (*decode*): la traduce para saber qué tiene que hacer y qué datos necesita.",
+      "**Ejecución** (*execute*): la ALU (u otra parte) hace la operación.",
+      "**Escritura** (*writeback*): el resultado se guarda en un registro o vuelve a la RAM."
+    ] },
+
+    { "tipo": "h", "texto": "¿De qué depende la velocidad de una CPU?" },
+    { "tipo": "lista", "items": [
+      "**Frecuencia de reloj** (GHz): el ritmo al que trabaja. 3,5 GHz son 3.500 millones de ciclos por segundo.",
+      "**Núcleos**: procesadores completos dentro del mismo chip. Con 8 núcleos se hacen 8 tareas a la vez.",
+      "**Hilos**: tareas que puede atender cada núcleo a la vez (normalmente dos por núcleo)."
+    ] },
+    { "tipo": "resumen", "texto": "Un ordenador tiene cuatro bloques: **CPU**, **memoria principal**, **almacenamiento** y **entrada/salida**, comunicados por **buses**. La CPU repite el ciclo **captura → decodificación → ejecución → escritura**, y su velocidad depende de los **GHz**, los **núcleos** y los **hilos**." },
+
+    { "tipo": "pregunta", "enunciado": "Apagas el ordenador sin guardar el trabajo. ¿En qué memoria estaba ese trabajo y por qué se ha perdido?",
+      "opciones": ["En la ROM, porque es de solo lectura", "En la RAM, porque es volátil", "En el SSD, porque es lento", "En la caché, porque es pequeña"],
+      "correcta": 1, "explicacion": "Lo que tienes abierto está en la RAM, que es volátil: sin corriente se borra. Para no perderlo hay que guardarlo en el almacenamiento." },
+    { "tipo": "pregunta", "enunciado": "¿Qué parte de la CPU hace las sumas y las comparaciones?",
+      "opciones": ["La Unidad de Control", "Los registros", "La ALU", "La caché L3"],
+      "correcta": 2, "explicacion": "La ALU (Unidad Aritmético-Lógica) es la «calculadora» del procesador." },
+    { "tipo": "pregunta", "enunciado": "Una tarjeta de red recibe y envía datos. ¿Qué tipo de dispositivo de E/S es?",
+      "opciones": ["De entrada", "De salida", "Mixto o de comunicación", "No es de E/S, es almacenamiento"],
+      "correcta": 2, "explicacion": "Hace las dos cosas (entrada y salida), así que es un dispositivo mixto o de comunicación." },
+    { "tipo": "pregunta", "enunciado": "Ordena el ciclo de instrucción. ¿Cuál es el paso que va justo después de la captura?",
+      "opciones": ["Ejecución", "Escritura", "Decodificación", "Captura otra vez"],
+      "correcta": 2, "explicacion": "Captura → decodificación → ejecución → escritura. Primero se trae la instrucción y después se interpreta." }
+  ]
+}

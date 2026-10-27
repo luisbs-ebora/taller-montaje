@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Taller de Montaje · 1.º SMR</title>
+  <meta name="description" content="Lecciones interactivas en 3D de Montaje y mantenimiento de equipos: piezas, compatibilidades y montaje seguro de un PC.">
+  <meta name="theme-color" content="#f3ece0">
+  <link rel="icon" href="assets/img/icono.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <script type="importmap">
+  { "imports": {
+      "three": "./assets/vendor/three/three.module.min.js",
+      "three/addons/": "./assets/vendor/three/addons/"
+  } }
+  </script>
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="cabecera">
+    <a class="marca" href="#/">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="5" fill="var(--azul)"/><rect x="10" y="10" width="12" height="12" rx="1.5" fill="var(--ambar)"/><path d="M13 3v4M19 3v4M13 25v4M19 25v4M3 13h4M3 19h4M25 13h4M25 19h4" stroke="var(--azul)" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span><b>Taller de Montaje</b><small>1.º SMR</small></span>
+    </a>
+    <nav class="menu" aria-label="Secciones">
+      <a href="#/" data-ruta="inicio">Inicio</a>
+      <a href="#/tema1" data-ruta="tema">Lecciones</a>
+      <a href="#/tema1/piezas" data-ruta="piezas">Piezas 3D</a>
+      <a href="#/tema1/practica" data-ruta="practica">Práctica</a>
+      <a href="#/tema1/examen" data-ruta="examen">Examen</a>
+    </nav>
+  </header>
+  <main id="contenido" tabindex="-1">
+    <div class="cargando">Cargando…</div>
+  </main>
+  <footer class="pie">
+    <span>Montaje y mantenimiento de equipos · Ébora Formación</span>
+    <a href="#/creditos">Créditos y licencias</a>
+  </footer>
+  <noscript><p class="aviso">Esta web necesita JavaScript.</p></noscript>
+  <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

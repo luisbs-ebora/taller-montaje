@@ -1,0 +1,23 @@
+{
+  "_instrucciones": "Modelos 3D descargados (opcionales). Clave = pieza (placa, cpu, refri, ram, almac, gpu, fuente, caja). Cada pieza admite un modelo o una lista de modelos. tamano = lado mayor en cm; rotacion = grados en X, Y, Z.",
+  "placa": { "titulo": "Placa base", "archivo": "models/placa.glb", "tamano": 30.5, "rotacion": [0, 0, 0],
+    "credito": "«Asus Z170-P Motherboard» de Lassi Kaukonen (https://sketchfab.com/3d-models/asus-z170-p-motherboard-b998596cfc4945a0bc7b016005c39321), CC BY 4.0. Simplificado para la web." },
+  "cpu": { "titulo": "Procesador y disipador", "archivo": "models/cpu-disipador.glb", "tamano": 16, "rotacion": [0, 0, 0],
+    "credito": "«CPU Processor & CPU Cooler – Detailed 3D Model» de Gamico (https://sketchfab.com/3d-models/cpu-processor-cpu-cooler-detailed-3d-model-f50555aedd2f455fa433cb3e135099dd), CC BY 4.0." },
+  "refri": { "titulo": "Procesador y disipador", "archivo": "models/cpu-disipador.glb", "tamano": 16, "rotacion": [0, 0, 0],
+    "credito": "«CPU Processor & CPU Cooler – Detailed 3D Model» de Gamico (https://sketchfab.com/3d-models/cpu-processor-cpu-cooler-detailed-3d-model-f50555aedd2f455fa433cb3e135099dd), CC BY 4.0." },
+  "ram": { "titulo": "Memoria RAM DDR4", "archivo": "models/ram.glb", "tamano": 13.3, "rotacion": [0, 0, 0],
+    "credito": "«Random access memory (ram) ddr4» de suuugar_mommy (https://sketchfab.com/3d-models/random-access-memory-ram-ddr4-5b7cecfa59294a90a8f7482eeb809d2d), CC BY-NC 4.0." },
+  "almac": [
+    { "titulo": "SSD M.2", "archivo": "models/ssd-m2.glb", "tamano": 8, "rotacion": [0, 0, 0],
+      "credito": "«ssd m2» de suuugar_mommy (https://sketchfab.com/3d-models/ssd-m2-d2c991d169754f77a3b20b277d76d658), CC BY-NC 4.0." },
+    { "titulo": "SSD de 2,5\"", "archivo": "models/ssd25.glb", "tamano": 10, "rotacion": [0, 0, 0],
+      "credito": "«SSD SATA 2 5 7mm» de GmedranoTIC (https://sketchfab.com/3d-models/ssd-sata-2-5-7mm-1e35cdc38fe34089813551a08767b104), CC BY 4.0." }
+  ],
+  "gpu": { "titulo": "Tarjeta gráfica", "archivo": "models/gpu.glb", "tamano": 24, "rotacion": [0, 0, 0],
+    "credito": "«Graphics Card (GPU) – High-Detail 3D Model» de Gamico (https://sketchfab.com/3d-models/graphics-card-gpu-high-detail-3d-model-0426edcb09574887885cb7a669fc627c), CC BY 4.0." },
+  "fuente": { "titulo": "Fuente de alimentación", "archivo": "models/fuente.glb", "tamano": 15, "rotacion": [0, 0, 0],
+    "credito": "«PSU Power Supply Unit» de dhafintaufiqi21 (https://sketchfab.com/3d-models/psu-power-supply-unit-69ccd1be3a77497cb2acc9e39e7c52b3), CC BY 4.0." },
+  "caja": { "titulo": "Caja", "archivo": "models/caja.glb", "tamano": 45, "rotacion": [0, 0, 0],
+    "credito": "«Basic PC case» de Sousinho (https://sketchfab.com/3d-models/basic-pc-case-2869fb18575d49128a3115d42d5d3826), CC BY 4.0." }
+}

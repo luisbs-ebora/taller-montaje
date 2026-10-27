@@ -1,0 +1,18 @@
+{
+  "id": "tema1",
+  "numero": 1,
+  "titulo": "Arquitectura y componentes de un sistema microinformático",
+  "resumen": "Qué hay dentro de un ordenador, cómo se comunican sus piezas y cómo saber si son compatibles.",
+  "lecciones": [
+    { "id": "s1", "titulo": "El ordenador por dentro", "subtitulo": "Bloques funcionales y la CPU", "archivo": "lecciones/s1.json" },
+    { "id": "s2", "titulo": "Buses y procesadores", "subtitulo": "Por dónde viajan los datos y qué mirar en una CPU", "archivo": "lecciones/s2.json" },
+    { "id": "s3", "titulo": "Placa base y refrigeración", "subtitulo": "Chipset, UEFI, formatos y cómo se evacua el calor", "archivo": "lecciones/s3.json" },
+    { "id": "s4", "titulo": "Memorias y conectores", "subtitulo": "RAM, caché, flash, SATA, M.2, USB…", "archivo": "lecciones/s4.json" },
+    { "id": "s5", "titulo": "Software base e identificación", "subtitulo": "Controladores, firmware y fichas técnicas", "archivo": "lecciones/s5.json" }
+  ],
+  "piezas": ["placa", "cpu", "refri", "ram", "almac", "gpu", "fuente", "caja"],
+  "ejercicios": [
+    { "id": "t1-montaje", "titulo": "Elige y monta un PC",
+      "descripcion": "Te llega un cliente con un encargo. Elige piezas compatibles que cumplan lo que pide y ordena los pasos de montaje con todas las medidas de seguridad." }
+  ]
+}

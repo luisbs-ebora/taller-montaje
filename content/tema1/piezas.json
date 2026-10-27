@@ -1,0 +1,104 @@
+{
+  "placa": {
+    "nombre": "Placa base",
+    "resumen": "La placa de circuito principal: sobre ella se conectan todos los demás componentes. Sus pistas de cobre forman los buses.",
+    "donde": "Atornillada al panel del fondo de la caja, sobre separadores, con su panel trasero asomando por detrás.",
+    "fijate": "Formato (ATX, MicroATX, Mini-ITX), socket, chipset, tipo de RAM y número de ranuras, ranuras M.2 y salidas de vídeo.",
+    "partes": {
+      "socket": "Socket: aloja el procesador. Solo admite procesadores de su mismo socket.",
+      "dimm": "Ranuras DIMM: para los módulos de RAM. Con dos módulos, usa las que indica el manual (doble canal).",
+      "pcie16": "Ranura PCIe x16: la más larga. Para la tarjeta gráfica.",
+      "pcie1": "Ranura PCIe x1: la más corta. Para tarjetas que necesitan poco ancho de banda (red, sonido…).",
+      "m2": "Ranura M.2: para SSD en formato tarjeta. Comprueba en el manual si admite NVMe, SATA o los dos.",
+      "sata": "Puertos SATA: para discos duros, SSD de 2,5\" y unidades ópticas (cable de datos).",
+      "atx24": "Conector ATX de 24 pines: la corriente principal de la placa, desde la fuente.",
+      "eps": "Conector EPS (4/8 pines): la corriente del procesador. Sin él, el equipo no arranca.",
+      "chipset": "Chipset (con disipador plano): organiza la comunicación con discos, USB, red y sonido.",
+      "vrm": "VRM: fabrica la tensión del procesador a partir de los 12 V de la fuente. Lleva disipadores.",
+      "pila": "Pila CR2032: mantiene el reloj y la configuración con el equipo desenchufado.",
+      "io": "Panel trasero (I/O): USB, red, audio y vídeo que asoman por detrás de la caja.",
+      "cpufan": "Conector CPU_FAN: para el ventilador del procesador (4 pines, PWM).",
+      "fpanel": "Conector F_PANEL: botones de encendido y reinicio y LED de la caja. El orden de los pines está en el manual.",
+      "bios": "Chip de la BIOS/UEFI: memoria flash con el firmware de la placa."
+    }
+  },
+  "cpu": {
+    "nombre": "Procesador (CPU)",
+    "resumen": "Interpreta y ejecuta las instrucciones de los programas y coordina al resto de componentes.",
+    "donde": "En el socket de la placa, con la palanca cerrada. Encima, pasta térmica y la refrigeración.",
+    "fijate": "Socket, núcleos e hilos, frecuencia base y turbo, TDP, gráficos integrados y si trae disipador de serie.",
+    "partes": {
+      "ihs": "Tapa metálica (IHS): protege el chip y transmite el calor al disipador.",
+      "triangulo": "Triángulo dorado: se alinea con la marca del socket. Así solo entra en una posición.",
+      "sustrato": "Sustrato: la placa verde con los contactos que tocan el socket. No se toca con los dedos."
+    }
+  },
+  "refri": {
+    "nombre": "Refrigeración del procesador",
+    "resumen": "Evacúa el calor del procesador. Tiene que ser compatible con el socket y capaz de evacuar el TDP.",
+    "donde": "Sobre el procesador, con pasta térmica entre los dos. Su ventilador va al conector CPU_FAN.",
+    "fijate": "Tipo (aire o líquida), sockets compatibles, TDP que soporta y altura (que quepa en la caja).",
+    "partes": {
+      "base": "Base de contacto: apoya sobre el procesador, con pasta térmica en medio.",
+      "heatpipes": "Heat pipes: tubos de cobre que llevan el calor muy deprisa de la base a las aletas.",
+      "aletas": "Aletas: mucha superficie para pasar el calor al aire.",
+      "ventilador": "Ventilador: mueve el aire a través de las aletas. Se conecta a CPU_FAN."
+    }
+  },
+  "ram": {
+    "nombre": "Módulo de memoria RAM",
+    "resumen": "La memoria de trabajo: guarda los programas y datos en uso. Es volátil.",
+    "donde": "En las ranuras DIMM de la placa, junto al socket. Se presiona por los dos extremos hasta que cierran las pestañas.",
+    "fijate": "Generación (DDR4/DDR5), formato (DIMM/SO-DIMM), capacidad, velocidad (MT/s) y latencia (CL).",
+    "partes": {
+      "muesca": "Muesca: no está en el centro. Impide meter el módulo al revés o en una ranura de otra generación.",
+      "contactos": "Contactos dorados: no se tocan. El módulo se coge por los bordes.",
+      "chips": "Chips de memoria (DRAM), normalmente bajo un disipador."
+    }
+  },
+  "almac": {
+    "nombre": "Almacenamiento",
+    "resumen": "Guarda de forma permanente el sistema, los programas y los archivos.",
+    "donde": "SSD M.2: en su ranura de la placa, con un tornillo. SSD de 2,5\": en una bahía de la caja, con cable SATA de datos y de corriente.",
+    "fijate": "Tipo (NVMe o SATA), formato (M.2 2280, 2,5\") y capacidad.",
+    "partes": {
+      "m2": "SSD M.2 2280: 22 mm de ancho y 80 mm de largo. Sin cables.",
+      "muescam2": "Muesca del M.2 (llave): indica en qué ranuras encaja.",
+      "ssd25": "SSD de 2,5\": necesita dos cables, datos (SATA, a la placa) y corriente (de la fuente)."
+    }
+  },
+  "gpu": {
+    "nombre": "Tarjeta gráfica",
+    "resumen": "Genera la imagen. Imprescindible si el procesador no tiene gráficos integrados.",
+    "donde": "En la ranura PCIe x16, atornillada a la caja, con sus cables de corriente si los lleva.",
+    "fijate": "Memoria de vídeo, longitud (que quepa en la caja), conectores de corriente y fuente recomendada.",
+    "partes": {
+      "ventiladores": "Ventiladores y disipador de la gráfica.",
+      "conector": "Contactos PCIe: van en la ranura x16 hasta oír el clic.",
+      "alimentacion": "Conector PCIe de corriente (8 pines): va a la fuente. Algunas gráficas sencillas no lo llevan.",
+      "salidas": "Salidas de vídeo (HDMI, DisplayPort): con gráfica dedicada, el monitor se conecta aquí."
+    }
+  },
+  "fuente": {
+    "nombre": "Fuente de alimentación",
+    "resumen": "Convierte la corriente del enchufe en las tensiones que necesitan los componentes.",
+    "donde": "Normalmente abajo y al fondo de la caja. Se atornilla por detrás.",
+    "fijate": "Potencia (W), certificación (80 PLUS…), formato (ATX o SFX) y conectores (24 pines, EPS, PCIe, SATA).",
+    "partes": {
+      "interruptor": "Interruptor I/O: durante el montaje, en O y desenchufada.",
+      "ventilador": "Ventilador de la fuente.",
+      "carcasa": "Carcasa: no se abre nunca. Los condensadores de dentro pueden guardar carga."
+    }
+  },
+  "caja": {
+    "nombre": "Caja (chasis)",
+    "resumen": "Sujeta y protege los componentes y organiza el flujo de aire.",
+    "donde": "Es lo primero que se prepara: chapa trasera, separadores y, después, todo lo demás.",
+    "fijate": "Formatos de placa que admite, longitud máxima de gráfica, altura máxima del disipador, radiador y formato de fuente.",
+    "partes": {
+      "bandeja": "Bandeja de la placa: donde van los separadores y se atornilla la placa.",
+      "hueco-fuente": "Hueco de la fuente, abajo.",
+      "ranuras": "Tapas traseras de las ranuras de expansión: se quitan para la gráfica."
+    }
+  }
+}
