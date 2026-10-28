@@ -4,6 +4,7 @@ import { h, md, tema, progreso } from '../util.js';
 import { huecoVisor, precio, caracteristicas } from './comun.js';
 import { montaje } from '../piezas3d.js';
 import { llamar, scriptConfigurado } from '../api.js';
+import { EXAMEN_ACTIVO } from '../config.js';
 
 const PASO_A_PIEZA = { cpu: 'cpu', refri: 'refri', ram: 'ram', m2: 'almac', disco: 'almac', placa: 'placa', fuente: 'fuente', gpu: 'gpu' };
 const EN_PLACA = ['cpu', 'refri', 'ram', 'm2'];
@@ -51,7 +52,11 @@ export async function vistaEjercicio(temaId, modo) {
   function pintarInicio(msg) {
     const aviso = h('div.mensaje', { role: 'alert' }); if (msg) { aviso.className = 'mensaje error'; aviso.textContent = msg; } else aviso.hidden = true;
     const error = e => { aviso.hidden = false; aviso.className = 'mensaje error'; aviso.textContent = e.message; };
-    if (!scriptConfigurado()) {
+    if (examen && !EXAMEN_ACTIVO) {
+      raiz.replaceChildren(cabecera('inicio'), h('div.mensaje', 'El examen todavía no está abierto. Mientras tanto, puedes hacer la práctica todas las veces que quieras.'), h('div.fila', { style: 'margin-top:16px' }, h('a.btn.azul', { href: `#/${temaId}/practica` }, 'Ir a la práctica')));
+      return;
+    }
+    if (examen && !scriptConfigurado()) {
       raiz.replaceChildren(cabecera('inicio'), h('div.mensaje.error', 'Esta parte todavía no está conectada con el servidor del profesor. El resto de la web (lecciones y piezas) funciona igual.'));
       return;
     }

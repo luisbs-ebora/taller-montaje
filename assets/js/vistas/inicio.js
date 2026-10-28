@@ -1,6 +1,7 @@
 // inicio.js — Portada y lista de lecciones de un tema.
 import { h, curso, tema, progreso, cargarJSON } from '../util.js';
 import { huecoVisor } from './comun.js';
+import { EXAMEN_ACTIVO } from '../config.js';
 import { montaje } from '../piezas3d.js';
 
 const EQUIPO_PORTADA = ['caja-gredos', 'pb-z790', 'cpu-c7-14700k', 'ref-t120', 'ram-d5-2x16', 'ssd-nvme-1tb', 'gpu-rx60', 'fte-650'];
@@ -35,8 +36,9 @@ export async function vistaInicio() {
       h('header', h('div', h('span.etiqueta', 'Tema ' + t.numero), h('h2', t.titulo)), h('span.chip', `${progreso.completadas(t.id, t.lecciones)} / ${t.lecciones.length}`)),
       h('div.rejilla', t.lecciones.map((l, i) => tarjetaLeccion(t, l, i))),
       t.ejercicios && t.ejercicios.length ? h('div.rejilla', { style: 'margin-top:14px' },
+        
         h('div.tarjeta.reto-card', h('span.etiqueta', 'Práctica libre'), h('h3', t.ejercicios[0].titulo), h('p', t.ejercicios[0].descripcion + ' Puedes repetirla las veces que quieras: no cuenta para nota.'), h('a.btn', { href: `#/${t.id}/practica` }, 'Practicar')),
-        h('div.tarjeta.reto-card', h('span.etiqueta', 'Examen'), h('h3', 'Con tu código'), h('p', 'Solo cuando el profesor lo abra. Tu nota se guarda al entregarlo.'), h('a.btn.sec', { href: `#/${t.id}/examen` }, 'Ir al examen'))) : null)));
+        EXAMEN_ACTIVO && h('div.tarjeta.reto-card', h('span.etiqueta', 'Examen'), h('h3', 'Con tu código'), h('p', 'Solo cuando el profesor lo abra. Tu nota se guarda al entregarlo.'), h('a.btn.sec', { href: `#/${t.id}/examen` }, 'Ir al examen'))) : null)));
 
   return {
     el,

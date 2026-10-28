@@ -54,5 +54,6 @@ async function navegar() {
   main.focus({ preventScroll: true });
 }
 
+import('./config.js').then(c => { if (!c.EXAMEN_ACTIVO) document.querySelector('.menu a[data-ruta="examen"]')?.remove(); });
 window.addEventListener('hashchange', navegar);
 navegar();
