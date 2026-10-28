@@ -4,6 +4,7 @@ import { vistaInicio, vistaTema } from './vistas/inicio.js';
 import { vistaLeccion } from './vistas/leccion.js';
 import { vistaPiezas } from './vistas/piezas.js';
 import { vistaEjercicio } from './vistas/ejercicio.js';
+import { vistaAnimado } from './vistas/animado.js';
 
 const main = document.getElementById('contenido');
 let actual = null;
@@ -28,10 +29,13 @@ const RUTAS = [
   [/^([\w-]+)$/, m => vistaTema(m[1])],
   [/^([\w-]+)\/leccion\/([\w-]+)$/, m => vistaLeccion(m[1], m[2])],
   [/^([\w-]+)\/piezas$/, m => vistaPiezas(m[1])],
+  [/^([\w-]+)\/animado$/, m => vistaAnimado(m[1])],
   [/^([\w-]+)\/(practica|examen)$/, m => vistaEjercicio(m[1], m[2])]
 ];
 
+let turno = 0;
 async function navegar() {
+  const mio = ++turno;
   const ruta = decodeURIComponent(location.hash.replace(/^#\/?/, '')).replace(/\/$/, '');
   if (actual && actual.destruir) { try { actual.destruir(); } catch (e) { console.error(e); } }
   actual = null;
@@ -43,10 +47,14 @@ async function navegar() {
   try {
     const r = RUTAS.find(([re]) => re.test(ruta));
     if (!r) throw new Error('Esta página no existe.');
-    actual = await r[1](ruta.match(r[0]));
+    const vista = await r[1](ruta.match(r[0]));
+    // Si mientras cargaba se ha ido a otra página, esta vista ya no se muestra
+    if (mio !== turno) { if (vista && vista.destruir) vista.destruir(); return; }
+    actual = vista;
     main.replaceChildren(actual.el);
     if (actual.montado) actual.montado();
   } catch (e) {
+    if (mio !== turno) return;
     console.error(e);
     main.replaceChildren(h('div.aviso', h('h2', 'Algo no ha ido bien'), h('p', e.message), h('a.btn', { href: '#/' }, 'Volver al inicio')));
   }

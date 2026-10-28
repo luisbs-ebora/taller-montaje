@@ -37,6 +37,7 @@ export async function vistaInicio() {
       h('div.rejilla', t.lecciones.map((l, i) => tarjetaLeccion(t, l, i))),
       t.ejercicios && t.ejercicios.length ? h('div.rejilla', { style: 'margin-top:14px' },
         
+        h('div.tarjeta.reto-card', h('span.etiqueta', 'Para clase y repaso'), h('h3', 'Montaje animado'), h('p', 'Mira cómo se monta un PC paso a paso, en dibujos animados, y qué pasa si te equivocas en cada paso.'), h('a.btn.sec', { href: `#/${t.id}/animado` }, 'Ver el montaje')),
         h('div.tarjeta.reto-card', h('span.etiqueta', 'Práctica libre'), h('h3', t.ejercicios[0].titulo), h('p', t.ejercicios[0].descripcion + ' Puedes repetirla las veces que quieras: no cuenta para nota.'), h('a.btn', { href: `#/${t.id}/practica` }, 'Practicar')),
         EXAMEN_ACTIVO && h('div.tarjeta.reto-card', h('span.etiqueta', 'Examen'), h('h3', 'Con tu código'), h('p', 'Solo cuando el profesor lo abra. Tu nota se guarda al entregarlo.'), h('a.btn.sec', { href: `#/${t.id}/examen` }, 'Ir al examen'))) : null)));
 
@@ -57,5 +58,5 @@ export async function vistaTema(temaId) {
   return { el: h('div',
     h('span.etiqueta', 'Tema ' + t.numero), h('h1', t.titulo), h('p.lead', { style: 'color:var(--tinta-2);font-size:20px;max-width:60ch' }, t.resumen),
     h('div.rejilla', { style: 'margin-top:24px' }, t.lecciones.map((l, i) => tarjetaLeccion(t, l, i))),
-    h('div.fila', { style: 'margin-top:24px' }, h('a.btn.sec', { href: `#/${t.id}/piezas` }, 'Piezas en 3D'), h('a.btn', { href: `#/${t.id}/practica` }, 'Práctica: elige y monta un PC'))) };
+    h('div.fila', { style: 'margin-top:24px' }, h('a.btn.sec', { href: `#/${t.id}/piezas` }, 'Piezas en 3D'), h('a.btn.sec', { href: `#/${t.id}/animado` }, 'Montaje animado'), h('a.btn', { href: `#/${t.id}/practica` }, 'Práctica: elige y monta un PC'))) };
 }
