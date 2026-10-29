@@ -16,7 +16,7 @@ export async function vistaAnimado(temaId) {
   const lienzo = h('canvas.am-lienzo', { 'aria-label': 'Mesa de montaje en 3D. Usa la lista de pasos para seleccionar piezas.' });
   const pista = h('p.am-pista', 'Toca una pieza para verla · arrastra para girar · rueda para acercar');
   const pasos = h('ol.am-pasos');
-  const progresoBarra = h('span'), cuenta = h('span.am-cuenta', '0 de 8');
+  const progresoBarra = h('span'), cuenta = h('span.am-cuenta');
   const panel = h('aside.am-panel', { 'aria-label': 'Pasos del montaje' },
     h('div.am-panel-cab', h('h2', 'Pasos'), cuenta),
     h('div.am-progreso', progresoBarra), pasos,
@@ -49,7 +49,7 @@ export async function vistaAnimado(temaId) {
 
   const dialogo = h('dialog.am-final',
     h('h2', '¡Equipo montado!'),
-    h('p', 'Pulsera, procesador, pasta, disipador, memoria, SSD, cables de la fuente… y el cable de corriente al final. Así se hace.'),
+    h('p', 'Primero las piezas sobre la placa, luego la placa a la caja, la fuente y sus cables, la gráfica y el frontal. Se revisa todo y se enchufa lo último. Así se hace.'),
     h('div.am-ficha-botones',
       h('button.am-btn.am-principal', { type: 'button', onclick: () => { dialogo.close(); construir([], true); } }, 'Volver a montar'),
       h('button.am-btn', { type: 'button', onclick: () => dialogo.close() }, 'Seguir mirando')));
@@ -74,14 +74,19 @@ export async function vistaAnimado(temaId) {
   let P = {}, hecho = new Set(), ocupado = false, seleccion = null, encima = null, encendido = false;
   let clase = false, pantallaCompleta = false, generacion = 0, mensajeMal = null;
   const particulas = [], burbujas = [], temporizadores = new Set();
-  const VISTA = { pos: new THREE.Vector3(3, 66, 72), obj: new THREE.Vector3(1, 0, 2) };
+  const VISTA = { pos: new THREE.Vector3(-15, 94, 102), obj: new THREE.Vector3(-17, 0, 3) };
+  const VISTA_FINAL = { pos: new THREE.Vector3(-14, 52, 52), obj: new THREE.Vector3(-45, 4, -2) };
 
   const despues = (ms, fn) => { const t = setTimeout(() => { temporizadores.delete(t); fn(); }, ms); temporizadores.add(t); };
 
   const ctx = {
     get placa() { return P.placa; },
     get piezas() { return P; },
-    enfocar: (p, ms = 750) => { if (!velocidad.instantaneo) enfocar(p, ms); },
+    enfocar: (p, ms = 750, dir) => { if (!velocidad.instantaneo) enfocar(p, ms, dir); },
+    // Coordenadas de la placa (en la mesa o dentro de la caja) a coordenadas del mundo
+    enPlaca: (x, y, z) => { P.placa.grupo.updateWorldMatrix(true, false); return P.placa.grupo.localToWorld(new THREE.Vector3(x, y, z)); },
+    // Lo montado en la placa viaja con ella cuando se mete en la caja
+    alPlaca: obj => { P.placa.cuerpo.attach(obj); },
     burbuja: (t, p, tipo) => { if (!velocidad.instantaneo) burbuja(t, p, tipo); },
     chispas: (p, fuerte) => { if (!velocidad.instantaneo) chispas(p, fuerte); },
   };
@@ -107,14 +112,16 @@ export async function vistaAnimado(temaId) {
     controles.enableDamping = true;
     controles.maxPolarAngle = 1.32;
     controles.minDistance = 16;
-    controles.maxDistance = 140;
+    controles.maxDistance = 170;
 
     escena.add(new THREE.AmbientLight(0xffffff, 1.15));
     const sol = new THREE.DirectionalLight(0xfff4e0, 2.3);
-    sol.position.set(-22, 46, 28);
+    sol.position.set(-38, 50, 30);
     sol.castShadow = true;
     sol.shadow.mapSize.set(2048, 2048);
-    Object.assign(sol.shadow.camera, { left: -55, right: 55, top: 45, bottom: -45, near: 1, far: 140 });
+    Object.assign(sol.shadow.camera, { left: -75, right: 75, top: 50, bottom: -50, near: 1, far: 160 });
+    sol.target.position.set(-16, 0, 0);
+    escena.add(sol.target);
     sol.shadow.bias = -0.0006;
     escena.add(sol);
     luzChispa = new THREE.PointLight(0xffc23a, 0, 40);
@@ -123,14 +130,15 @@ export async function vistaAnimado(temaId) {
     const mesa = new THREE.Mesh(new THREE.PlaneGeometry(500, 500), new THREE.ShadowMaterial({ opacity: 0.13 }));
     mesa.rotation.x = -Math.PI / 2; mesa.position.y = -0.6; mesa.receiveShadow = true;
     escena.add(mesa);
-    const geo = new THREE.BoxGeometry(80, 0.6, 52);
+    const [AW, AD, AX] = [124, 62, -16];
+    const geo = new THREE.BoxGeometry(AW, 0.6, AD);
     const alf = new THREE.Mesh(geo, new THREE.MeshToonMaterial({ color: 0x9cc3e6 }));
-    alf.receiveShadow = true; alf.position.y = -0.3;
+    alf.receiveShadow = true; alf.position.set(AX, -0.3, 0);
     const borde = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: TINTA, side: THREE.BackSide }));
-    borde.scale.set(80.3 / 80, 0.9 / 0.6, 52.3 / 52); alf.add(borde);
+    borde.scale.set((AW + 0.3) / AW, 0.9 / 0.6, (AD + 0.3) / AD); alf.add(borde);
     escena.add(alf);
-    const rejilla = new THREE.GridHelper(78, 26, 0x86b0d6, 0x86b0d6);
-    rejilla.scale.z = 50 / 78; rejilla.position.y = 0.01;
+    const rejilla = new THREE.GridHelper(AW - 2, 40, 0x86b0d6, 0x86b0d6);
+    rejilla.scale.z = (AD - 2) / (AW - 2); rejilla.position.set(AX, 0.01, 0);
     escena.add(rejilla);
 
     ro = new ResizeObserver(ajustar);
@@ -147,11 +155,10 @@ export async function vistaAnimado(temaId) {
         p.cuerpo.position.y = p.hover + p.salto;
         if (p.actualizarCordon) p.actualizarCordon();
       }
-      for (const id of ['disipador', 'fuente']) {
-        const p = P[id];
-        if (!p) continue;
+      for (const p of Object.values(P)) {
+        if (!p.rotores) continue;
         if (!encendido) p.velocidad *= Math.pow(0.35, dt);
-        if (id === 'disipador') p.rotor.rotation.x += p.velocidad * dt; else p.rotor.rotation.y += p.velocidad * dt;
+        for (const r of p.rotores) r.obj.rotation[r.eje] += p.velocidad * dt;
       }
       if (encendido && P.ram) {
         const m = P.ram.luz.material;
@@ -197,7 +204,7 @@ export async function vistaAnimado(temaId) {
     raiz = new THREE.Group();
     escena.add(raiz);
     P = construirPiezas();
-    for (const p of Object.values(P)) raiz.add(p.grupo);
+    for (const p of Object.values(P)) raiz.add(p.grupo, p.fijo);
     hecho = new Set(); seleccion = null; encima = null; encendido = false; mensajeMal = null;
     if (!clase) cerrarFicha();
     ocupado = true;
@@ -205,32 +212,45 @@ export async function vistaAnimado(temaId) {
       for (const id of ids) { await P[id].montar(ctx); P[id].montado = true; hecho.add(id); }
     });
     if (mia !== generacion) return;
-    if (P.disipador.montado) P.disipador.velocidad = 0;
+    for (const p of Object.values(P)) if (p.rotores) p.velocidad = 0;
     ocupado = false;
     if (intro) {
       irA(VISTA.pos, VISTA.obj, 900);
-      ['placa', ...ORDEN].forEach((id, i) => {
+      Object.keys(P).forEach((id, i) => {
         const p = P[id];
         p.salto = 16;
-        esperar(120 + i * 90).then(() => animar(750, t => { p.salto = 16 * (1 - t); }, ease.rebote));
+        esperar(120 + i * 60).then(() => animar(750, t => { p.salto = 16 * (1 - t); }, ease.rebote));
       });
     }
     refrescar();
   }
 
   /* ---------- Cámara ---------- */
-  function enfocar(punto, ms) {
+  // En modo clase acerca la cámara; con «dir» la coloca mirando desde ese lado.
+  function enfocar(punto, ms, dirFija) {
     const t0 = controles.target.clone(), c0 = camara.position.clone();
     let c1;
-    if (clase) {
-      const dir = c0.clone().sub(t0).normalize();
+    if (clase || dirFija) {
+      const dir = dirFija ? dirFija.clone().normalize() : c0.clone().sub(t0).normalize();
       if (dir.y < 0.55) { dir.y = 0.55; dir.normalize(); }
-      c1 = punto.clone().addScaledVector(dir, 50);
+      const dist = clase ? 52 : Math.min(c0.distanceTo(t0), 75);
+      c1 = punto.clone().addScaledVector(dir, dist);
     } else c1 = c0.clone().add(punto.clone().sub(t0));
     return animar(ms, t => {
       controles.target.lerpVectors(t0, punto, t);
       camara.position.lerpVectors(c0, c1, t);
     });
+  }
+  // Modo clase: después de cada paso, la cámara va a la pieza del paso siguiente
+  function enfocarSiguiente() {
+    const id = siguienteId();
+    if (!id) return irA(VISTA_FINAL.pos, VISTA_FINAL.obj, 900);
+    const p = P[id];
+    const punto = p.foco ? p.foco() : p.grupo.getWorldPosition(new THREE.Vector3());
+    const t0 = controles.target.clone(), c0 = camara.position.clone();
+    const dir = (p.focoDir || new THREE.Vector3(0.1, 0.85, 0.75)).clone().normalize();
+    const c1 = punto.clone().addScaledVector(dir, 62);
+    return animar(900, t => { controles.target.lerpVectors(t0, punto, t); camara.position.lerpVectors(c0, c1, t); });
   }
   function irA(pos, obj, ms = 900) {
     if (!controles) return;
@@ -336,7 +356,7 @@ export async function vistaAnimado(temaId) {
     if (seleccion === p && !clase) tintar(p, SELECCION);
     refrescar();
     if (p.id === 'enchufe') await encender();
-    else if (clase) irA(VISTA.pos, VISTA.obj, 900);
+    else if (clase) enfocarSiguiente();
   }
 
   // Enseña el error típico del paso y luego deja la escena como estaba.
@@ -355,16 +375,17 @@ export async function vistaAnimado(temaId) {
     mensajeMal = P[p.id];
     if (idSel && !clase) seleccionar(P[idSel]);
     refrescar();
-    if (clase) irA(VISTA.pos, VISTA.obj, 900);
+    if (clase) enfocarSiguiente();
   }
 
   async function encender() {
     encendido = true;
     const B = P.placa;
     B.led.material.color.set(0x3fbf6a); B.led.material.emissive.set(0x2fbf5a);
-    P.disipador.velocidad = 22; P.fuente.velocidad = 14;
-    burbuja('¡Encendido!', new THREE.Vector3(12, 3, 10.5));
-    await irA(new THREE.Vector3(10, 44, 52), new THREE.Vector3(0, 2, -2), 1200);
+    P.disipador.velocidad = 22; P.fuente.velocidad = 14; P.gpu.velocidad = 16;
+    P.caja.ledFrente.material.color.set(0x3fbf6a); P.caja.ledFrente.material.emissive.set(0x2fbf5a);
+    await irA(VISTA_FINAL.pos, VISTA_FINAL.obj, 1200);
+    burbuja('¡Encendido!', ctx.enPlaca(0, 16, 0));
     confeti();
     if (clase) return;
     await esperar(1400);
@@ -441,7 +462,7 @@ export async function vistaAnimado(temaId) {
     } else {
       cPaso.textContent = 'Terminado';
       cTitulo.textContent = '¡Equipo montado y encendido!';
-      cTexto.textContent = 'Repaso: pulsera, procesador, pasta, disipador, RAM, SSD, cables de la fuente y, al final, el cable de corriente.';
+      cTexto.textContent = 'Repaso: pulsera; procesador, pasta, disipador, RAM y SSD en la mesa; chapa y separadores; placa a la caja; fuente, 24 pines y EPS; gráfica; panel frontal; revisar y, al final, enchufar.';
     }
     bAnt.disabled = ocupado || n === 0;
     bRep.disabled = ocupado || n === 0;
@@ -468,7 +489,7 @@ export async function vistaAnimado(temaId) {
     mensajeMal = null;
     refrescar();
     ajustar();
-    irA(VISTA.pos, VISTA.obj, 600);
+    enfocarSiguiente();
     bSig.focus();
   }
   function salirClase() {
@@ -543,7 +564,7 @@ export async function vistaAnimado(temaId) {
     ray.setFromCamera(raton, camara);
     for (const hit of ray.intersectObjects(raiz.children, true)) {
       let o = hit.object;
-      if (!o.visible) continue;
+      if (!o.visible || o.userData.atraviesa) continue;
       while (o && !o.userData.id) o = o.parent;
       if (o) return P[o.userData.id];
     }

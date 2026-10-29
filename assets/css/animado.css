@@ -42,20 +42,20 @@
 .am-panel {
   position: absolute; top: 14px; right: 14px; width: 250px;
   background: var(--c-papel); border: 3px solid var(--c-tinta); border-radius: 18px; box-shadow: 4px 4px 0 var(--c-tinta);
-  padding: 12px 12px 8px;
+  padding: 12px 12px 8px; max-height: calc(100% - 28px); overflow-y: auto; overscroll-behavior: contain;
 }
 .am-panel-cab { display: flex; align-items: baseline; justify-content: space-between; }
 .am-panel h2 { font-size: 22px; }
 .am-cuenta { font-weight: 700; font-size: 14px; color: var(--c-gris); }
 .am-progreso { height: 12px; border: 2.5px solid var(--c-tinta); border-radius: 999px; margin: 8px 0 6px; overflow: hidden; background: #fff; }
 .am-progreso span { display: block; height: 100%; width: 0; background: var(--c-verde); transition: width .5s cubic-bezier(.3,1.6,.5,1); }
-.am-pasos { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.am-pasos { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
 .am-pasos button {
   width: 100%; display: flex; align-items: center; gap: 9px; font: 700 15px/1.2 var(--f-texto); color: var(--c-tinta); text-align: left;
-  background: none; border: 2px solid transparent; border-radius: 10px; padding: 4px 5px; cursor: pointer;
+  background: none; border: 2px solid transparent; border-radius: 10px; padding: 3px 5px; cursor: pointer;
 }
 .am-pasos button:hover { background: #f3ead8; border-color: var(--c-tinta); }
-.am-num { flex: none; width: 25px; height: 25px; display: grid; place-items: center; border: 2.5px solid var(--c-tinta); border-radius: 50%; font-size: 13px; background: #fff; }
+.am-num { flex: none; width: 24px; height: 24px; display: grid; place-items: center; border: 2.5px solid var(--c-tinta); border-radius: 50%; font-size: 13px; background: #fff; }
 .am-pasos .hecho .am-num { background: var(--c-verde); color: #fff; }
 .am-pasos .hecho .am-txt { text-decoration: line-through; text-decoration-thickness: 2px; color: var(--c-gris); }
 .am-pasos .disponible .am-num { background: var(--c-amarillo); }
