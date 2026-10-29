@@ -1,0 +1,559 @@
+{
+ "id": "s3",
+ "titulo": "Adaptadores, monitor y conectividad",
+ "objetivos": [
+  "Explicar qué hacen el adaptador gráfico y el monitor.",
+  "Elegir gráfica y monitor compatibles entre sí.",
+  "Distinguir adaptadores de red Ethernet y Wi‑Fi y la conexión WAN.",
+  "Instalar y retirar una tarjeta de expansión con seguridad."
+ ],
+ "bloques": [
+  {
+   "tipo": "p",
+   "texto": "Un **adaptador** (o tarjeta de expansión) **añade una función** al equipo: mostrar imagen, conectarse a una red, grabar vídeo, tener más puertos… Muchas ya vienen **integradas en la placa**; cuando no basta, se añade una tarjeta."
+  },
+  {
+   "tipo": "h",
+   "texto": "El adaptador gráfico"
+  },
+  {
+   "tipo": "p",
+   "texto": "El **adaptador gráfico** (tarjeta gráfica o **GPU**, *Graphics Processing Unit*) **fabrica la imagen**: calcula cada píxel, guarda la imagen en su memoria y la **envía al monitor** muchas veces por segundo. El monitor solo **muestra** lo que le llega."
+  },
+  {
+   "tipo": "analogia",
+   "texto": "La **gráfica es el pintor** y el **monitor es el lienzo**: el pintor hace el cuadro y el lienzo lo enseña. Un lienzo enorme no sirve de nada si el pintor no da abasto."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "",
+    "Gráfica integrada",
+    "Gráfica dedicada"
+   ],
+   "filas": [
+    [
+     "Dónde está",
+     "Dentro del procesador",
+     "Tarjeta en una ranura PCIe x16"
+    ],
+    [
+     "Memoria",
+     "Usa parte de la RAM",
+     "Memoria de vídeo propia (**VRAM**): GDDR6, GDDR6X o GDDR7"
+    ],
+    [
+     "Salidas de vídeo",
+     "Las del panel trasero de la placa",
+     "Las de la propia tarjeta"
+    ],
+    [
+     "Consumo y calor",
+     "Muy bajos",
+     "De unos 75 W a más de 450 W"
+    ],
+    [
+     "Uso",
+     "Oficina, navegación, vídeo, aula",
+     "Juegos, diseño 3D, edición de vídeo, IA"
+    ]
+   ]
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Error muy frecuente:** con gráfica dedicada, el cable del monitor va **a la tarjeta**, no al panel trasero de la placa. Y al revés: si el procesador **no tiene gráfica integrada**, las salidas de vídeo de la placa no dan imagen."
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "gpu",
+   "texto": "Las salidas de vídeo están en la chapa de la tarjeta: con gráfica dedicada, el monitor va aquí.",
+   "foco": "salidas"
+  },
+  {
+   "tipo": "h",
+   "texto": "Qué mirar en la ficha de una gráfica"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Dato",
+    "Qué significa",
+    "Qué comprobar"
+   ],
+   "filas": [
+    [
+     "GPU (chip)",
+     "El modelo del procesador gráfico: marca la potencia",
+     "Que sea adecuado para el uso"
+    ],
+    [
+     "VRAM",
+     "Memoria propia (en GB) y su tipo",
+     "Más VRAM para resoluciones altas y diseño"
+    ],
+    [
+     "Interfaz",
+     "Ranura PCIe x16 (3.0, 4.0 o 5.0)",
+     "Que la placa tenga una x16 libre"
+    ],
+    [
+     "Longitud y grosor",
+     "Milímetros de largo y ranuras que ocupa (2, 2,5, 3…)",
+     "Que quepa en la caja y no tape otras ranuras"
+    ],
+    [
+     "Consumo (TBP/TGP)",
+     "Vatios que consume",
+     "Que la fuente dé la potencia mínima que recomienda el fabricante"
+    ],
+    [
+     "Conectores de alimentación",
+     "Cables de la fuente que necesita",
+     "Que la fuente los tenga"
+    ],
+    [
+     "Salidas de vídeo",
+     "HDMI, DisplayPort, USB-C",
+     "Que coincidan con las entradas del monitor"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "**La alimentación.** La ranura PCIe da como máximo **75 W**. Si la tarjeta consume más, necesita cables de la fuente:"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Conector",
+    "Potencia máxima",
+    "Notas"
+   ],
+   "filas": [
+    [
+     "Solo la ranura PCIe",
+     "75 W",
+     "Gráficas de bajo consumo: no llevan conector"
+    ],
+    [
+     "PCIe de 6 pines",
+     "75 W más",
+     ""
+    ],
+    [
+     "PCIe de 8 pines (6+2)",
+     "150 W más",
+     "El más habitual. Algunas llevan dos o tres"
+    ],
+    [
+     "12V-2x6 (16 pines)",
+     "Hasta 600 W",
+     "Gamas altas recientes. Debe ir encajado a fondo"
+    ]
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "gpu",
+   "texto": "El conector de corriente de la gráfica va a un cable PCIe de la fuente.",
+   "foco": "alimentacion"
+  },
+  {
+   "tipo": "h",
+   "texto": "Salidas de vídeo"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Conector",
+    "Tipo de señal",
+    "Uso hoy"
+   ],
+   "filas": [
+    [
+     "HDMI",
+     "Digital, vídeo y audio",
+     "Monitores y teles. HDMI 2.0: 4K a 60 Hz; HDMI 2.1, más"
+    ],
+    [
+     "DisplayPort (DP)",
+     "Digital, vídeo y audio",
+     "El más usado en monitores de PC de alta frecuencia"
+    ],
+    [
+     "USB-C (modo DisplayPort)",
+     "Digital por USB-C",
+     "Portátiles y monitores con un solo cable"
+    ],
+    [
+     "DVI y VGA",
+     "DVI digital/analógico; VGA analógico",
+     "Equipos y proyectores antiguos. Hoy, con adaptadores"
+    ]
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "El monitor"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Característica",
+    "Qué significa",
+    "Valores habituales"
+   ],
+   "filas": [
+    [
+     "Tamaño",
+     "Diagonal en pulgadas (1″ = 2,54 cm)",
+     "22″ a 27″ oficina; 27″ a 34″ diseño"
+    ],
+    [
+     "Resolución",
+     "Píxeles (ancho × alto)",
+     "Full HD 1920 × 1080 · QHD 2560 × 1440 · 4K UHD 3840 × 2160"
+    ],
+    [
+     "Relación de aspecto",
+     "Proporción ancho:alto",
+     "16:9 (normal) · 21:9 (panorámico)"
+    ],
+    [
+     "Frecuencia de refresco",
+     "Imágenes por segundo, en Hz",
+     "60 Hz oficina · 144 Hz o más juegos"
+    ],
+    [
+     "Tiempo de respuesta",
+     "Lo que tarda un píxel en cambiar de color (ms)",
+     "1–5 ms; menos es mejor para movimiento"
+    ],
+    [
+     "Tipo de panel",
+     "Tecnología de la pantalla",
+     "IPS (color) · VA (contraste) · TN (rápido y barato) · OLED (negro perfecto)"
+    ],
+    [
+     "Brillo",
+     "Luminosidad máxima en cd/m² (nits)",
+     "250–350 en oficina; más para HDR"
+    ],
+    [
+     "Entradas",
+     "Conectores del monitor",
+     "HDMI, DisplayPort, USB-C"
+    ],
+    [
+     "Ergonomía",
+     "Altura, inclinación, soporte VESA",
+     "Importante en puestos de trabajo"
+    ]
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "monitor",
+   "texto": "Detrás del monitor están sus entradas (HDMI y DisplayPort) y los agujeros VESA para colgarlo de un brazo.",
+   "foco": "entradas"
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Gráfica y monitor, a la par.** Un monitor de 144 Hz con un cable o salida que solo da 60 Hz funcionará a 60 Hz. Un monitor 4K con una integrada modesta irá bien en el escritorio, pero justo en juegos. La frecuencia se **elige en el sistema**: en Windows 11, **Configuración > Sistema > Pantalla > Pantalla avanzada**."
+  },
+  {
+   "tipo": "h",
+   "texto": "Adaptadores de red"
+  },
+  {
+   "tipo": "p",
+   "texto": "Un **adaptador de red** (**NIC**, *Network Interface Card*) conecta el equipo a una red local. Cada uno tiene una **dirección MAC** única (Tema 1)."
+  },
+  {
+   "tipo": "p",
+   "texto": "**Red cableada (Ethernet):**"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**Conector:** RJ45, para cable de par trenzado.",
+    "**Velocidades:** 1 Gb/s (la más común), 2,5 Gb/s (cada vez más placas) y 10 Gb/s (servidores y estaciones de trabajo).",
+    "**Formatos:** integrada en la placa (lo normal), **tarjeta PCIe** o **adaptador USB a RJ45** para portátiles sin puerto de red.",
+    "**Ventajas:** estable, rápida y sin interferencias.",
+    "La velocidad real depende también del **cable** y del **switch**: una tarjeta de 2,5 Gb/s con un switch de 1 Gb/s irá a 1 Gb/s."
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "red",
+   "texto": "Una tarjeta de red Ethernet PCIe x1: el puerto RJ45 asoma por la chapa trasera.",
+   "foco": "rj45",
+   "datos": {
+    "tipo": "ethernet"
+   }
+  },
+  {
+   "tipo": "p",
+   "texto": "**Red inalámbrica (Wi‑Fi).** Las normas las publica el **IEEE** con el número **802.11** y una letra; la Wi‑Fi Alliance les pone un número más fácil:"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Nombre",
+    "Norma",
+    "Bandas",
+    "Para tener en cuenta"
+   ],
+   "filas": [
+    [
+     "Wi‑Fi 5",
+     "802.11ac",
+     "5 GHz",
+     "Aún muy extendido"
+    ],
+    [
+     "Wi‑Fi 6",
+     "802.11ax",
+     "2,4 y 5 GHz",
+     "Mejor con muchos dispositivos conectados"
+    ],
+    [
+     "Wi‑Fi 6E",
+     "802.11ax",
+     "2,4, 5 y 6 GHz",
+     "Añade la banda de 6 GHz, menos saturada"
+    ],
+    [
+     "Wi‑Fi 7",
+     "802.11be",
+     "2,4, 5 y 6 GHz",
+     "Canales más anchos y conexión en varias bandas a la vez"
+    ]
+   ]
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**Formatos:** integrada (en una ranura **M.2 de llave E**), **tarjeta PCIe** con antenas o **adaptador USB**.",
+    "**Antenas:** se enroscan en el panel trasero. Sin ellas, la señal es muy débil.",
+    "Muchas tarjetas Wi‑Fi llevan **Bluetooth**, que necesita además un cable USB interno a la placa.",
+    "Para aprovechar una norma, **router y adaptador** tienen que admitirla: un adaptador Wi‑Fi 7 con un router Wi‑Fi 5 funciona como Wi‑Fi 5."
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "red",
+   "texto": "Una tarjeta Wi‑Fi PCIe: módulo M.2 de llave E, antenas y el cable USB del Bluetooth.",
+   "foco": "antenas",
+   "datos": {
+    "tipo": "wifi"
+   }
+  },
+  {
+   "tipo": "analogia",
+   "texto": "La **velocidad de la red es la de la tubería más estrecha:** tarjeta, cable, switch y router tienen que admitir la misma velocidad para alcanzarla."
+  },
+  {
+   "tipo": "h",
+   "texto": "La conexión WAN y los módems"
+  },
+  {
+   "tipo": "p",
+   "texto": "Una **WAN** (*Wide Area Network*) une redes alejadas entre sí; la más conocida es **Internet**. Para salir a Internet hace falta un equipo que conecte con la red del **operador**. Un **módem** (**mo**dulador-**dem**odulador) **convierte** las señales digitales del equipo en las de la línea del operador, y al revés."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Acceso",
+    "Equipo que se instala",
+    "Para tener en cuenta"
+   ],
+   "filas": [
+    [
+     "Fibra óptica (FTTH)",
+     "ONT (convierte la luz en señal eléctrica) + router",
+     "Lo más habitual en España. A menudo la ONT va dentro del router"
+    ],
+    [
+     "Cable coaxial",
+     "Cablemódem + router",
+     "Redes de televisión por cable"
+    ],
+    [
+     "ADSL / VDSL",
+     "Módem-router sobre la línea telefónica",
+     "En retirada, sustituido por fibra"
+    ],
+    [
+     "Móvil (4G/5G)",
+     "Router con SIM o módem USB",
+     "Zonas sin fibra, respaldo o portátil"
+    ],
+    [
+     "Satélite",
+     "Antena parabólica + módem",
+     "Zonas rurales aisladas"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "En un sobremesa, lo normal es que el módem **no vaya dentro**: el PC se conecta por cable o Wi‑Fi al **router**, y este sale a Internet. Los módems internos antiguos han desaparecido, aunque aún hay **módems 4G/5G M.2** en algunos portátiles."
+  },
+  {
+   "tipo": "analogia",
+   "texto": "El **módem es un traductor en la frontera:** el equipo habla «digital» y la línea del operador habla «luz», «radio» o «teléfono»."
+  },
+  {
+   "tipo": "h",
+   "texto": "Otras tarjetas de expansión"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Tarjeta",
+    "Para qué sirve",
+    "Ejemplo de uso"
+   ],
+   "filas": [
+    [
+     "Tarjeta de sonido",
+     "Mejor audio o más entradas y salidas",
+     "Estudio de grabación"
+    ],
+    [
+     "Capturadora de vídeo",
+     "Grabar o retransmitir una cámara o consola",
+     "Streaming, videovigilancia"
+    ],
+    [
+     "Puertos USB",
+     "Más USB o USB-C más rápidos",
+     "Equipos antiguos sin USB 3"
+    ],
+    [
+     "Adaptador M.2",
+     "SSD NVMe en una ranura PCIe",
+     "Placas con pocas M.2"
+    ],
+    [
+     "Controladora SATA",
+     "Más puertos SATA",
+     "Servidor de archivos casero"
+    ],
+    [
+     "Puertos serie (RS-232)",
+     "Conectar maquinaria o equipos antiguos",
+     "Talleres, básculas, control numérico"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Antes de comprar una tarjeta comprueba: qué **ranura** necesita (PCIe x1, x4 o x16) y si está **libre**; si **cabe** (una gráfica gruesa puede tapar la de al lado); si necesita **alimentación**; y si hay **controladores** para el sistema operativo."
+  },
+  {
+   "tipo": "h",
+   "texto": "Instalar una tarjeta de expansión"
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Obligatorio:** apagado y desenchufado (pulsa el botón unos segundos), **pulsera antiestática**, coge la tarjeta **por los bordes y la chapa** sin tocar contactos ni chips, y conecta sus cables de alimentación con la fuente desenchufada. **Nunca abras la fuente.**"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "**Localiza la ranura** en el manual (para una gráfica, normalmente la x16 más cercana al procesador).",
+    "**Quita la tapa metálica** trasera de esa ranura (y la de al lado si la tarjeta ocupa dos).",
+    "**Abre la pestaña** del extremo de la ranura PCIe, si la tiene.",
+    "**Alinea** los contactos y presiona **hacia abajo, recto y con firmeza** hasta el clic, con la chapa en su hueco.",
+    "**Atorníllala** a la caja por su chapa.",
+    "**Conecta la alimentación** si la necesita (6, 8 o 16 pines) y, en las Wi‑Fi, **las antenas**.",
+    "**Conecta el monitor a la tarjeta** si es una gráfica.",
+    "Al encender, **instala los controladores** del fabricante y comprueba en el **Administrador de dispositivos** que no sale el triángulo amarillo."
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Para **retirarla**: quita sus cables y el tornillo, **abre la pestaña de la ranura** (en las gráficas suele quedar escondida debajo; se empuja con un dedo o un destornillador de plástico) y tira hacia arriba, recto. Nunca tires con la pestaña cerrada: puedes arrancar la ranura."
+  },
+  {
+   "tipo": "p",
+   "texto": "**Ejemplo paso a paso: preparar un puesto de diseño**"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Una diseñadora necesita un monitor **QHD de 27″** con buen color y Wi‑Fi 6. El procesador tiene gráfica integrada y la placa no tiene Wi‑Fi.",
+    "**Monitor:** panel **IPS**, 2560 × 1440, 60–75 Hz (en diseño importa más el color que la frecuencia), con HDMI y DisplayPort.",
+    "**Gráfica:** para retoque basta la integrada; para 3D se añade una dedicada de 8 GB de VRAM, comprobando que cabe en la caja y que la fuente tiene su conector de 8 pines.",
+    "**Red:** una **tarjeta PCIe x1 Wi‑Fi 6** con Bluetooth y sus antenas. Se confirma que el router de la oficina es Wi‑Fi 6.",
+    "**Comprobación:** monitor en la gráfica por DisplayPort a 2560 × 1440; tarjeta Wi‑Fi y gráfica sin avisos en el Administrador de dispositivos."
+   ]
+  },
+  {
+   "tipo": "resumen",
+   "texto": "La **gráfica fabrica la imagen** y el **monitor la muestra**. Integrada (en el procesador, usa la RAM) o dedicada (PCIe x16, VRAM propia, necesita espacio y alimentación: la ranura da **75 W**; los conectores de 6, 8 y 16 pines, más). El monitor se elige por tamaño, resolución, frecuencia, panel y entradas, **a la par con la gráfica**. Red: **Ethernet** (RJ45; 1, 2,5 o 10 Gb/s) o **Wi‑Fi** (5, 6, 6E, 7). La salida a Internet (**WAN**) se hace con router y módem u ONT. Las tarjetas se instalan desenchufado, con pulsera, en su ranura, atornilladas y con sus controladores."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Un equipo tiene **gráfica dedicada** y el monitor no da imagen. Está conectado al HDMI del panel trasero de la placa. ¿Qué haces?",
+   "opciones": [
+    "Cambiar el monitor",
+    "Conectar el cable a la salida de la tarjeta gráfica",
+    "Activar XMP en la UEFI",
+    "Cambiar el cable HDMI por uno VGA"
+   ],
+   "correcta": 1,
+   "explicacion": "Con gráfica dedicada, la imagen sale por las salidas de la tarjeta, no por las de la placa."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Una gráfica consume **220 W**. ¿Le basta con la ranura PCIe?",
+   "opciones": [
+    "Sí, la ranura da hasta 600 W",
+    "No: la ranura da 75 W y necesita cables de la fuente",
+    "Sí, si la fuente es de 850 W",
+    "No: necesita una ranura PCIe x1 extra"
+   ],
+   "correcta": 1,
+   "explicacion": "La ranura PCIe da como máximo 75 W. El resto llega por los conectores PCIe de 6, 8 o 16 pines de la fuente."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Un **portátil sin puerto de red** necesita conectarse por cable. ¿Qué adaptador usas?",
+   "opciones": [
+    "Una tarjeta Wi‑Fi PCIe",
+    "Un adaptador USB a RJ45",
+    "Una capturadora de vídeo",
+    "Una tarjeta de puertos serie"
+   ],
+   "correcta": 1,
+   "explicacion": "El adaptador USB a RJ45 añade un puerto Ethernet a un equipo que no lo tiene."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Un equipo en una **casa rural sin fibra** necesita Internet. ¿Qué opción encaja?",
+   "opciones": [
+    "Una ONT de fibra",
+    "Un router 4G/5G con tarjeta SIM",
+    "Una tarjeta Wi‑Fi 7",
+    "Un cablemódem"
+   ],
+   "correcta": 1,
+   "explicacion": "Sin fibra ni cable, la opción habitual es la red móvil (4G/5G) o, en zonas muy aisladas, el satélite."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Compras un adaptador **Wi‑Fi 7** pero el router es **Wi‑Fi 5**. ¿Cómo funcionará?",
+   "opciones": [
+    "Como Wi‑Fi 7",
+    "Como Wi‑Fi 5",
+    "No funcionará",
+    "Como Wi‑Fi 6E"
+   ],
+   "correcta": 1,
+   "explicacion": "Router y adaptador tienen que admitir la misma norma: se usa la más antigua de las dos."
+  }
+ ]
+}

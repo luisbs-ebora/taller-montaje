@@ -295,6 +295,127 @@ export function chasis(formatoMayor = 'ATX') {
   return g;
 }
 
+
+// ---------------- DISCO DURO 3,5" ----------------
+// Tumbado, etiqueta hacia +Z. Largo en X (conectores en x máxima).
+export function hdd35(abierto = false) {
+  const g = new THREE.Group(); g.name = 'hdd';
+  const L = 147, A = 101.6;
+  caja(g, L, A, 22, 0xa9b0b8, -L / 2, -A / 2, -11, 'carcasa', { metalness: 0.6, roughness: 0.4 });
+  caja(g, 120, 90, 2.5, 0x1f3d34, -L / 2 + 12, -45, -13.5, 'pcb');
+  [[-60, -50.8], [40, -50.8], [-60, 48.8], [40, 48.8]].forEach(([x, y]) => caja(g, 8, 2, 6, 0x5e6670, x, y, -6, 'tornillos'));
+  caja(g, 2, 13, 6, C.negro, L / 2, -18, -9, 'sata-datos');
+  caja(g, 2, 24, 6, C.negro, L / 2, 0, -9, 'sata-corriente');
+  if (!abierto) {
+    caja(g, 95, 66, 0.4, C.blanco, -60, -33, 11, 'carcasa');
+    caja(g, 30, 8, 0.5, C.acento, -55, 20, 11.2, 'carcasa');
+  } else {
+    // sin tapa: plato, eje y brazo con cabezal
+    const plato = cilindro(g, 47.5, 1.6, 0xd5dbe2, -22, 0, 12, 'z', 'platos', { metalness: 0.35, roughness: 0.25 }, 48);
+    cilindro(g, 12, 3, C.metal, -22, 0, 13.5, 'z', 'platos', { metalness: 0.8 });
+    const piv = new THREE.Group(); piv.position.set(mm(45), mm(-32), mm(14)); piv.rotation.z = 2.35; g.add(piv);
+    cilindro(piv, 7, 5, C.metalOscuro, 0, 0, 0, 'z', 'brazo', { metalness: 0.7 });
+    caja(piv, 58, 7, 2, C.metal, 0, -3.5, -0.5, 'brazo', { metalness: 0.8 });
+    caja(piv, 8, 5, 2.5, C.ambar, 56, -2.5, -1.5, 'brazo');
+  }
+  g.userData = { tipo: 'hdd' };
+  return g;
+}
+
+// ---------------- UNIDAD ÓPTICA 5,25" ----------------
+// Frontal hacia +Z.
+export function optica(abierta = false) {
+  const g = new THREE.Group(); g.name = 'optica';
+  const W = 146, H = 41.3, D = 170;
+  caja(g, W, H, D, 0x2b2f35, -W / 2, -H / 2, -D / 2, 'carcasa', { metalness: 0.4, roughness: 0.5 });
+  caja(g, W + 2, H + 1, 5, 0x1d2025, -W / 2 - 1, -H / 2 - 0.5, D / 2, 'frontal');
+  caja(g, 120, 1.5, 1, C.negro, -60, 6, D / 2 + 5, 'bandeja');
+  caja(g, 12, 5, 2, C.metal, 50, -13, D / 2 + 5, 'frontal');
+  caja(g, 4, 2, 1, 0x3fbf6a, 36, -12.5, D / 2 + 5, 'frontal', { emissive: 0x1f7a3c });
+  caja(g, 13, 6, 2, C.negro, -30, -10, -D / 2 - 2, 'sata-datos');
+  caja(g, 24, 6, 2, C.negro, -12, -10, -D / 2 - 2, 'sata-corriente');
+  if (abierta) {
+    caja(g, 128, 3, 120, 0x1d2025, -64, -2, D / 2 + 5, 'bandeja');
+    const disco = cilindro(g, 60, 1.2, 0xd9e0ea, 0, 2, D / 2 + 62, 'y', 'disco', { metalness: 0.35, roughness: 0.2 }, 48);
+    cilindro(g, 7.5, 1.4, 0x9aa1aa, 0, 2.1, D / 2 + 62, 'y', 'disco', {}, 24);
+  }
+  g.userData = { tipo: 'optica' };
+  return g;
+}
+
+// ---------------- TARJETAS DE RED ----------------
+// Como la gráfica: largo en X, alto en Y, chapa en x mínima.
+export function tarjetaRed(tipo = 'wifi') {
+  const g = new THREE.Group(); g.name = 'red';
+  const L = tipo === 'wifi' ? 110 : 95, Al = tipo === 'wifi' ? 70 : 55;
+  caja(g, L, Al, 1.6, 0x1f3d34, -L / 2, -Al / 2, -0.8, 'chip');
+  caja(g, 25, 7, 1.6, C.oro, -L / 2 + 12, -Al / 2 - 7, -0.8, 'contactos', { metalness: 0.9 });
+  caja(g, 1.5, Al + 18, 16, C.metal, -L / 2 - 1.5, -Al / 2 - 6, -2, 'bracket', { metalness: 0.8 });
+  if (tipo === 'wifi') {
+    caja(g, 22, 30, 1.2, 0x2b3a67, -10, -10, 0.8, 'modulo');
+    caja(g, 16, 16, 1, C.metal, -7, -3, 2, 'modulo', { metalness: 0.7 });
+    [-22, 12].forEach(y => {
+      cilindro(g, 3.5, 6, 0xc9a24a, -L / 2 - 4.5, y, 4, 'x', 'antenas', { metalness: 0.8 });
+      const ant = cilindro(g, 5, 110, C.negro, -L / 2 - 8, y + 55, 4, 'y', 'antenas');
+      ant.rotation.z = -0.25;
+    });
+    const usb = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([
+      new THREE.Vector3(mm(30), mm(10), mm(1)), new THREE.Vector3(mm(50), mm(25), mm(8)), new THREE.Vector3(mm(70), mm(5), mm(10))]), 20, mm(1.5), 8), mat(C.negro));
+    usb.userData.parte = 'bluetooth'; g.add(usb);
+    caja(g, 8, 5, 3, C.blanco, 66, 3, 8, 'bluetooth');
+  } else {
+    caja(g, 21, 14, 16, C.metal, -L / 2 + 0.5, -10, 0.8, 'rj45', { metalness: 0.7 });
+    caja(g, 2, 3, 2, 0x3fbf6a, -L / 2 - 1.5, 1, 4, 'rj45', { emissive: 0x1f7a3c });
+    caja(g, 2, 3, 2, C.ambar, -L / 2 - 1.5, 1, 11, 'rj45', { emissive: 0x6b4a10 });
+    caja(g, 2, 9, 10, C.chip, -L / 2 - 1.6, -8, 3, 'rj45');
+    caja(g, 14, 14, 1.5, C.chip, 10, -5, 0.8, 'chip');
+  }
+  g.userData = { tipo: 'red', variante: tipo };
+  return g;
+}
+
+// ---------------- MONITOR ----------------
+// Pantalla hacia +Z. 27" 16:9.
+export function monitor() {
+  const g = new THREE.Group(); g.name = 'monitor';
+  const W = 612, H = 360;
+  caja(g, W, H, 18, 0x1d2025, -W / 2, -H / 2 + 120, -9, 'marco', { roughness: 0.5 });
+  caja(g, W - 16, H - 30, 1, 0x16243a, -W / 2 + 8, -H / 2 + 142, 9, 'pantalla', { emissive: 0x0c1a30, roughness: 0.15, metalness: 0.2 });
+  caja(g, 260, 180, 30, 0x24282e, -130, 120 - 90, -39, 'marco');
+  // VESA 100 × 100 en la espalda
+  [[-50, 70], [50, 70], [-50, 170], [50, 170]].forEach(([x, y]) => cilindro(g, 3, 2, C.metal, x, y, -40, 'z', 'vesa', { metalness: 0.8 }));
+  caja(g, 120, 120, 1, 0x30353c, -60, 60, -40.5, 'vesa');
+  // entradas, mirando hacia abajo en la espalda
+  [['HDMI', -90], ['HDMI', -60], ['DP', -25]].forEach(([, x]) => caja(g, 16, 6, 10, C.negro, x, 32, -30, 'entradas'));
+  // brazo y peana
+  caja(g, 50, 260, 24, 0x30353c, -25, -150, -60, 'peana', { metalness: 0.3 });
+  caja(g, 260, 12, 190, 0x30353c, -130, -160, -150, 'peana', { metalness: 0.3 });
+  g.userData = { tipo: 'monitor' };
+  return g;
+}
+
+// ---------------- SOPORTES DE MEMORIA AUXILIAR ----------------
+export function auxiliar() {
+  const g = new THREE.Group(); g.name = 'auxiliar';
+  // memoria USB
+  caja(g, 45, 18, 9, C.acento, -110, -9, -4.5, 'pendrive');
+  caja(g, 12, 12, 4.5, C.metal, -122, -6, -2.25, 'pendrive', { metalness: 0.8 });
+  caja(g, 6, 6, 1, C.blanco, -95, -3, 4.6, 'pendrive');
+  // SD
+  caja(g, 24, 32, 2.1, 0x2b2f35, -45, -16, -1, 'sd');
+  caja(g, 18, 14, 0.3, C.ambar, -42, 0, 1.1, 'sd');
+  for (let i = 0; i < 8; i++) caja(g, 1.6, 3, 0.3, C.oro, -44 + i * 2.6, -15, 1.1, 'sd', { metalness: 0.9 });
+  // microSD
+  caja(g, 11, 15, 1, 0x2b2f35, -10, -7.5, -0.5, 'microsd');
+  caja(g, 9, 6, 0.3, C.ambar, -9, 2, 0.5, 'microsd');
+  // SSD externo
+  caja(g, 85, 55, 10, 0x3b4048, 25, -27.5, -5, 'externo', { metalness: 0.5, roughness: 0.35 });
+  caja(g, 2, 8, 3, C.negro, 110, -4, -1.5, 'externo');
+  caja(g, 30, 8, 0.3, C.blanco, 35, 10, 5.1, 'externo');
+  g.userData = { tipo: 'auxiliar' };
+  return g;
+}
+
 // ---------------- Pieza suelta por categoría (para el explorador) ----------------
 export function piezaSuelta(cat, datos = {}) {
   switch (cat) {
@@ -308,7 +429,12 @@ export function piezaSuelta(cat, datos = {}) {
     }
     case 'gpu': return gpu(datos.largo || 240, (datos.largo || 240) > 300 ? 3 : 2, (datos.pcie8 ?? 1) > 0);
     case 'fuente': return fuente(datos.formato);
-    case 'caja': return montaje({}, { soloCaja: true });
+    case 'caja': return montaje(datos.formato ? { caja: { formatos: [datos.formato] } } : {}, { soloCaja: true });
+    case 'hdd': return hdd35(!!datos.abierto);
+    case 'optica': return optica(!!datos.abierta);
+    case 'red': return tarjetaRed(datos.tipo || 'wifi');
+    case 'monitor': return monitor();
+    case 'auxiliar': return auxiliar();
     default: return new THREE.Group();
   }
 }
@@ -333,7 +459,7 @@ export function montaje(sel = {}, opts = {}) {
   const ver = k => !opts.visibles || opts.visibles.has(k);
   if (opts.soloCaja) {
     // caja de ejemplo con placa, fuente y gráfica para entender dónde va cada cosa
-    sel = { placa: { formato: formatoCaja === 'Mini-ITX' ? 'Mini-ITX' : 'ATX' }, fuente: { formato: formatoCaja === 'Mini-ITX' ? 'SFX' : 'ATX' } };
+    sel = { placa: { formato: formatoCaja }, fuente: { formato: formatoCaja === 'Mini-ITX' ? 'SFX' : 'ATX' } };
   }
   const formatoPlaca = sel.placa ? sel.placa.formato : null;
   let placaG = null, D = null;

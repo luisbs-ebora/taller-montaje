@@ -1,0 +1,433 @@
+{
+ "id": "s4",
+ "titulo": "OEM y Retail, garantías e inventario",
+ "objetivos": [
+  "Distinguir componentes y licencias OEM y Retail.",
+  "Comprobar lo que acompaña a un componente al recibirlo.",
+  "Conocer la garantía legal y cómo se tramita una avería.",
+  "Elaborar y mantener la ficha de inventario de un equipo."
+ ],
+ "bloques": [
+  {
+   "tipo": "p",
+   "texto": "Elegir bien no termina al comprobar que algo es compatible. Un técnico también tiene que saber **en qué versión lo compra** (OEM o Retail), **qué tiene que venir en la caja**, **qué garantía tiene** y cómo **documentar** el equipo montado para que cualquier compañero sepa qué lleva, dónde está y cuándo se compró."
+  },
+  {
+   "tipo": "h",
+   "texto": "Componentes OEM y Retail"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**Retail** (también **en caja**, *box* o *PIB*, *processor in box*): la versión para el público. En su caja, con accesorios, manual y garantía del fabricante.",
+    "**OEM** (*Original Equipment Manufacturer*, también **bulk** o **tray**): para los **fabricantes** e integradores que montan equipos en serie. Embalaje mínimo y sin accesorios."
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "",
+    "Retail (en caja)",
+    "OEM (bulk, tray)"
+   ],
+   "filas": [
+    [
+     "Embalaje",
+     "Caja completa",
+     "Mínimo: bandeja, bolsa antiestática"
+    ],
+    [
+     "Accesorios",
+     "Cables, tornillos, manual; algunos procesadores, también el disipador",
+     "Normalmente ninguno"
+    ],
+    [
+     "Garantía",
+     "La del fabricante (procesadores en caja de AMD e Intel: normalmente 3 años) además de la del vendedor",
+     "La gestiona el vendedor o el integrador"
+    ],
+    [
+     "Precio",
+     "Algo más caro",
+     "Algo más barato"
+    ],
+    [
+     "Para quién",
+     "Usuario final, montaje de un solo equipo",
+     "Fabricantes, montaje en serie, reparaciones"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "**Ejemplo:** un procesador «en caja» puede traer disipador; la versión *tray* del mismo modelo viene sola en una bandeja y el disipador se compra aparte. No todos los procesadores en caja lo traen: míralo en la ficha."
+  },
+  {
+   "tipo": "analogia",
+   "texto": "Retail y OEM son como **un móvil comprado en tienda** y **una pieza de recambio**: el de tienda viene en su caja con cargador y manual; el recambio, en una bolsa y sin nada más."
+  },
+  {
+   "tipo": "h",
+   "texto": "OEM y Retail en el software"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**Licencia OEM:** la preinstalada en un equipo de marca (o la que compra un integrador). **Queda vinculada al primer equipo** en el que se activa: no se puede pasar a otro.",
+    "**Licencia Retail:** la que compra el usuario en una tienda. **Se puede transferir** a otro equipo, siempre que se use en uno solo a la vez."
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Por eso, si se cambia la placa base de un equipo con licencia OEM, Windows puede pedir que se vuelva a activar."
+  },
+  {
+   "tipo": "h",
+   "texto": "Recibir un componente"
+  },
+  {
+   "tipo": "p",
+   "texto": "Antes de montarlo, el técnico **comprueba el paquete** para detectar a tiempo una pieza dañada o un accesorio que falta y poder reclamar enseguida."
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "**La caja por fuera:** golpes, humedad o precinto roto. Si hay daños, foto antes de abrirla.",
+    "**El modelo es el pedido:** compara la etiqueta con el albarán o la factura.",
+    "**El contenido:** con la lista «Contenido del paquete» (*Package contents*) del manual o la web.",
+    "**Anota el número de serie** (S/N), en la etiqueta de la caja y del componente. Lo necesitarás para la garantía y el inventario.",
+    "**Guarda la factura** y, mientras dure la garantía, la caja original: facilita una devolución."
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Componente",
+    "Lo que suele venir (versión Retail)"
+   ],
+   "filas": [
+    [
+     "Placa base",
+     "Manual, cables SATA, tornillos M.2, antenas Wi‑Fi (si tiene), a veces la chapa trasera"
+    ],
+    [
+     "Tarjeta gráfica",
+     "Guía rápida; a veces un adaptador de alimentación o un soporte anticombado"
+    ],
+    [
+     "Fuente",
+     "Cable de corriente, tornillos, cables modulares (si es modular), bridas"
+    ],
+    [
+     "SSD M.2",
+     "A veces el tornillo y un disipador; muchas veces nada más"
+    ],
+    [
+     "Caja (chasis)",
+     "Tornillos y separadores, bridas, manual, a veces ventiladores montados"
+    ],
+    [
+     "Procesador en caja",
+     "Procesador, a veces disipador con pasta ya aplicada, pegatina"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "La lista exacta cambia con cada modelo: **manda la del manual**."
+  },
+  {
+   "tipo": "h",
+   "texto": "Documentación, controladores y utilidades"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Elemento",
+    "Para qué lo usa el técnico",
+    "Dónde se consigue"
+   ],
+   "filas": [
+    [
+     "Ficha técnica (*specifications*)",
+     "Comprobar la compatibilidad antes de comprar",
+     "Web del fabricante, modelo exacto"
+    ],
+    [
+     "Manual",
+     "Dónde va cada cable, qué ranuras usar y qué se desactiva",
+     "En la caja o en la web de soporte"
+    ],
+    [
+     "Listas de compatibilidad",
+     "Procesadores admitidos por una placa, memorias probadas (QVL)",
+     "Web de soporte de la placa"
+    ],
+    [
+     "Controladores",
+     "Que el sistema aproveche el componente",
+     "Windows Update o la web del fabricante (nunca webs de «drivers gratis»)"
+    ],
+    [
+     "Utilidades",
+     "Firmware, salud de un SSD, configurar la gráfica, ventiladores",
+     "Web del fabricante"
+    ],
+    [
+     "Cables y accesorios",
+     "Conectarlo y fijarlo",
+     "En la caja (versión Retail)"
+    ]
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "La garantía"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**Garantía legal:** la obliga la ley y responde **el vendedor**. Desde el 1 de enero de 2022, para **productos nuevos** es de **3 años** desde la entrega. En **segunda mano** se puede pactar un plazo menor, pero **nunca de menos de 1 año**. Durante los primeros años, si aparece un defecto, se presume que ya existía al comprarlo.",
+    "**Garantía comercial:** la que ofrece **voluntariamente** el fabricante o la tienda, **además** de la legal (por ejemplo, 5 o 10 años en algunos SSD o fuentes)."
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Cuando compra **una empresa** para su actividad no se aplica la garantía de consumidores, sino el contrato y la garantía del fabricante. Por eso conviene anotar en el inventario la **fecha de fin de garantía** de cada equipo."
+  },
+  {
+   "tipo": "p",
+   "texto": "**Cómo se tramita una avería en garantía:**"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "**Comprueba** que la avería es del componente (y no de otro, ni una mala configuración).",
+    "**Reúne** la factura o el ticket y el número de serie.",
+    "**Contacta** con el vendedor (garantía legal) o el fabricante (comercial). El fabricante suele pedir una **RMA** (*Return Merchandise Authorization*): un número de autorización para enviar la pieza.",
+    "**Empaqueta bien** el componente, en su bolsa antiestática y, si puedes, en su caja original.",
+    "**Guarda copia** de todo: número de RMA, fecha de envío, número de seguimiento."
+   ]
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Lo que suele anular la garantía:** golpes, líquidos o subidas de tensión, manipulaciones fuera de las instrucciones (por ejemplo, abrir una fuente) o un número de serie borrado o arrancado. **Nunca abras una fuente de alimentación**: además de anular la garantía, es peligroso."
+  },
+  {
+   "tipo": "analogia",
+   "texto": "La **factura y el número de serie son el DNI de la garantía:** sin ellos, la tienda no sabe si esa pieza es la que te vendió ni cuándo."
+  },
+  {
+   "tipo": "h",
+   "texto": "La documentación inventarial"
+  },
+  {
+   "tipo": "p",
+   "texto": "Un **inventario** es el registro de los equipos y componentes de una organización: qué hay, dónde está, quién lo usa, en qué estado está y qué se le ha hecho. Sin él, en una empresa con 50 ordenadores nadie sabe cuáles están en garantía o a quién se le dio el portátil que falta."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Bloque",
+    "Datos"
+   ],
+   "filas": [
+    [
+     "Identificación",
+     "Número de inventario (lo pone la organización), nombre del equipo en la red, marca, modelo y número de serie"
+    ],
+    [
+     "Ubicación y uso",
+     "Sede, aula u oficina, puesto, persona o departamento"
+    ],
+    [
+     "Hardware",
+     "Procesador, memoria (capacidad y ranuras usadas), almacenamiento, gráfica, red, monitor y periféricos"
+    ],
+    [
+     "Software",
+     "Sistema operativo y versión, tipo de licencia (OEM o Retail), programas importantes"
+    ],
+    [
+     "Compra y garantía",
+     "Proveedor, fecha de compra, factura, fin de garantía"
+    ],
+    [
+     "Estado e historial",
+     "En uso, en reparación, de baja; y cada cambio con su fecha"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "El **número de inventario** va en una **etiqueta** pegada en un sitio visible que no tape rejillas ni números de serie. Muchas organizaciones usan **código de barras o QR**."
+  },
+  {
+   "tipo": "analogia",
+   "texto": "El **inventario es la libreta de mantenimiento del coche:** qué lleva, cuándo se compró, qué se le ha cambiado y cuándo toca revisión."
+  },
+  {
+   "tipo": "h",
+   "texto": "Sacar los datos sin abrir el equipo"
+  },
+  {
+   "tipo": "p",
+   "texto": "Muchos datos ya los vimos con **msinfo32**, el **Administrador de tareas** y el **Administrador de dispositivos**. Para el número de serie y otros datos es muy cómodo **PowerShell** (en Windows 11 no hace falta ser administrador para consultar). Ábrelo con **clic derecho en Inicio > Terminal**:"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Dato",
+    "Orden de PowerShell"
+   ],
+   "filas": [
+    [
+     "Fabricante, modelo y memoria total (bytes)",
+     "`Get-CimInstance Win32_ComputerSystem | Select-Object Manufacturer, Model, TotalPhysicalMemory`"
+    ],
+    [
+     "Número de serie y versión de la BIOS/UEFI",
+     "`Get-CimInstance Win32_BIOS | Select-Object SerialNumber, SMBIOSBIOSVersion`"
+    ],
+    [
+     "Procesador",
+     "`Get-CimInstance Win32_Processor | Select-Object Name, NumberOfCores, NumberOfLogicalProcessors`"
+    ],
+    [
+     "Discos",
+     "`Get-CimInstance Win32_DiskDrive | Select-Object Model, Size`"
+    ],
+    [
+     "Adaptadores de red y su MAC",
+     "`getmac /v`"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Estas órdenes **solo consultan**: no cambian nada. Los tamaños salen en **bytes**: 17 179 869 184 bytes son 16 GiB (lo que Windows muestra como 16 GB). La memoria total sale algo por debajo de la instalada porque el sistema reserva una parte."
+  },
+  {
+   "tipo": "p",
+   "texto": "**Herramientas:** una **hoja de cálculo** basta para pocos equipos (una fila por equipo, una columna por dato). Con muchos equipos se usan **programas de inventario** que recogen los datos automáticamente con un agente; uno muy usado de software libre es **GLPI**, que además gestiona incidencias."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Campo",
+    "Valor (datos ficticios)"
+   ],
+   "filas": [
+    [
+     "Nº de inventario",
+     "AULA2-PC07"
+    ],
+    [
+     "Equipo",
+     "Todo en uno · marca «Ejemplo» modelo AIO-24 · S/N EJ24A7731"
+    ],
+    [
+     "Ubicación / usuario",
+     "Aula 2, puesto 7 · alumnado de 1.º SMR"
+    ],
+    [
+     "Hardware",
+     "Intel Core i5 (6 núcleos) · 16 GB DDR4 (2 de 2 ranuras) · SSD NVMe 512 GB · gráfica integrada · Wi‑Fi 6 · pantalla 23,8″ Full HD"
+    ],
+    [
+     "Software",
+     "Windows 11 Pro 24H2 · licencia OEM"
+    ],
+    [
+     "Compra y garantía",
+     "Proveedor «Suministros Tajo» · 12/09/2024 · factura F-2024-0912 · garantía hasta 12/09/2027"
+    ],
+    [
+     "Estado",
+     "En uso"
+    ],
+    [
+     "Historial",
+     "03/10/2025: ampliación de 8 a 16 GB de RAM (módulo DDR4 de 8 GB, S/N RM8G55210)"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "**Ejemplo paso a paso: llega una ampliación de memoria**"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Llega un módulo DDR4 de 8 GB para AULA2-PC07. La caja está intacta y el modelo coincide con el albarán.",
+    "Dentro: módulo en su bolsa antiestática y hoja de garantía, como indica la web del fabricante. Se anota el **número de serie**.",
+    "Se instala (lección 2), desenchufado y con pulsera, y se comprueba que el sistema ve 16 GB.",
+    "Se **actualiza la ficha**: hardware (16 GB, 2 de 2 ranuras) y una línea nueva en el historial con la fecha, el cambio y el S/N. La factura se archiva con el número de inventario."
+   ]
+  },
+  {
+   "tipo": "resumen",
+   "texto": "**Retail**: en caja, con accesorios y garantía del fabricante. **OEM** (bulk, tray): sin nada; la garantía la gestiona el vendedor. Licencia **OEM** unida al primer equipo; **Retail**, trasladable. Al recibir: caja, modelo, contenido y **número de serie**. Garantía legal en España: **3 años** para producto nuevo frente al vendedor (mínimo 1 año en segunda mano); la comercial es un añadido. Averías: factura, S/N y, con el fabricante, **RMA**. La **ficha de inventario** recoge identificación, ubicación, hardware, software, compra, garantía, estado e historial."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Compras un procesador **tray (OEM)**. ¿Qué es lo más probable?",
+   "opciones": [
+    "Trae disipador y manual",
+    "Viene solo, sin disipador: hay que comprarlo aparte",
+    "Tiene 10 años de garantía del fabricante",
+    "Solo funciona en equipos de marca"
+   ],
+   "correcta": 1,
+   "explicacion": "La versión tray/OEM viene con embalaje mínimo y sin accesorios. El disipador, si hace falta, se compra aparte."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Cambias la placa base de un equipo con licencia de Windows **OEM**. ¿Qué puede pasar?",
+   "opciones": [
+    "Nada: la licencia va con el usuario",
+    "Windows puede pedir que se vuelva a activar",
+    "Se convierte en licencia Retail",
+    "Se borran los archivos"
+   ],
+   "correcta": 1,
+   "explicacion": "La licencia OEM queda vinculada al primer equipo en el que se activa, y cambiar la placa es cambiar de equipo para la activación."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Un cliente compró un SSD **nuevo** hace 2 años como particular y falla. ¿Con quién reclama primero la garantía legal?",
+   "opciones": [
+    "Con el fabricante, siempre",
+    "Con el vendedor: la garantía legal de producto nuevo es de 3 años",
+    "No hay garantía: pasó 1 año",
+    "Con Microsoft"
+   ],
+   "correcta": 1,
+   "explicacion": "La garantía legal la cubre el vendedor durante 3 años en productos nuevos. La del fabricante es comercial y se suma."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "En la ficha de inventario, ¿en qué bloque va «**Ampliación a 16 GB el 03/10/2025**»?",
+   "opciones": [
+    "Identificación",
+    "Compra y garantía",
+    "Estado e historial",
+    "Software"
+   ],
+   "correcta": 2,
+   "explicacion": "Cada cambio del equipo, con su fecha, se anota en el historial."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Qué orden te da el **número de serie** del equipo sin abrirlo?",
+   "opciones": [
+    "getmac /v",
+    "Get-CimInstance Win32_BIOS | Select-Object SerialNumber, SMBIOSBIOSVersion",
+    "Get-CimInstance Win32_DiskDrive | Select-Object Model, Size",
+    "msinfo32 /borrar"
+   ],
+   "correcta": 1,
+   "explicacion": "Win32_BIOS devuelve el número de serie y la versión de la BIOS/UEFI. getmac da las direcciones MAC."
+  }
+ ]
+}

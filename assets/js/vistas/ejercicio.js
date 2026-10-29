@@ -19,15 +19,37 @@ export async function vistaEjercicio(temaId, modo) {
   const guardar = () => progreso.set(clave, s);
 
   const raiz = h('div');
+  // ---------- Reloj del examen: cuenta atrás y entrega automática ----------
+  const reloj = h('div.reloj', { role: 'timer', 'aria-live': 'off' });
+  let enviando = false, avisado = false;
+  function restante() { return s && s.limite ? Date.parse(s.limite) - (Date.now() + (s.desfase || 0)) : null; }
+  function tic() {
+    const ms = restante();
+    if (ms === null || !s || !['piezas', 'montaje'].includes(s.fase || 'piezas')) { reloj.hidden = true; return; }
+    reloj.hidden = false;
+    const seg = Math.max(0, Math.ceil(ms / 1000)), m = Math.floor(seg / 60), ss = String(seg % 60).padStart(2, '0');
+    reloj.textContent = `Tiempo: ${m}:${ss}`;
+    reloj.classList.toggle('poco', seg <= 300);
+    if (seg <= 60 && !avisado) { avisado = true; reloj.setAttribute('aria-live', 'assertive'); }
+    if (seg === 0 && !enviando) {
+      document.querySelectorAll('dialog[open]').forEach(d => d.close());
+      enviar(true);
+    }
+  }
+  const intervalo = examen ? setInterval(tic, 1000) : null;
   const visor = huecoVisor({ pista: 'Arrastra para girar · rueda o pellizca para acercar' });
   let encuadrado = false;
 
-  function cabecera(fase) {
-    const fases = [['piezas', '1 · Elige las piezas'], ['montaje', '2 · Ordena el montaje'], ['resultado', examen ? '3 · Entregado' : '3 · Resultado']];
+  // Ejercicio sin fase de montaje (examen de la UD 1): solo se eligen piezas
+  const soloPiezas = caso => !!caso && (!caso.acciones || caso.acciones.length === 0);
+  function cabecera(fase, caso = s && s.caso) {
+    const fases = soloPiezas(caso)
+      ? [['piezas', '1 · Elige las piezas'], ['resultado', examen ? '2 · Entregado' : '2 · Resultado']]
+      : [['piezas', '1 · Elige las piezas'], ['montaje', '2 · Ordena el montaje'], ['resultado', examen ? '3 · Entregado' : '3 · Resultado']];
     const i = fases.findIndex(f => f[0] === fase);
     return h('div.ej-cab',
-      h('div', h('span.etiqueta', (examen ? 'Examen' : 'Práctica') + ' · Tema ' + t.numero), h('h1', ej.titulo)),
-      fase !== 'inicio' ? h('div.fases', fases.map((f, k) => h('span', { class: k < i ? 'hecha' : k === i ? 'actual' : '' }, f[1]))) : null);
+      h('div', h('span.etiqueta', examen ? 'Examen' : 'Práctica · Tema ' + t.numero), h('h1', examen ? (caso && caso.titulo) || 'Examen práctico' : ej.titulo)),
+      fase !== 'inicio' ? h('div.fila', examen && fase !== 'resultado' ? reloj : null, h('div.fases', fases.map((f, k) => h('span', { class: k < i ? 'hecha' : k === i ? 'actual' : '' }, f[1])))) : null);
   }
 
   function piezaSel(cat) { return s && s.seleccion[cat] ? s.caso.pool[cat].find(p => p.id === s.seleccion[cat]) : null; }
@@ -69,15 +91,16 @@ export async function vistaEjercicio(temaId, modo) {
           const codigo = input.value.trim().toUpperCase();
           const r = await llamar('examen-empezar', { codigo });
           const mismo = s && s.casoId === r.casoId;
-          s = { casoId: r.casoId, caso: r.caso, codigo, alumno: r.alumno, seleccion: mismo ? s.seleccion : {}, pasos: mismo ? s.pasos : [], fase: mismo ? s.fase : 'piezas' };
-          guardar(); pintar();
+          s = { casoId: r.casoId, caso: r.caso, codigo, alumno: r.alumno, seleccion: mismo ? s.seleccion : {}, pasos: mismo ? s.pasos : [], fase: mismo ? s.fase : 'piezas',
+            limite: r.limite || null, desfase: r.ahora ? Date.parse(r.ahora) - Date.now() : 0 };
+          guardar(); pintar(); tic();
         } catch (err) { error(err); btn.disabled = false; btn.textContent = 'Empezar el examen'; }
       } },
         h('label', { for: 'codigo' }, h('b', 'Tu código de alumno')), input,
         h('p#ayuda-codigo', { style: 'margin:0;font-size:15px;color:var(--tinta-2)' }, 'Te lo da el profesor. Si recargas la página o se va la conexión, vuelve a poner tu código: recuperarás el mismo caso.'),
         btn, aviso);
       raiz.replaceChildren(cabecera('inicio'),
-        h('div.contenido', { style: 'max-width:70ch' }, h('p', { html: md('Te llegará un cliente con un encargo. Tendrás que **elegir piezas compatibles** que cumplan lo que pide y **ordenar los pasos de montaje** con todas las medidas de **seguridad**. Al entregar, ya no se puede cambiar nada.') })),
+        h('div.contenido', { style: 'max-width:70ch' }, h('p', { html: md('Te llegará un cliente con un encargo. Tendrás que **elegir piezas compatibles** que cumplan lo que pide y seguir las instrucciones de cada pantalla. Al entregar, ya no se puede cambiar nada.') })),
         form);
     } else {
       const btn = h('button.btn.azul', { type: 'button', onclick: async () => {
@@ -100,14 +123,16 @@ export async function vistaEjercicio(temaId, modo) {
   // ---------- Fase 1: piezas ----------
   function pintarPiezas() {
     const caja = h('div.tarjeta.presupuesto');
-    const siguiente = h('button.btn.azul', { type: 'button', onclick: () => { s.fase = 'montaje'; guardar(); pintar(); } }, 'Siguiente: ordenar el montaje →');
+    const directo = soloPiezas(s.caso);
+    const textoSiguiente = directo ? (examen ? 'Entregar el examen' : 'Corregir') : 'Siguiente: ordenar el montaje →';
+    const siguiente = h('button.btn.azul', { type: 'button', onclick: () => { if (directo) return confirmar(); s.fase = 'montaje'; guardar(); pintar(); } }, textoSiguiente);
     function resumen() {
       const n = total(), max = s.caso.perfil.presupuesto;
       caja.className = 'tarjeta presupuesto' + (n > max ? ' pasa' : '');
       caja.replaceChildren(h('span', 'Total del equipo', h('br'), h('small', { style: 'font-weight:400;color:var(--tinta-2)' }, `Presupuesto: ${precio(max)}`)), h('span.cifra', precio(n)));
       const faltan = s.caso.categorias.filter(c => !s.seleccion[c.id]).length;
       siguiente.disabled = faltan > 0;
-      siguiente.textContent = faltan ? `Te faltan ${faltan} pieza${faltan > 1 ? 's' : ''}` : 'Siguiente: ordenar el montaje →';
+      siguiente.textContent = faltan ? `Te faltan ${faltan} pieza${faltan > 1 ? 's' : ''}` : textoSiguiente;
       actualizar3D();
     }
     const categorias = s.caso.categorias.map(c => {
@@ -166,7 +191,7 @@ export async function vistaEjercicio(temaId, modo) {
   function confirmar() {
     const dlg = h('dialog',
       h('h2', examen ? '¿Entregar el examen?' : '¿Corregir?'),
-      h('p', examen ? 'Después ya no podrás cambiar ni las piezas ni el orden.' : 'Verás tu nota y lo que has fallado.'),
+      h('p', examen ? (soloPiezas(s && s.caso) ? 'Después ya no podrás cambiar las piezas.' : 'Después ya no podrás cambiar ni las piezas ni el orden.') : 'Verás tu nota y lo que has fallado.'),
       h('div.fila', { style: 'justify-content:flex-end' },
         h('button.btn.sec', { type: 'button', onclick: () => dlg.close() }, 'Seguir revisando'),
         h('button.btn.azul', { type: 'button', onclick: async e => { e.target.disabled = true; dlg.close(); await enviar(); } }, examen ? 'Entregar' : 'Corregir')));
@@ -174,9 +199,12 @@ export async function vistaEjercicio(temaId, modo) {
     document.body.append(dlg); dlg.showModal();
   }
 
-  async function enviar() {
-    const espera = h('div.mensaje', 'Enviando…');
+  async function enviar(automatico) {
+    if (enviando || !s) return;
+    enviando = true;
+    const espera = h('div.mensaje', automatico ? 'Se ha acabado el tiempo: entregando lo que tienes…' : 'Enviando…');
     raiz.append(espera);
+    if (automatico) espera.scrollIntoView({ block: 'center' });
     try {
       const respuesta = { seleccion: s.seleccion, pasos: s.pasos };
       const r = examen
@@ -187,6 +215,7 @@ export async function vistaEjercicio(temaId, modo) {
       s = null; progreso.set(clave, undefined);
       pintarResultado(r, caso);
     } catch (e) {
+      enviando = false;
       espera.className = 'mensaje error';
       espera.textContent = e.message + (examen ? ' Tu respuesta sigue guardada en este navegador: vuelve a pulsar «Entregar».' : '');
     }
@@ -200,16 +229,17 @@ export async function vistaEjercicio(temaId, modo) {
     const mapMax = { compatibilidad: maximos.compat, cliente: maximos.cliente, seguridad: maximos.seguridad, orden: maximos.orden };
     const bloques = (res && res.bloques) || r.bloques;
     const nota = res ? res.nota : r.nota;
-    const partes = [cabecera('resultado')];
+    const partes = [cabecera('resultado', caso)];
+    const claves = Object.keys(nombres).filter(k => !maximos || maximos[{ compatibilidad: 'compat' }[k] || k] !== 0);
     if (examen) partes.push(h('div.mensaje.ok', { style: 'margin-bottom:16px' }, 'Examen entregado. Ya está guardado en la hoja del profesor.'));
     if (nota !== undefined) {
       partes.push(h('div.tarjeta', { style: 'padding:22px' },
         h('span.etiqueta', 'Nota'), h('div.nota-grande', nota.toLocaleString('es-ES', { maximumFractionDigits: 2 }), h('small', { style: 'font-size:28px;color:var(--tinta-2)' }, ' / 10')),
         (res ? res.faltaGrave : r.faltaGrave) ? h('p.mensaje.error', 'Has elegido una acción peligrosa. En un taller real, eso es una falta grave.') : null,
-        bloques ? h('div.bloques', Object.keys(nombres).map(k => h('div.tarjeta.bloque', h('small', nombres[k]), h('b', `${bloques[k].toLocaleString('es-ES')} / ${mapMax[k] != null ? mapMax[k].toLocaleString('es-ES') : '–'}`)))) : null));
+        bloques ? h('div.bloques', claves.map(k => h('div.tarjeta.bloque', h('small', nombres[k]), h('b', `${bloques[k].toLocaleString('es-ES')} / ${mapMax[k] != null ? mapMax[k].toLocaleString('es-ES') : '–'}`)))) : null));
     }
     if (res && res.detalle) {
-      Object.keys(nombres).forEach(k => {
+      claves.forEach(k => {
         const items = res.detalle.filter(d => d.bloque === k);
         if (!items.length) return;
         partes.push(h('section.categoria', h('h3', nombres[k]), h('ul.detalle', items.map(d => h('li', { class: d.grave ? 'grave' : d.ok ? '' : 'ko' }, (d.ok ? '✓ ' : '✗ ') + d.texto)))));
@@ -229,9 +259,9 @@ export async function vistaEjercicio(temaId, modo) {
 
   function pintar() {
     if (!s) return pintarInicio();
-    if (s.fase === 'montaje') return pintarMontaje();
+    if (s.fase === 'montaje' && !soloPiezas(s.caso)) return pintarMontaje();
     return pintarPiezas();
   }
 
-  return { el: raiz, montado: pintar, destruir() { visor.destruir(); } };
+  return { el: raiz, montado() { pintar(); if (examen) tic(); }, destruir() { visor.destruir(); if (intervalo) clearInterval(intervalo); } };
 }

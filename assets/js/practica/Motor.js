@@ -114,6 +114,7 @@ var Motor = (function () {
 
     return {
       ejercicio: def.id,
+      titulo: def.titulo,
       catalogoVersion: catalogo.version,
       seed: seed,
       perfil: {
@@ -170,7 +171,8 @@ var Motor = (function () {
 
     // 3) Encargo del cliente
     var reqs = perfil.requisitos.map(function (q) {
-      var ok = false; try { ok = !!q.check(sel); } catch (e) { ok = false; }
+      // Con el equipo incompleto no cuenta ningún requisito (p. ej. «sin gráfica» sin haber elegido gráfica)
+      var ok = false; try { ok = faltan.length === 0 && !!q.check(sel); } catch (e) { ok = false; }
       return { texto: q.texto, ok: ok };
     });
     var total = precioTotal(sel);
@@ -197,7 +199,8 @@ var Motor = (function () {
       detalle.push({ bloque: 'seguridad', ok: ok,
         texto: ok ? a.texto : (a.id in pos ? 'Demasiado tarde: «' + a.texto + '» tiene que hacerse antes de tocar ningún componente.' : 'Falta: «' + a.texto + '».') });
     });
-    var seguridad = faltaGrave ? 0 : pesos.seguridad * okSeg / def.acciones.seguridad.length;
+    var nSeg = def.acciones.seguridad.length;
+    var seguridad = faltaGrave || !nSeg ? 0 : pesos.seguridad * okSeg / nSeg;
 
     var faltaPieza = faltan.length > 0;
     var aplicables = def.acciones.montaje.filter(function (a) { return !faltaPieza && a.aplica(sel); });

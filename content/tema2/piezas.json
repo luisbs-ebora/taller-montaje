@@ -1,0 +1,134 @@
+{
+  "caja": {
+    "nombre": "Caja (chasis)",
+    "resumen": "Soporta, protege, refrigera y aísla los componentes. Admite placas de su formato y de los más pequeños.",
+    "donde": "Es lo primero que se prepara: chapa trasera, separadores y, después, todo lo demás.",
+    "fijate": "Formatos de placa que admite, longitud máxima de gráfica, altura máxima del disipador, radiador y formato de fuente.",
+    "partes": {
+      "socket": "Socket: aloja el procesador. Solo admite procesadores de su mismo socket.",
+      "dimm": "Ranuras DIMM: para los módulos de RAM. Con dos módulos, usa las que indica el manual (doble canal).",
+      "pcie16": "Ranura PCIe x16: la más larga. Para la tarjeta gráfica.",
+      "pcie1": "Ranura PCIe x1: la más corta. Para tarjetas que necesitan poco ancho de banda (red, sonido…).",
+      "m2": "Ranura M.2: para SSD en formato tarjeta. Comprueba en el manual si admite NVMe, SATA o los dos.",
+      "sata": "Puertos SATA: para discos duros, SSD de 2,5\" y unidades ópticas (cable de datos).",
+      "atx24": "Conector ATX de 24 pines: la corriente principal de la placa, desde la fuente.",
+      "eps": "Conector EPS (4/8 pines): la corriente del procesador. Sin él, el equipo no arranca.",
+      "chipset": "Chipset (con disipador plano): organiza la comunicación con discos, USB, red y sonido.",
+      "vrm": "VRM: fabrica la tensión del procesador a partir de los 12 V de la fuente. Lleva disipadores.",
+      "pila": "Pila CR2032: mantiene el reloj y la configuración con el equipo desenchufado.",
+      "io": "Panel trasero (I/O): USB, red, audio y vídeo que asoman por detrás de la caja.",
+      "cpufan": "Conector CPU_FAN: para el ventilador del procesador (4 pines, PWM).",
+      "fpanel": "Conector F_PANEL: botones de encendido y reinicio y LED de la caja. El orden de los pines está en el manual.",
+      "bios": "Chip de la BIOS/UEFI: memoria flash con el firmware de la placa.",
+      "interruptor": "Interruptor I/O: durante el montaje, en O y desenchufada.",
+      "ventilador": "Ventilador de la caja: los del frontal meten aire (entrada); el trasero y los de arriba lo sacan (salida).",
+      "carcasa": "Carcasa: no se abre nunca. Los condensadores de dentro pueden guardar carga.",
+      "bandeja": "Bandeja de la placa: donde van los separadores y se atornilla la placa.",
+      "hueco-fuente": "Hueco de la fuente, abajo.",
+      "ranuras": "Tapas traseras de las ranuras de expansión: se quitan para la gráfica."
+    }
+  },
+  "ram": {
+    "nombre": "Módulo de memoria RAM",
+    "resumen": "La memoria de trabajo: guarda los programas y datos en uso. Es volátil.",
+    "donde": "En las ranuras DIMM de la placa, junto al socket. Se presiona por los dos extremos hasta que cierran las pestañas.",
+    "fijate": "Generación (DDR4/DDR5), formato (DIMM/SO-DIMM), capacidad, velocidad (MT/s) y latencia (CL).",
+    "partes": {
+      "muesca": "Muesca: no está en el centro. Impide meter el módulo al revés o en una ranura de otra generación.",
+      "contactos": "Contactos dorados: no se tocan. El módulo se coge por los bordes.",
+      "chips": "Chips de memoria (DRAM), normalmente bajo un disipador."
+    }
+  },
+  "almac": {
+    "nombre": "Almacenamiento",
+    "resumen": "Guarda de forma permanente el sistema, los programas y los archivos.",
+    "donde": "SSD M.2: en su ranura de la placa, con un tornillo. SSD de 2,5\": en una bahía de la caja, con cable SATA de datos y de corriente.",
+    "fijate": "Tipo (NVMe o SATA), formato (M.2 2280, 2,5\") y capacidad.",
+    "partes": {
+      "m2": "SSD M.2 2280: 22 mm de ancho y 80 mm de largo. Sin cables.",
+      "muescam2": "Muesca del M.2 (llave): indica en qué ranuras encaja.",
+      "ssd25": "SSD de 2,5\": necesita dos cables, datos (SATA, a la placa) y corriente (de la fuente)."
+    }
+  },
+  "gpu": {
+    "nombre": "Tarjeta gráfica",
+    "resumen": "Genera la imagen. Imprescindible si el procesador no tiene gráficos integrados.",
+    "donde": "En la ranura PCIe x16, atornillada a la caja, con sus cables de corriente si los lleva.",
+    "fijate": "Memoria de vídeo, longitud (que quepa en la caja), conectores de corriente y fuente recomendada.",
+    "partes": {
+      "ventiladores": "Ventiladores y disipador de la gráfica.",
+      "conector": "Contactos PCIe: van en la ranura x16 hasta oír el clic.",
+      "alimentacion": "Conector PCIe de corriente (8 pines): va a la fuente. Algunas gráficas sencillas no lo llevan.",
+      "salidas": "Salidas de vídeo (HDMI, DisplayPort): con gráfica dedicada, el monitor se conecta aquí."
+    }
+  },
+  "hdd": {
+    "nombre": "Disco duro (HDD) de 3,5″",
+    "resumen": "Guarda los datos de forma magnética en platos que giran. Mucha capacidad a buen precio, pero lento y delicado frente a golpes.",
+    "donde": "En una bahía de 3,5″ de la caja, con cable SATA de datos a la placa y cable SATA de corriente de la fuente.",
+    "fijate": "Capacidad (TB), velocidad de giro (5400 o 7200 rpm), caché, interfaz (SATA III) y garantía.",
+    "partes": {
+      "carcasa": "Carcasa sellada: no se abre nunca fuera de un laboratorio. El polvo dentro estropea el disco.",
+      "platos": "Platos magnéticos: giran a 5400 o 7200 rpm. Aquí se guardan los datos.",
+      "brazo": "Brazo con el cabezal: se mueve sobre los platos para leer y escribir, sin tocarlos.",
+      "pcb": "Placa controladora del disco, en la parte de abajo.",
+      "sata-datos": "Conector SATA de datos (7 contactos, forma de L): va a un puerto SATA de la placa.",
+      "sata-corriente": "Conector SATA de corriente (15 contactos): va a un cable de la fuente.",
+      "tornillos": "Agujeros para tornillos (rosca #6-32) o para los raíles de la bahía."
+    }
+  },
+  "optica": {
+    "nombre": "Unidad óptica de 5,25″",
+    "resumen": "Lee y graba CD, DVD o Blu-ray con un láser. Cada vez se usa menos: hoy lo normal es una unidad externa USB.",
+    "donde": "En una bahía de 5,25″ de la caja (si la tiene), con cable SATA de datos y de corriente.",
+    "fijate": "Qué discos lee y graba (CD, DVD, Blu-ray), interfaz (SATA o USB si es externa) y si la caja tiene bahía de 5,25″.",
+    "partes": {
+      "frontal": "Frontal: botón de expulsión y LED de actividad. Asoma por la parte delantera de la caja.",
+      "bandeja": "Bandeja: donde se coloca el disco. Se abre con el botón.",
+      "disco": "Disco óptico: CD (700 MB), DVD (4,7 u 8,5 GB) o Blu-ray (25 o 50 GB).",
+      "carcasa": "Carcasa metálica: se atornilla a la bahía por los lados.",
+      "sata-datos": "Conector SATA de datos: a un puerto SATA de la placa.",
+      "sata-corriente": "Conector SATA de corriente: a un cable de la fuente."
+    }
+  },
+  "monitor": {
+    "nombre": "Monitor",
+    "resumen": "Muestra la imagen que fabrica la tarjeta gráfica. Tiene que ir a la par con ella en resolución, frecuencia y conectores.",
+    "donde": "Fuera del equipo, conectado a la salida de la gráfica dedicada o, si no hay, a la de la placa base.",
+    "fijate": "Tamaño (pulgadas), resolución, frecuencia (Hz), tiempo de respuesta, tipo de panel (IPS, VA, TN, OLED), brillo, entradas y ergonomía (VESA).",
+    "partes": {
+      "pantalla": "Panel: IPS (buen color), VA (contraste), TN (rápido y barato) u OLED (negro perfecto).",
+      "marco": "Marco y carcasa del monitor.",
+      "peana": "Peana y brazo: regulan la altura y la inclinación (ergonomía).",
+      "entradas": "Entradas de vídeo: HDMI y DisplayPort (a veces USB-C). Deben coincidir con las salidas de la gráfica.",
+      "vesa": "Agujeros VESA (por ejemplo, 100 × 100 mm): para colgarlo de un brazo o de la pared."
+    }
+  },
+  "red": {
+    "nombre": "Tarjeta de red",
+    "resumen": "Conecta el equipo a una red local, por cable (Ethernet, RJ45) o sin cables (Wi‑Fi). Cada una tiene su dirección MAC.",
+    "donde": "En una ranura PCIe x1 de la placa, atornillada a la caja. Muchas placas ya la traen integrada.",
+    "fijate": "Ethernet: velocidad (1, 2,5 o 10 Gb/s). Wi‑Fi: norma (Wi‑Fi 5, 6, 6E, 7), bandas, antenas y si incluye Bluetooth.",
+    "partes": {
+      "contactos": "Contactos PCIe x1: la ranura más corta de la placa.",
+      "bracket": "Chapa trasera: se atornilla a la caja, en lugar de una tapa de ranura.",
+      "antenas": "Antenas Wi‑Fi: se enroscan por fuera. Sin ellas, la señal es muy débil.",
+      "modulo": "Módulo Wi‑Fi M.2 de llave E: el mismo que llevan muchas placas y portátiles.",
+      "bluetooth": "Cable USB interno del Bluetooth: va a un conector USB de la placa.",
+      "rj45": "Puerto RJ45: para el cable de red de par trenzado. Con LED de enlace y actividad.",
+      "chip": "Controlador de red: el chip que gestiona la comunicación."
+    }
+  },
+  "auxiliar": {
+    "nombre": "Soportes de memoria auxiliar",
+    "resumen": "Memorias extraíbles para llevar datos o hacer copias: memoria USB, tarjetas SD y microSD y discos externos.",
+    "donde": "Fuera del equipo, en un puerto USB o en un lector de tarjetas. Se expulsan antes de quitarlos.",
+    "fijate": "Capacidad, velocidad real de lectura y escritura, versión de USB del soporte y del puerto, y clase de velocidad en las SD (U1, U3, V30).",
+    "partes": {
+      "pendrive": "Memoria USB: flash con conector USB-A. Su velocidad real depende del modelo.",
+      "sd": "Tarjeta SD: cámaras y miniPC. SDHC hasta 32 GB; SDXC hasta 2 TB.",
+      "microsd": "Tarjeta microSD: móviles, cámaras de acción y miniPC.",
+      "externo": "SSD externo USB-C: rápido y resistente. Necesita un puerto USB 3.2 o mejor para ir rápido."
+    }
+  }
+}

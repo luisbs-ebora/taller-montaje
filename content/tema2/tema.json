@@ -1,0 +1,45 @@
+{
+  "id": "tema2",
+  "numero": 2,
+  "titulo": "Selección de componentes y configuración de equipos",
+  "resumen": "Cómo elegir la caja, la memoria, el almacenamiento y las tarjetas de cada equipo, instalarlos con seguridad y documentarlos.",
+  "lecciones": [
+    {
+      "id": "s1",
+      "titulo": "El chasis",
+      "subtitulo": "Tipos, partes, fijación y flujo de aire",
+      "archivo": "lecciones/s1.json"
+    },
+    {
+      "id": "s2",
+      "titulo": "Memoria y almacenamiento",
+      "subtitulo": "RAM, HDD, SSD, controladoras y soportes extraíbles",
+      "archivo": "lecciones/s2.json"
+    },
+    {
+      "id": "s3",
+      "titulo": "Adaptadores, monitor y conectividad",
+      "subtitulo": "Gráfica, monitor, Ethernet, Wi‑Fi y WAN",
+      "archivo": "lecciones/s3.json"
+    },
+    {
+      "id": "s4",
+      "titulo": "OEM y Retail, garantías e inventario",
+      "subtitulo": "Qué trae cada pieza, la garantía y la ficha del equipo",
+      "archivo": "lecciones/s4.json"
+    }
+  ],
+  "piezas": [
+    "caja",
+    "ram",
+    "almac",
+    "hdd",
+    "optica",
+    "gpu",
+    "monitor",
+    "red",
+    "auxiliar"
+  ],
+  "ejercicios": [],
+  "practicaEn": "tema1"
+}

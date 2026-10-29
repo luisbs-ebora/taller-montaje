@@ -2,6 +2,7 @@
 import { h, tema, cargarJSON, BASE_CONTENIDO } from '../util.js';
 import { huecoVisor } from './comun.js';
 import { piezaSuelta } from '../piezas3d.js';
+import { selectorTemas } from './inicio.js';
 
 const VARIANTES = {
   placa: [['ATX', { formato: 'ATX' }], ['MicroATX', { formato: 'MicroATX' }], ['Mini-ITX', { formato: 'Mini-ITX' }]],
@@ -9,7 +10,11 @@ const VARIANTES = {
   ram: [['DIMM DDR5', { formato: 'DIMM', gen: 'DDR5' }], ['DIMM DDR4', { formato: 'DIMM', gen: 'DDR4' }], ['SO-DIMM', { formato: 'SO-DIMM', gen: 'DDR5' }]],
   almac: [['M.2 y 2,5"', {}], ['M.2 2280', { formato: 'M.2 2280' }], ['2,5"', { formato: '2,5"' }]],
   gpu: [['Doble ventilador', { largo: 240 }], ['Perfil bajo', { largo: 170, pcie8: 0 }], ['Triple ventilador', { largo: 320, pcie8: 2 }]],
-  fuente: [['ATX', { formato: 'ATX' }], ['SFX', { formato: 'SFX' }]]
+  fuente: [['ATX', { formato: 'ATX' }], ['SFX', { formato: 'SFX' }]],
+  caja: [['ATX', { formato: 'ATX' }], ['MicroATX', { formato: 'MicroATX' }], ['Mini-ITX', { formato: 'Mini-ITX' }]],
+  hdd: [['Cerrado', {}], ['Por dentro', { abierto: true }]],
+  optica: [['Cerrada', {}], ['Bandeja abierta', { abierta: true }]],
+  red: [['Wi‑Fi PCIe', { tipo: 'wifi' }], ['Ethernet PCIe', { tipo: 'ethernet' }]]
 };
 
 export async function vistaPiezas(temaId) {
@@ -52,8 +57,10 @@ export async function vistaPiezas(temaId) {
   }
 
   t.piezas.forEach(c => lista.append(h('button', { type: 'button', 'data-cat': c, onclick: () => { cat = c; variante = 0; descargado = -1; pintar(); } }, info[c].nombre)));
+  const selector = await selectorTemas(t.id, id => `#/${id}/piezas`);
   const el = h('div',
-    h('span.etiqueta', 'Tema ' + t.numero), h('h1', { style: 'margin-bottom:18px' }, 'Las piezas de un PC'),
+    selector,
+    h('span.etiqueta', 'Tema ' + t.numero), h('h1', { style: 'margin-bottom:18px' }, t.numero === 1 ? 'Las piezas de un PC' : 'Piezas del tema ' + t.numero),
     h('div.piezas', lista, visor.el, ficha));
   return { el, montado: pintar, destruir() { visor.destruir(); } };
 }

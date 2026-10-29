@@ -3,7 +3,7 @@ import { h, md, tema, cargarJSON, progreso } from '../util.js';
 import { huecoVisor } from './comun.js';
 import { piezaSuelta } from '../piezas3d.js';
 
-const NOMBRE_MODELO = { placa: 'Placa base', cpu: 'Procesador', refri: 'Disipador', ram: 'Memoria RAM', almac: 'Almacenamiento', gpu: 'Tarjeta gráfica', fuente: 'Fuente', caja: 'Caja' };
+const NOMBRE_MODELO = { placa: 'Placa base', cpu: 'Procesador', refri: 'Disipador', ram: 'Memoria RAM', almac: 'Almacenamiento', gpu: 'Tarjeta gráfica', fuente: 'Fuente', caja: 'Caja', hdd: 'Disco duro', optica: 'Unidad óptica', red: 'Tarjeta de red', monitor: 'Monitor', auxiliar: 'Memorias extraíbles' };
 
 export async function vistaLeccion(temaId, lecId) {
   const t = await tema(temaId);
@@ -13,7 +13,7 @@ export async function vistaLeccion(temaId, lecId) {
   const [lec, piezasInfo] = await Promise.all([cargarJSON(t.base + meta.archivo), cargarJSON(t.base + 'piezas.json')]);
   progreso.marcar(temaId, lecId, { vista: true });
 
-  let modeloActual = null;
+  let modeloActual = null, claveActual = null;
   const pie = h('p.pie-visor');
   const visor = huecoVisor({
     alTocar: parte => {
@@ -22,12 +22,14 @@ export async function vistaLeccion(temaId, lecId) {
     }
   });
   const botones3d = [];
-  function ver(modelo, foco, texto) {
+  function ver(modelo, foco, texto, datos) {
+    const clave = modelo + JSON.stringify(datos || {});
     const v = visor.iniciar();
-    botones3d.forEach(b => b.setAttribute('aria-pressed', b.dataset.modelo === modelo && b.dataset.foco === (foco || '') ? 'true' : 'false'));
+    botones3d.forEach(b => b.setAttribute('aria-pressed', b.dataset.clave === clave && b.dataset.foco === (foco || '') ? 'true' : 'false'));
     pie.innerHTML = md(texto || '');
     if (!v) return;
-    if (modeloActual !== modelo) { v.mostrar(piezaSuelta(modelo)); modeloActual = modelo; }
+    if (claveActual !== clave) { v.mostrar(piezaSuelta(modelo, datos || {})); claveActual = clave; }
+    modeloActual = modelo;
     v.resaltar(foco || null);
     visor.rotulo(foco && piezasInfo[modelo] ? piezasInfo[modelo].partes[foco] || '' : '');
   }
@@ -54,7 +56,7 @@ export async function vistaLeccion(temaId, lecId) {
       case 'analogia': return h('div.analogia', { html: md(b.texto) });
       case 'resumen': return h('div.resumen', { html: md(b.texto) });
       case 'ver3d': {
-        const btn = h('button.ver3d', { type: 'button', 'data-modelo': b.modelo, 'data-foco': b.foco || '', 'aria-pressed': 'false', onclick: () => { ver(b.modelo, b.foco, b.texto); if (matchMedia('(max-width:960px)').matches) visor.el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } },
+        const btn = h('button.ver3d', { type: 'button', 'data-modelo': b.modelo, 'data-foco': b.foco || '', 'data-clave': b.modelo + JSON.stringify(b.datos || {}), 'aria-pressed': 'false', onclick: () => { ver(b.modelo, b.foco, b.texto, b.datos); if (matchMedia('(max-width:960px)').matches) visor.el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } },
           h('span.ic', '3D'), h('span', h('b', 'Ver en 3D: ' + (NOMBRE_MODELO[b.modelo] || b.modelo)), h('br'), h('span', { html: md(b.texto) })));
         botones3d.push(btn); return btn;
       }
@@ -85,7 +87,7 @@ export async function vistaLeccion(temaId, lecId) {
   actualizarMarcador();
   const el = h('div.leccion',
     h('article',
-      h('a.etiqueta', { href: `#/${t.id}` }, `Tema ${t.numero} · Lección ${idx + 1}`),
+      h('a.etiqueta', { href: `#/lecciones` }, `Tema ${t.numero} · Lección ${idx + 1}`),
       h('h1', lec.titulo),
       h('div.objetivos', h('b', 'En esta lección vas a aprender a:'), h('ul', lec.objetivos.map(o => h('li', o)))),
       h('div.contenido', contenido),
@@ -95,14 +97,16 @@ export async function vistaLeccion(temaId, lecId) {
         preguntas.map(pregunta)) : null,
       h('nav.navlec', { 'aria-label': 'Lecciones' },
         anterior ? h('a.btn.sec', { href: `#/${t.id}/leccion/${anterior.id}` }, '← ' + anterior.titulo) : h('span'),
-        siguiente ? h('a.btn', { href: `#/${t.id}/leccion/${siguiente.id}` }, siguiente.titulo + ' →') : h('a.btn.azul', { href: `#/${t.id}/practica` }, 'Ir a la práctica →'))),
+        siguiente ? h('a.btn', { href: `#/${t.id}/leccion/${siguiente.id}` }, siguiente.titulo + ' →')
+          : (t.ejercicios && t.ejercicios.length) || t.practicaEn ? h('a.btn.azul', { href: `#/${(t.ejercicios && t.ejercicios.length) ? t.id : t.practicaEn}/practica` }, 'Ir a la práctica →')
+          : h('a.btn.azul', { href: '#/lecciones' }, 'Volver a las lecciones'))),
     h('aside', visor.el, pie));
 
   return {
     el,
     montado() {
       const primero = lec.bloques.find(b => b.tipo === 'ver3d');
-      if (primero) ver(primero.modelo, primero.foco, primero.texto);
+      if (primero) ver(primero.modelo, primero.foco, primero.texto, primero.datos);
       else visor.el.parentElement.remove();
     },
     destruir() { visor.destruir(); }

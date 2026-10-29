@@ -53,10 +53,35 @@ export async function vistaInicio() {
   };
 }
 
+// Selector de tema (pestañas) para Lecciones y Piezas 3D
+export async function selectorTemas(actual, ruta = id => `#/${id}`) {
+  const c = await curso();
+  if (c.temas.length < 2) return null;
+  const temas = await Promise.all(c.temas.map(x => tema(x.id)));
+  return h('nav.selector-temas', { 'aria-label': 'Temas' }, temas.map(t =>
+    h('a', { href: ruta(t.id), 'aria-current': t.id === actual ? 'page' : false }, h('b', 'Tema ' + t.numero), h('span', t.titulo))));
+}
+
+const CLAVE_TEMA = 'taller-montaje:tema';
+export async function vistaLecciones() {
+  const c = await curso();
+  let id = null;
+  try { id = localStorage.getItem(CLAVE_TEMA); } catch (e) { /* sin almacenamiento */ }
+  if (!c.temas.some(x => x.id === id)) id = c.temas[0].id;
+  return vistaTema(id);
+}
+
 export async function vistaTema(temaId) {
   const t = await tema(temaId);
+  try { localStorage.setItem(CLAVE_TEMA, t.id); } catch (e) { /* sin almacenamiento */ }
+  const selector = await selectorTemas(t.id);
+  const practica = (t.ejercicios && t.ejercicios.length) ? t.id : t.practicaEn;
   return { el: h('div',
+    selector,
     h('span.etiqueta', 'Tema ' + t.numero), h('h1', t.titulo), h('p.lead', { style: 'color:var(--tinta-2);font-size:20px;max-width:60ch' }, t.resumen),
     h('div.rejilla', { style: 'margin-top:24px' }, t.lecciones.map((l, i) => tarjetaLeccion(t, l, i))),
-    h('div.fila', { style: 'margin-top:24px' }, h('a.btn.sec', { href: `#/${t.id}/piezas` }, 'Piezas en 3D'), h('a.btn.sec', { href: `#/${t.id}/animado` }, 'Montaje animado'), h('a.btn', { href: `#/${t.id}/practica` }, 'Práctica: elige y monta un PC'))) };
+    h('div.fila', { style: 'margin-top:24px' },
+      t.piezas && t.piezas.length ? h('a.btn.sec', { href: `#/${t.id}/piezas` }, 'Piezas en 3D') : null,
+      t.id === 'tema1' ? h('a.btn.sec', { href: `#/${t.id}/animado` }, 'Montaje animado') : null,
+      practica ? h('a.btn', { href: `#/${practica}/practica` }, 'Práctica: elige y monta un PC') : null)) };
 }

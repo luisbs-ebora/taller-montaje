@@ -2,6 +2,13 @@
   "titulo": "Montaje y mantenimiento de equipos",
   "subtitulo": "1.º SMR · Ébora Formación",
   "temas": [
-    { "id": "tema1", "ruta": "tema1/tema.json" }
+    {
+      "id": "tema1",
+      "ruta": "tema1/tema.json"
+    },
+    {
+      "id": "tema2",
+      "ruta": "tema2/tema.json"
+    }
   ]
 }

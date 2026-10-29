@@ -1,0 +1,516 @@
+{
+ "id": "s1",
+ "titulo": "El chasis",
+ "objetivos": [
+  "Explicar para qué sirve el chasis y distinguir sus tipos.",
+  "Identificar sus partes y cómo se abre.",
+  "Reconocer cómo se fija cada componente.",
+  "Organizar el flujo de aire y elegir una caja con su ficha técnica."
+ ],
+ "bloques": [
+  {
+   "tipo": "p",
+   "texto": "En el Tema 1 estudiamos **qué hace** cada componente. En el Tema 2 damos un paso más: aprenderemos a **elegir** los componentes de cada equipo, a comprobar que son **compatibles** y a **manipularlos** con seguridad. Empezamos por la pieza que lo contiene todo: el **chasis** (también **caja** o **torre**)."
+  },
+  {
+   "tipo": "p",
+   "texto": "Elegir mal la caja es un error muy frecuente: una gráfica que no cabe, un disipador que choca con el panel lateral o un equipo que se calienta porque el aire no circula."
+  },
+  {
+   "tipo": "h",
+   "texto": "¿Para qué sirve el chasis?"
+  },
+  {
+   "tipo": "p",
+   "texto": "Es la estructura, normalmente de chapa de acero, donde se fijan la placa base, la fuente, los discos y las tarjetas. Tiene varias funciones técnicas:"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**Soportar** cada componente en su sitio y bien sujeto.",
+    "**Proteger** el interior de golpes, polvo, líquidos y de que alguien toque piezas con tensión.",
+    "**Refrigerar:** guía el aire para que entre frío y salga caliente.",
+    "**Aislar** las interferencias electromagnéticas: la chapa, unida a tierra a través de la fuente, hace de escudo.",
+    "**Dar acceso** a los puertos del frontal y facilitar el mantenimiento."
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Tipos de chasis"
+  },
+  {
+   "tipo": "p",
+   "texto": "Igual que las placas tienen **formatos** (ATX, MicroATX, Mini-ITX), las cajas se clasifican por su **tamaño** y por los formatos de placa que admiten. Los nombres no son una norma oficial: **mira siempre la ficha técnica**."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Tipo",
+    "Placas que suele admitir",
+    "Uso típico",
+    "Ventajas e inconvenientes"
+   ],
+   "filas": [
+    [
+     "Torre completa (*full tower*)",
+     "E-ATX, ATX, MicroATX, Mini-ITX",
+     "Estaciones de trabajo, servidores de torre",
+     "Mucho espacio y ventilación. Grande, pesada y cara"
+    ],
+    [
+     "Semitorre (*mid tower*)",
+     "ATX, MicroATX, Mini-ITX",
+     "El sobremesa más habitual: oficina, juegos",
+     "Buen equilibrio entre espacio y tamaño"
+    ],
+    [
+     "Minitorre (*mini tower*)",
+     "MicroATX, Mini-ITX",
+     "Oficina, equipos de aula",
+     "Más pequeña y barata. Menos bahías y ventiladores"
+    ],
+    [
+     "Compacta (SFF)",
+     "Mini-ITX y placas del fabricante",
+     "Poco espacio, salón (HTPC)",
+     "Ocupa muy poco. Poca ventilación; a veces solo tarjetas de perfil bajo y fuentes especiales"
+    ],
+    [
+     "Rack",
+     "Placas de servidor",
+     "Servidores y equipos de red en armarios de 19 pulgadas",
+     "Se apilan. Su altura se mide en U (1 U = 44,45 mm)"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Los **portátiles**, los **todo en uno** (como los del aula) y los **miniPC** no usan un chasis estándar: cada fabricante diseña el suyo y muchas piezas no se pueden cambiar por las de otra marca."
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Regla de compatibilidad:** una caja admite placas de su formato **y de los más pequeños**. Una caja ATX admite MicroATX y Mini-ITX; una caja Mini-ITX **no** admite una placa ATX."
+  },
+  {
+   "tipo": "analogia",
+   "texto": "Es como la **talla de la ropa**: lo pequeño cabe en lo grande; al revés, no."
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "caja",
+   "texto": "Una semitorre ATX abierta. En **Piezas 3D** puedes compararla con una MicroATX y una Mini-ITX: mira el tamaño, las tapas traseras y la fuente.",
+   "datos": {
+    "formato": "ATX"
+   }
+  },
+  {
+   "tipo": "h",
+   "texto": "Partes de un chasis"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Parte",
+    "Qué es y para qué sirve"
+   ],
+   "filas": [
+    [
+     "Estructura",
+     "El esqueleto de chapa de acero (a veces aluminio). La chapa gruesa vibra menos y hace menos ruido."
+    ],
+    [
+     "Paneles laterales",
+     "Tapas que se quitan para acceder al interior: de chapa, de malla o de vidrio templado."
+    ],
+    [
+     "Frontal",
+     "Cerrado (más silencioso) o de malla (*mesh*, deja pasar más aire). Suele llevar filtro antipolvo."
+    ],
+    [
+     "Panel de E/S frontal",
+     "Botón de encendido, LED, USB-A y USB-C y audio. Se conecta a la placa con cables internos."
+    ],
+    [
+     "Bahías",
+     "Huecos para unidades: 5,25″ (ópticas; cada vez menos cajas las tienen), 3,5″ (discos duros) y 2,5″ (SSD SATA)."
+    ],
+    [
+     "Ranuras de expansión traseras",
+     "Tapas metálicas por donde asoman las tarjetas. ATX suele tener 7; MicroATX, 4; Mini-ITX, 2."
+    ],
+    [
+     "Hueco del panel trasero",
+     "Donde se encaja la chapa (*I/O shield*) con los agujeros de los puertos traseros de la placa."
+    ],
+    [
+     "Compartimento de la fuente",
+     "Hoy casi siempre abajo, separado por una cubierta (*PSU shroud*) que oculta la fuente y los cables."
+    ],
+    [
+     "Corte detrás del zócalo",
+     "Abertura en la bandeja para montar el soporte del disipador sin desmontar la placa."
+    ],
+    [
+     "Espacio para cables",
+     "Hueco detrás de la bandeja, con agujeros y anclajes para pasar y atar los cables."
+    ],
+    [
+     "Soportes de ventilador y radiador",
+     "Agujeros para ventiladores de 120 o 140 mm y para radiadores de refrigeración líquida."
+    ]
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "caja",
+   "texto": "Toca la bandeja de la placa, el hueco de la fuente y las tapas traseras de las ranuras.",
+   "foco": "ranuras",
+   "datos": {
+    "formato": "ATX"
+   }
+  },
+  {
+   "tipo": "h",
+   "texto": "Cómo se abre una caja"
+  },
+  {
+   "tipo": "p",
+   "texto": "Cada modelo usa un sistema. Identifícalo **antes** de tirar de nada:"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**Tornillos de mano** (*thumbscrews*): cabeza grande y estriada que se afloja con los dedos.",
+    "**Tornillos normales:** en equipos de marca o cajas baratas. Hace falta un destornillador de estrella.",
+    "**Sin herramientas** (*tool-less*): pestañas, clips o botones que liberan el panel.",
+    "**Panel con bisagra o imanes:** se abre como una puerta. Habitual en paneles de vidrio.",
+    "**Vidrio templado atornillado:** cuatro tornillos en las esquinas, a veces con arandelas de goma.",
+    "**Elementos de seguridad:** anilla para candado o ranura para cable antirrobo (tipo Kensington)."
+   ]
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Cuidado con el vidrio templado:** si recibe un golpe en el canto puede estallar en trocitos. Sujétalo con las dos manos y déjalo **tumbado** sobre una superficie blanda, fuera del paso. **Cuidado con los bordes de la chapa:** en cajas baratas pueden cortar; si hace falta, usa guantes finos."
+  },
+  {
+   "tipo": "h",
+   "texto": "Cómo se fija cada componente"
+  },
+  {
+   "tipo": "p",
+   "texto": "Usar la fijación correcta evita que algo se suelte, vibre o, en el peor caso, haga un **cortocircuito**."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Elemento",
+    "Cómo se fija",
+    "Para tener en cuenta"
+   ],
+   "filas": [
+    [
+     "Placa base",
+     "Atornillada sobre **separadores** (*standoffs*), columnitas que la elevan sobre la chapa",
+     "Solo donde la placa tiene agujero. Uno de más, tocando la placa por detrás, puede hacer un cortocircuito"
+    ],
+    [
+     "Fuente",
+     "Cuatro tornillos en la parte trasera",
+     "Ventilador hacia abajo si la caja tiene filtro inferior; si no, hacia arriba"
+    ],
+    [
+     "Discos de 3,5″",
+     "Bandejas o raíles sin herramientas, o tornillos laterales",
+     "Algunas bandejas llevan gomas contra la vibración"
+    ],
+    [
+     "SSD de 2,5″",
+     "Soportes detrás de la bandeja o sobre la cubierta de la fuente",
+     "Tornillos de rosca fina"
+    ],
+    [
+     "SSD M.2",
+     "No va en la caja: va en la placa, con un tornillo pequeño o un pestillo",
+     "Lo vemos en la lección 2"
+    ],
+    [
+     "Tarjetas de expansión",
+     "En su ranura de la placa y atornilladas a la tapa trasera de la caja",
+     "Una gráfica pesada puede combarse: algunas cajas traen soporte anticombado"
+    ],
+    [
+     "Ventiladores",
+     "Cuatro tornillos de rosca gruesa o tacos de goma",
+     "Mira las flechas del marco antes de fijarlo"
+    ],
+    [
+     "Cables",
+     "Bridas o tiras de velcro en los anclajes",
+     "Cables recogidos = el aire pasa mejor"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "**Los tornillos.** La bolsa de la caja trae varios tipos que se parecen mucho. La rosca **#6-32** (más gruesa) se usa en la fuente, los discos de 3,5″ y los paneles; la **M3** (más fina), en los SSD de 2,5″, las ópticas y, en muchas cajas, la placa base. Lo indica **el manual de la caja**. Si un tornillo no entra con facilidad, **no lo fuerces**: es otra rosca y estropearías el agujero."
+  },
+  {
+   "tipo": "analogia",
+   "texto": "Los **separadores son como las patas de una mesa**: mantienen la placa en el aire. Una pata de más donde no hay agujero es un clavo que toca la placa por debajo."
+  },
+  {
+   "tipo": "h",
+   "texto": "Ventilación y flujo de aire"
+  },
+  {
+   "tipo": "p",
+   "texto": "La regla del Tema 1: el aire frío **entra por delante** (y a veces por abajo) y el caliente **sale por detrás y por arriba**, porque el aire caliente sube."
+  },
+  {
+   "tipo": "p",
+   "texto": "Un ventilador mueve el aire **siempre en el mismo sentido**: aspira por la cara de las aspas y lo expulsa por la cara de los soportes del motor (la de la pegatina). En el marco suele haber **dos flechas**: una indica hacia dónde va el aire y la otra hacia dónde giran las aspas. Según cómo lo atornilles, hará de **entrada** o de **salida**."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Posición",
+    "Función habitual",
+    "Motivo"
+   ],
+   "filas": [
+    [
+     "Frontal",
+     "Entrada",
+     "Toma aire fresco y lo empuja hacia los componentes"
+    ],
+    [
+     "Inferior",
+     "Entrada",
+     "Aire fresco de abajo, útil para la gráfica. Necesita patas y filtro"
+    ],
+    [
+     "Trasero",
+     "Salida",
+     "Saca el aire caliente del disipador de la CPU, justo a su altura"
+    ],
+    [
+     "Superior",
+     "Salida",
+     "El aire caliente sube: aquí sale con facilidad"
+    ],
+    [
+     "Lateral",
+     "Entrada (normalmente)",
+     "Aire directo a la gráfica. Pocas cajas lo tienen"
+    ]
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "caja",
+   "texto": "Fíjate en los ventiladores del frontal: son de entrada. El aire caliente sale por detrás y por arriba.",
+   "foco": "ventilador",
+   "datos": {
+    "formato": "ATX"
+   }
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Estado",
+    "Qué pasa",
+    "Consecuencia"
+   ],
+   "filas": [
+    [
+     "Presión positiva",
+     "Entra más aire del que sale",
+     "El sobrante escapa por las rendijas. Todo el aire entra por los filtros: **menos polvo**. La más recomendada"
+    ],
+    [
+     "Presión negativa",
+     "Sale más aire del que entra",
+     "La caja «chupa» aire por cualquier rendija, también sin filtro: más polvo"
+    ],
+    [
+     "Presión neutra",
+     "Entra lo mismo que sale",
+     "Difícil de conseguir exactamente"
+    ]
+   ]
+  },
+  {
+   "tipo": "analogia",
+   "texto": "La **presión positiva** es como una tienda con aire acondicionado y la puerta abierta: el aire sale hacia la calle, así que el polvo de la calle no entra."
+  },
+  {
+   "tipo": "p",
+   "texto": "**Errores frecuentes:**"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**Ventiladores enfrentados:** el trasero metiendo aire contra el frontal, que también lo mete. El aire da vueltas dentro.",
+    "**Frontal cerrado sin rendijas:** los ventiladores frontales no tienen de dónde coger aire.",
+    "**Cables delante de los ventiladores:** frenan el aire. Para eso está el espacio detrás de la bandeja.",
+    "**Filtros sucios:** un filtro lleno de polvo es casi una pared. Se limpian con el equipo apagado."
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Cómo elegir un chasis"
+  },
+  {
+   "tipo": "p",
+   "texto": "Antes de comprar una caja, compara su **ficha técnica** con los componentes que vas a montar:"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "**Formato de placa** admitido (ATX, MicroATX, Mini-ITX…).",
+    "**Longitud máxima de la gráfica**, en mm. Algunas pasan de 300 mm.",
+    "**Altura máxima del disipador**, en mm (distancia entre la placa y el panel lateral).",
+    "**Tipo y longitud de la fuente** (ATX o SFX, más pequeña).",
+    "**Bahías** para los discos que vas a instalar.",
+    "**Ventiladores incluidos** y huecos para más o para un radiador.",
+    "**Puertos frontales.** Ojo: el USB-C frontal solo funciona si la placa tiene su conector interno.",
+    "**Uso y entorno:** ruido, polvo, espacio y presupuesto."
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Apartado",
+    "Caja «Aire M3» (ficticia)",
+    "Cómo se interpreta"
+   ],
+   "filas": [
+    [
+     "Tipo",
+     "Semitorre",
+     "Tamaño medio, la más habitual"
+    ],
+    [
+     "Placas",
+     "ATX, MicroATX, Mini-ITX",
+     "Admite las tres; no admite E-ATX"
+    ],
+    [
+     "Gráfica",
+     "Hasta 330 mm",
+     "Una de 305 mm cabe; una de 340 mm, no"
+    ],
+    [
+     "Disipador CPU",
+     "Hasta 160 mm",
+     "Un disipador de torre de 155 mm cabe"
+    ],
+    [
+     "Fuente",
+     "ATX, hasta 180 mm",
+     "Fuentes ATX normales"
+    ],
+    [
+     "Bahías",
+     "2 × 3,5″ y 2 × 2,5″",
+     "Dos discos duros y dos SSD SATA"
+    ],
+    [
+     "Ventilación",
+     "2 × 120 mm delante y 1 × 120 mm detrás",
+     "Dos de entrada y uno de salida: presión positiva"
+    ],
+    [
+     "Frontal",
+     "Malla con filtro; 2 × USB-A 3.0, USB-C, audio",
+     "Buen paso de aire; comprobar el conector USB-C de la placa"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "**Ejemplo paso a paso: caja para un equipo de diseño gráfico**"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Hay que montar una placa **MicroATX**, una gráfica de **305 mm**, un disipador de **158 mm** de alto, una fuente ATX y **un disco duro** de 3,5″.",
+    "Ficha de la «Aire M3»: placa MicroATX ✓ · gráfica 305 ≤ 330 mm ✓ · disipador 158 ≤ 160 mm ✓ (justo) · fuente ATX ✓ · 2 bahías de 3,5″ ✓.",
+    "Ventilación: 2 de entrada y 1 de salida (presión positiva) ✓, frontal de malla con filtro.",
+    "Conclusión: **compatible**. Se anota en el informe que el disipador va con solo 2 mm de margen, para comprobarlo al cerrar el lateral."
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Seguridad al trabajar con el chasis"
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Obligatorio:** 1) Equipo **apagado y desenchufado**; con el cable quitado, mantén pulsado el botón de encendido unos segundos para descargar la energía residual. 2) **Pulsera antiestática** a la toma de tierra que indique el profesor o a metal sin pintar del chasis. 3) **Nunca abras la fuente:** sus condensadores pueden guardar carga aunque esté desenchufada. 4) Coge las piezas **por los bordes**. 5) Mesa despejada, caja **tumbada** sobre el lado contrario al panel que vas a quitar y tornillos en un recipiente."
+  },
+  {
+   "tipo": "resumen",
+   "texto": "El **chasis** soporta, protege, refrigera y aísla. Se clasifica por tamaño (torre completa, semitorre, minitorre, compacta, rack) y admite placas de su formato **y de los más pequeños**. La placa va sobre **separadores**, solo donde tiene agujero. El aire **entra por delante y abajo** y **sale por detrás y arriba**; con más entrada que salida (**presión positiva**) entra menos polvo. Para elegir caja se comparan con su ficha la placa, la gráfica, el disipador, la fuente, las bahías y la ventilación."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Tienes una placa **ATX**. ¿En cuál de estas cajas cabe?",
+   "opciones": [
+    "Una minitorre que admite MicroATX y Mini-ITX",
+    "Una caja compacta Mini-ITX",
+    "Una semitorre que admite ATX, MicroATX y Mini-ITX",
+    "En cualquiera: todas las placas miden lo mismo"
+   ],
+   "correcta": 2,
+   "explicacion": "Una caja admite placas de su formato y de los más pequeños. Una placa ATX necesita una caja que admita ATX."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Un ventilador **trasero** está metiendo aire y los del frontal también. ¿Qué pasa?",
+   "opciones": [
+    "Se refrigera mejor porque entra más aire",
+    "El aire queda enfrentado y da vueltas dentro",
+    "Se crea presión negativa y entra menos polvo",
+    "Nada: da igual hacia dónde sople cada uno"
+   ],
+   "correcta": 1,
+   "explicacion": "El trasero tiene que **sacar** aire. Si también mete, el aire choca con el que entra por delante y no circula."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Qué puede provocar un **separador** puesto donde la placa no tiene agujero?",
+   "opciones": [
+    "Que la placa vibre un poco más",
+    "Un cortocircuito al tocar la placa por detrás",
+    "Que la placa no encienda el LED",
+    "Nada, los separadores son de plástico"
+   ],
+   "correcta": 1,
+   "explicacion": "Los separadores son metálicos. Uno de más toca las pistas de la parte de atrás de la placa y puede hacer un cortocircuito."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "La caja admite gráficas de **hasta 330 mm**. ¿Cuál de estas cabe?",
+   "opciones": [
+    "Una de 340 mm",
+    "Una de 305 mm",
+    "Una de 360 mm",
+    "Ninguna: hace falta una caja de torre completa"
+   ],
+   "correcta": 1,
+   "explicacion": "305 mm es menos que 330 mm, así que cabe. Las de 340 y 360 mm no."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Por qué se recomienda la **presión positiva**?",
+   "opciones": [
+    "Porque hace menos ruido",
+    "Porque gasta menos electricidad",
+    "Porque todo el aire entra por los filtros y entra menos polvo",
+    "Porque así no hacen falta ventiladores de salida"
+   ],
+   "correcta": 2,
+   "explicacion": "Con más entrada que salida, el aire sobrante sale por las rendijas y el polvo no se cuela por ellas: el aire entra por los filtros."
+  }
+ ]
+}

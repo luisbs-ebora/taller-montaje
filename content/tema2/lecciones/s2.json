@@ -1,0 +1,528 @@
+{
+ "id": "s2",
+ "titulo": "Memoria y almacenamiento",
+ "objetivos": [
+  "Elegir la memoria RAM según la placa y el uso.",
+  "Instalar y retirar módulos y unidades con seguridad.",
+  "Distinguir HDD, SSD SATA y SSD NVMe y sus controladoras.",
+  "Reconocer las unidades ópticas y los soportes de memoria auxiliar."
+ ],
+ "bloques": [
+  {
+   "tipo": "p",
+   "texto": "En el Tema 1 vimos **cómo funciona** la RAM (generaciones, capacidad, velocidad, latencia y canales) y los conectores **SATA** y **M.2**. Ahora aprenderemos a **elegir** memoria y almacenamiento para cada equipo y a **instalarlos y retirarlos** sin dañarlos."
+  },
+  {
+   "tipo": "p",
+   "texto": "Distinción clave: la **RAM** guarda los datos **mientras el equipo trabaja** y se borra al apagarlo; el **almacenamiento** los guarda **de forma permanente**."
+  },
+  {
+   "tipo": "analogia",
+   "texto": "La **RAM es la mesa de trabajo** y el **disco es el armario**: con una mesa grande puedes tener más cosas abiertas a la vez; con un armario grande puedes guardar más."
+  },
+  {
+   "tipo": "h",
+   "texto": "Elegir la memoria RAM"
+  },
+  {
+   "tipo": "p",
+   "texto": "Se comprueban estos datos, en este orden. Los cuatro primeros los impone la **placa base**; el resto, el **uso** del equipo."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Dato",
+    "Qué comprobar",
+    "Dónde se mira"
+   ],
+   "filas": [
+    [
+     "Generación",
+     "DDR4 o DDR5: la que admite la placa. No son intercambiables",
+     "Ficha de la placa"
+    ],
+    [
+     "Formato",
+     "DIMM (sobremesa) o SO-DIMM (portátil y miniPC)",
+     "Ficha de la placa o del equipo"
+    ],
+    [
+     "Ranuras y capacidad máxima",
+     "Cuántas ranuras hay y cuánta memoria admite en total",
+     "Ficha de la placa"
+    ],
+    [
+     "Compatibilidad probada",
+     "Que el módulo esté en la lista de memorias probadas (**QVL**)",
+     "Web del fabricante de la placa"
+    ],
+    [
+     "Capacidad",
+     "Según el uso (tabla siguiente)",
+     "Necesidades del usuario"
+    ],
+    [
+     "Canales",
+     "Mejor **dos módulos iguales** (kit) que uno grande",
+     "Manual: ranuras para dos módulos"
+    ],
+    [
+     "Velocidad",
+     "La que admiten placa y procesador; para la anunciada, activar **XMP** o **EXPO**",
+     "Fichas de placa y procesador"
+    ]
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Uso del equipo",
+    "Capacidad orientativa",
+    "Configuración recomendada"
+   ],
+   "filas": [
+    [
+     "Oficina, navegación, aula",
+     "8 a 16 GB",
+     "2 × 4 GB o 2 × 8 GB"
+    ],
+    [
+     "Juegos, programación",
+     "16 a 32 GB",
+     "2 × 8 GB o 2 × 16 GB"
+    ],
+    [
+     "Diseño, vídeo, máquinas virtuales",
+     "32 GB o más",
+     "2 × 16 GB, 2 × 32 GB…"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Es una **orientación** para un equipo nuevo con Windows 11, no una norma: depende de los programas."
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Antes de ampliar un portátil**, mira en su ficha si tiene ranuras libres. En muchos portátiles finos la memoria va **soldada** y no se puede ampliar."
+  },
+  {
+   "tipo": "h",
+   "texto": "Instalar y retirar un módulo DIMM"
+  },
+  {
+   "tipo": "p",
+   "texto": "**Con el equipo apagado, desenchufado y la pulsera antiestática puesta:**"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "**Localiza la ranura** que indica el manual. Con dos módulos, normalmente **A2 y B2** (la segunda y la cuarta desde el procesador), a menudo del mismo color.",
+    "**Abre las pestañas** de los extremos, empujándolas hacia fuera. Algunas placas solo tienen pestaña en un lado.",
+    "**Coge el módulo por los bordes**, sin tocar los contactos dorados ni los chips.",
+    "**Alinea la muesca** con el saliente de la ranura. Si no coincide, está al revés o no es de la generación correcta: **no lo fuerces**.",
+    "**Presiona con los dos pulgares** a la vez en los dos extremos, en vertical, hasta que las pestañas **se cierren solas con un clic**.",
+    "**Comprueba** que el módulo está recto y que las pestañas abrazan sus muescas laterales.",
+    "Para **retirarlo**, abre las pestañas: el módulo sube un poco. Sácalo hacia arriba cogiéndolo por los bordes."
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "ram",
+   "texto": "La muesca no está en el centro: por eso el módulo solo entra en una posición.",
+   "foco": "muesca"
+  },
+  {
+   "tipo": "p",
+   "texto": "En un **portátil**, el módulo **SO-DIMM** entra **inclinado unos 30°** hasta el fondo y se baja hasta que lo sujetan las dos pestañas metálicas. Para sacarlo, se separan esas pestañas y el módulo sube solo."
+  },
+  {
+   "tipo": "p",
+   "texto": "La primera vez, el equipo puede tardar un poco más en arrancar (la placa «entrena» la memoria nueva). Después se comprueba la capacidad en la UEFI o en **Administrador de tareas > Rendimiento > Memoria**."
+  },
+  {
+   "tipo": "h",
+   "texto": "El disco duro (HDD)"
+  },
+  {
+   "tipo": "p",
+   "texto": "Un **disco duro** (*Hard Disk Drive*) guarda los datos de forma **magnética** en unos **platos** que giran muy rápido. Un **brazo** con **cabezales** se mueve sobre ellos para leer y escribir, sin tocar la superficie."
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**Formato:** 3,5″ en sobremesa; 2,5″ en portátiles antiguos y discos externos.",
+    "**Velocidad de giro:** 5400 rpm (más silenciosos y lentos) o 7200 rpm. Los de servidor, hasta 10 000 o 15 000 rpm.",
+    "**Transferencia:** entre unos 100 y 250 MB/s.",
+    "**Ventajas:** mucha capacidad a buen precio (varios TB).",
+    "**Inconvenientes:** lento para arrancar el sistema y abrir programas, ruido, consumo y, sobre todo, **delicado frente a golpes**: un golpe funcionando puede hacer que los cabezales rayen los platos."
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "hdd",
+   "texto": "Así es un disco duro por dentro: los platos, el brazo y el cabezal. Toca cada parte.",
+   "foco": "platos",
+   "datos": {
+    "abierto": true
+   }
+  },
+  {
+   "tipo": "analogia",
+   "texto": "Un **HDD es un tocadiscos**: tiene que mover el brazo hasta la canción. Un **SSD es una memoria USB enorme**: va directo al dato."
+  },
+  {
+   "tipo": "h",
+   "texto": "La unidad de estado sólido (SSD)"
+  },
+  {
+   "tipo": "p",
+   "texto": "Un **SSD** guarda los datos en **chips de memoria flash**, sin piezas móviles: más rápido, silencioso y resistente a golpes. Hay tres tipos que tienes que saber distinguir:"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Tipo",
+    "Forma y conexión",
+    "Velocidad máxima aprox.",
+    "Uso típico"
+   ],
+   "filas": [
+    [
+     "SSD SATA de 2,5″",
+     "Como un disco de portátil. Cables SATA de datos y de alimentación",
+     "Unos 550 MB/s (límite de SATA III)",
+     "Actualizar equipos antiguos"
+    ],
+    [
+     "SSD M.2 SATA",
+     "Tarjeta M.2 que usa el protocolo SATA",
+     "Unos 550 MB/s",
+     "Equipos de hace unos años"
+    ],
+    [
+     "SSD M.2 NVMe",
+     "Tarjeta M.2 que usa carriles PCIe (normalmente 4)",
+     "PCIe 3.0: ~3500 MB/s · 4.0: ~7000 MB/s · 5.0: más de 10 000 MB/s",
+     "Disco principal de los equipos actuales"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "**M.2 SATA o M.2 NVMe:** se ve en la etiqueta o la ficha. Los NVMe suelen tener **una muesca** (llave **M**) y los SATA **dos** (llaves **B+M**). Pero manda la ranura: **no todas las M.2 admiten los dos tipos**, y el manual dice cuáles sí."
+  },
+  {
+   "tipo": "p",
+   "texto": "En la ficha de un SSD mira también su **durabilidad** en **TBW** (*terabytes written*): los datos que el fabricante garantiza que se pueden escribir en toda su vida (por ejemplo, 600 TBW)."
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "almac",
+   "texto": "A la izquierda, un SSD M.2 (sin cables); a la derecha, un SSD de 2,5″ (con cable de datos y de corriente).",
+   "foco": "m2"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Característica",
+    "HDD",
+    "SSD NVMe"
+   ],
+   "filas": [
+    [
+     "Tecnología",
+     "Magnética, piezas móviles",
+     "Flash, sin piezas móviles"
+    ],
+    [
+     "Velocidad",
+     "100–250 MB/s",
+     "De 3500 a más de 10 000 MB/s"
+    ],
+    [
+     "Precio por GB",
+     "Bajo",
+     "Más alto"
+    ],
+    [
+     "Ruido y vibración",
+     "Sí",
+     "Ninguno"
+    ],
+    [
+     "Resistencia a golpes",
+     "Baja",
+     "Alta"
+    ],
+    [
+     "Uso recomendado",
+     "Copias y datos que se usan poco",
+     "Sistema operativo y programas"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Una configuración muy habitual combina los dos: **SSD NVMe** para el sistema y los programas, y **HDD** grande para los datos."
+  },
+  {
+   "tipo": "h",
+   "texto": "Instalar unidades"
+  },
+  {
+   "tipo": "p",
+   "texto": "**Disco de 3,5″ o 2,5″ (SATA):** fíjalo en su bahía (lección 1); conecta el **cable SATA de datos** (forma de L, 7 contactos) a la unidad y a un puerto SATA de la placa, y el **cable SATA de alimentación** (15 contactos) de la fuente. Los dos tienen forma de L y solo entran en una posición: si no entra, gíralo; **no lo fuerces**."
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "hdd",
+   "texto": "Detrás del disco: el conector SATA de datos (pequeño) y el de corriente (más ancho).",
+   "foco": "sata-datos"
+  },
+  {
+   "tipo": "p",
+   "texto": "**SSD M.2:** localiza la ranura que indica el manual. Si tiene **disipador**, desatorníllalo y quita el plástico de su almohadilla térmica. Inserta la tarjeta **inclinada unos 30°** hasta el fondo, bájala y fíjala con su **tornillo** (rosca M2) o pestaña. No lleva cables."
+  },
+  {
+   "tipo": "h",
+   "texto": "Las controladoras"
+  },
+  {
+   "tipo": "p",
+   "texto": "Una **controladora** gestiona la comunicación entre el procesador y las unidades: traduce órdenes como «lee este archivo» en operaciones de la unidad."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Controladora",
+    "Dónde está",
+    "Qué gestiona"
+   ],
+   "filas": [
+    [
+     "SATA",
+     "En el chipset de la placa",
+     "Discos y SSD SATA y ópticas. En la UEFI suele estar en modo **AHCI**"
+    ],
+    [
+     "NVMe",
+     "Dentro del propio SSD",
+     "El SSD habla directamente con el procesador por PCIe"
+    ],
+    [
+     "RAID",
+     "En el chipset o en una tarjeta",
+     "Varios discos como uno: **RAID 0** (más velocidad, sin protección) o **RAID 1** (espejo: si falla uno, los datos siguen en el otro)"
+    ],
+    [
+     "Tarjeta controladora",
+     "Tarjeta PCIe",
+     "Más puertos SATA o ranuras M.2"
+    ]
+   ]
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Ojo con los carriles compartidos:** en muchas placas, usar una ranura M.2 **desactiva** uno o dos puertos SATA. El manual lo indica con una nota tipo «si se usa M.2_2, SATA 5 y 6 quedan desactivados». Si un disco SATA «desaparece» al poner un M.2, suele ser esto."
+  },
+  {
+   "tipo": "analogia",
+   "texto": "Los **carriles compartidos** son como un ladrón de dos tomas para tres aparatos: si enchufas el tercero, otro se queda sin corriente."
+  },
+  {
+   "tipo": "h",
+   "texto": "Unidades ópticas"
+  },
+  {
+   "tipo": "p",
+   "texto": "Leen (y si son grabadoras, escriben) discos con un **láser**. Se usan cada vez menos, pero aún sirven para programas antiguos, archivos de clientes o copias que se archivan."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Disco",
+    "Capacidad habitual"
+   ],
+   "filas": [
+    [
+     "CD",
+     "700 MB"
+    ],
+    [
+     "DVD",
+     "4,7 GB (una capa) · 8,5 GB (doble capa)"
+    ],
+    [
+     "Blu-ray (BD)",
+     "25 GB (una capa) · 50 GB (doble capa)"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Las internas son de **5,25″** y se conectan por **SATA**. Como muchas cajas ya no tienen bahías de 5,25″, lo habitual hoy es una **unidad externa por USB**."
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "optica",
+   "texto": "Una unidad óptica de 5,25″ con la bandeja abierta.",
+   "foco": "bandeja",
+   "datos": {
+    "abierta": true
+   }
+  },
+  {
+   "tipo": "h",
+   "texto": "Soportes de memoria auxiliar"
+  },
+  {
+   "tipo": "p",
+   "texto": "Dispositivos **extraíbles** para llevar datos de un equipo a otro o hacer copias de seguridad."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Soporte",
+    "Características",
+    "Para tener en cuenta"
+   ],
+   "filas": [
+    [
+     "Memoria USB (pendrive)",
+     "Flash con conector USB. De pocos GB a 1 TB o más",
+     "La velocidad real depende del modelo, no solo de la versión USB"
+    ],
+    [
+     "Tarjeta SD / microSD",
+     "Flash para cámaras, móviles y miniPC. SDHC hasta 32 GB; SDXC hasta 2 TB",
+     "Clase: Class 10 o U1 (10 MB/s mínimos); U3 o V30 (30 MB/s mínimos, para vídeo)"
+    ],
+    [
+     "Disco externo HDD",
+     "Disco de 2,5″ o 3,5″ en carcasa USB",
+     "Mucha capacidad y barato. No moverlo mientras funciona"
+    ],
+    [
+     "Disco externo SSD",
+     "SSD en carcasa USB o USB-C",
+     "Rápido y resistente; más caro por GB"
+    ]
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "auxiliar",
+   "texto": "Memoria USB, tarjetas SD y microSD y un SSD externo.",
+   "foco": "pendrive"
+  },
+  {
+   "tipo": "nota",
+   "texto": "**La velocidad la marca el eslabón más lento.** Un SSD externo rapidísimo en un puerto **USB 2.0** (480 Mb/s, unos 40 MB/s reales) irá lento. Hace falta **USB 3.2 Gen 1** (5 Gb/s) o mejor: **Gen 2** (10 Gb/s), **USB4** o Thunderbolt."
+  },
+  {
+   "tipo": "p",
+   "texto": "**Extraer con seguridad:** antes de quitar un USB, usa **Expulsar**. Si se desconecta mientras escribe, el archivo o incluso el soporte pueden dañarse."
+  },
+  {
+   "tipo": "h",
+   "texto": "Manipular memorias y unidades con seguridad"
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Obligatorio:** 1) Apagado y desenchufado; pulsa el botón unos segundos para descargar la energía residual (en un portátil, quita también la batería si se puede). 2) **Pulsera antiestática**: la memoria y los SSD son de lo más sensible a la electricidad estática. 3) Módulos y tarjetas **por los bordes**. 4) Lo que no uses, en su **bolsa antiestática**, nunca encima de una bolsa normal ni de la moqueta. 5) **Nunca muevas un disco duro funcionando** ni lo dejes caer. 6) **Nunca fuerces** un módulo o conector."
+  },
+  {
+   "tipo": "h",
+   "texto": "Cómo elegir el almacenamiento"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "**¿Qué conexiones tiene la placa?** Ranuras M.2 (y si admiten NVMe, SATA o las dos) y puertos SATA libres.",
+    "**¿Para qué es cada unidad?** Sistema y programas en SSD (mejor NVMe); datos y copias en HDD si hace falta mucha capacidad.",
+    "**¿Cuánta capacidad?** Oficina: SSD de 500 GB a 1 TB. Juegos o vídeo: 1 TB o más, y un HDD de datos si hace falta.",
+    "**¿Qué generación PCIe?** Un SSD PCIe 4.0 funciona en una ranura 3.0, pero a velocidad de 3.0.",
+    "**¿Carriles compartidos?** Revisa en el manual qué SATA se desactivan.",
+    "**¿Qué dice la ficha?** Lectura y escritura, durabilidad (TBW) y garantía."
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "**Ejemplo paso a paso: ampliar un equipo de oficina**"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Tiene un módulo DDR4 de 8 GB y un disco duro de 1 TB, y tarda mucho en arrancar. La placa tiene 2 ranuras DDR4, 1 ranura M.2 (NVMe y SATA) y 4 puertos SATA.",
+    "**Memoria:** otro módulo **igual** (8 GB DDR4, misma velocidad) para tener 2 × 8 GB en doble canal, en la ranura que indica el manual.",
+    "**Almacenamiento:** un **SSD M.2 NVMe** de 1 TB para el sistema y los programas; el disco duro queda para datos. El manual dice que esa ranura no comparte carriles con los SATA usados.",
+    "**Comprobación:** el Administrador de tareas muestra 16 GB en 2 de 2 ranuras, y en **Administración de discos** aparece el SSD nuevo para inicializarlo."
+   ]
+  },
+  {
+   "tipo": "resumen",
+   "texto": "La RAM se elige según la placa (**generación, formato, capacidad máxima y QVL**) y según el uso; mejor **dos módulos iguales**. Se instala alineando la **muesca** y presionando hasta el **clic**. Almacenamiento: **HDD** (magnético, barato, lento y delicado), **SSD SATA** (~550 MB/s) y **SSD M.2 NVMe** (miles de MB/s). Controladoras: SATA en el chipset, NVMe dentro del SSD, RAID para unir discos. Las **ópticas** se usan cada vez menos; los **soportes auxiliares** dependen de la velocidad del puerto y se **expulsan** antes de quitarlos. Siempre: desenchufado, pulsera y nada a la fuerza."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Dónde instalarías el **sistema operativo** de un equipo nuevo?",
+   "opciones": [
+    "En un HDD de 7200 rpm",
+    "En un SSD M.2 NVMe",
+    "En una memoria USB",
+    "En una unidad óptica"
+   ],
+   "correcta": 1,
+   "explicacion": "El sistema y los programas van en el SSD más rápido: un NVMe arranca y abre programas mucho antes que un disco duro."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Necesitas guardar **copias de seguridad de 8 TB** gastando poco. ¿Qué eliges?",
+   "opciones": [
+    "Un SSD NVMe de 8 TB",
+    "Un disco duro (HDD)",
+    "Varias tarjetas SD",
+    "Discos Blu-ray"
+   ],
+   "correcta": 1,
+   "explicacion": "El HDD da mucha capacidad a buen precio por GB, y para copias la velocidad no es lo más importante."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Al instalar un SSD M.2, **un disco SATA deja de aparecer**. ¿Qué es lo más probable?",
+   "opciones": [
+    "El SSD M.2 está roto",
+    "La ranura M.2 comparte carriles con ese puerto SATA",
+    "El cable SATA es de otra generación",
+    "Falta activar XMP"
+   ],
+   "correcta": 1,
+   "explicacion": "En muchas placas, usar una ranura M.2 desactiva uno o dos puertos SATA. El manual indica cuáles."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Un módulo de RAM **no entra** en la ranura. ¿Qué haces?",
+   "opciones": [
+    "Apretar más fuerte con los dos pulgares",
+    "Mirar si la muesca coincide: puede estar al revés o ser de otra generación",
+    "Limarle un poco los contactos",
+    "Probar con un martillo de goma"
+   ],
+   "correcta": 1,
+   "explicacion": "Nunca se fuerza. Si la muesca no coincide, el módulo está al revés o es DDR4 en una placa DDR5 (o al revés)."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Conectas un SSD externo muy rápido a un puerto **USB 2.0**. ¿Qué pasa?",
+   "opciones": [
+    "Va a su velocidad máxima",
+    "No funciona",
+    "Funciona, pero a la velocidad del USB 2.0 (unos 40 MB/s)",
+    "Se estropea el puerto"
+   ],
+   "correcta": 2,
+   "explicacion": "La velocidad la marca el eslabón más lento. Para aprovecharlo hace falta USB 3.2 o mejor."
+  }
+ ]
+}

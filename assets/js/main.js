@@ -1,6 +1,6 @@
 // main.js — Enrutador de la web (rutas con #/…). Cada vista devuelve { el, destruir }.
 import { h, cargarJSON, BASE_CONTENIDO } from './util.js';
-import { vistaInicio, vistaTema } from './vistas/inicio.js';
+import { vistaInicio, vistaTema, vistaLecciones } from './vistas/inicio.js';
 import { vistaLeccion } from './vistas/leccion.js';
 import { vistaPiezas } from './vistas/piezas.js';
 import { vistaEjercicio } from './vistas/ejercicio.js';
@@ -26,6 +26,7 @@ async function vistaCreditos() {
 const RUTAS = [
   [/^$/, () => vistaInicio()],
   [/^creditos$/, () => vistaCreditos()],
+  [/^lecciones$/, () => vistaLecciones()],
   [/^([\w-]+)$/, m => vistaTema(m[1])],
   [/^([\w-]+)\/leccion\/([\w-]+)$/, m => vistaLeccion(m[1], m[2])],
   [/^([\w-]+)\/piezas$/, m => vistaPiezas(m[1])],
