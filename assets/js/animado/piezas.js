@@ -170,6 +170,9 @@ function caja() {
   const ledFrente = k.cil(0.25, 0.3, 0x3a3f4b, 0.03, 10, { propio: true }); ledFrente.rotation.z = Math.PI / 2;
   poner(c, ledFrente, x1 + 0.45, 10, -14.2);
   for (const z of [-12, -10.4]) poner(c, k.caja(0.3, 0.6, 1.2, 0x232733, 0.03), x1 + 0.45, 10, z);
+  // Bahía de 3,5" junto a la fuente
+  poner(c, k.caja(10.8, 0.3, 15.2, C.metal, 0.04), -37, suelo + 0.15, 13.8);
+  for (const x of [-42.6, -31.4]) poner(c, k.caja(0.3, 3, 15.2, C.metal, 0.03), x, suelo + 1.5, 13.8);
   Object.assign(P, { tapas, boton, ledFrente });
   return P;
 }
@@ -231,6 +234,10 @@ function placa() {
   for (let i = 0; i < 4; i++) poner(c, k.cil(0.4, 1.0, C.lila, 0.04, 14), 10.8, 0.75, -9 + i * 1.1);
   poner(c, k.caja(2.0, 0.5, 0.6, C.negro, 0.03), 13.2, 0.5, 11.2);    // F_PANEL
   poner(c, k.caja(1.6, 0.5, 0.6, C.azul, 0.03), 9.5, 0.5, 11.2);      // USB frontal
+  poner(c, k.caja(1.2, 0.5, 0.6, C.negro, 0.03), 11.3, 0.5, 11.2);    // USB 2.0 (Bluetooth)
+  for (const z of [6.4, 7.9]) poner(c, k.caja(1.4, 0.4, 0.9, C.rojo, 0.03), 14.4, 0.45, z); // SATA
+  poner(c, k.caja(2.6, 0.9, 0.8, C.ranura), -12.4, 0.7, 7.6);         // PCIe x1
+  poner(c, k.caja(0.1, 0.7, 1.4, C.negro, 0), -15.32, 1.0, -0.5);    // HDMI de la placa
   const led = poner(c, k.caja(0.6, 0.25, 0.35, 0x3a3f4b, 0.03, { propio: true }), 11, 0.38, 7.5);
 
   // Cable del ventilador del procesador (CPU_FAN); crece al montar el disipador
@@ -742,7 +749,7 @@ function eps() {
   P.montar = async ctx => {
     const fin = ctx.enPlaca(-11.5, 2.45, -11.2);
     ctx.enfocar(V(-56, 4, -8), 900);
-    await tender(P, [V(-49.8, 6.5, 7), V(-55, 11, 5.6), V(-62.4, 14, 5.4), V(-62.4, 14, -15), V(fin.x - 1.5, 9, fin.z), fin], 0.35, C.cable, 1400);
+    await tender(P, [V(-49.8, 6.5, 7), V(-55, 11, 5.6), V(-60.5, 14.3, 4.5), V(-60.5, 14.3, -15), V(fin.x - 1.5, 9, fin.z), fin], 0.35, C.cable, 1400);
     await aparecer(ctx.placa.p8);
     ctx.burbuja('8 pines: procesador', fin.clone().add(V(0, 3, 0)));
   };
@@ -872,7 +879,7 @@ function revisar() {
     accion: 'Revisar el interior',
     tituloMal: 'Saltarse la revisión',
     textoMal: 'Un tornillo olvidado encima de la placa puede hacer cortocircuito al encender. Por eso se revisa todo antes de enchufar.',
-    requiere: ['cpu', 'pasta', 'disipador', 'ram', 'ssd', 'chapa', 'separadores', 'placa', 'fuente', 'c24', 'eps', 'gpu', 'frontal'],
+    requiere: ['cpu', 'pasta', 'disipador', 'ram', 'ssd', 'chapa', 'separadores', 'ventiladores', 'placa', 'fuente', 'c24', 'eps', 'hdd', 'gpu', 'wifi', 'frontal'],
   });
   const { k } = P, c = P.cuerpo;
   const lupa = new THREE.Group(); lupa.position.set(40, 0.35, 23); lupa.rotation.y = 0.5; c.add(lupa);
@@ -922,7 +929,7 @@ function enchufe() {
     accion: 'Enchufar y encender',
     tituloMal: 'Enchufar mientras montas',
     textoMal: 'Nunca se monta con el equipo enchufado, ni siquiera «para que haga de toma de tierra». Para eso está la pulsera.',
-    requiere: ['revisar'],
+    requiere: ['revisar', 'monitor'],
     foco: () => V(-68, 1, 16),
     focoDir: V(-0.55, 0.8, 0.6),
   });
@@ -984,11 +991,266 @@ function enchufe() {
   return P;
 }
 
-export const ORDEN = ['pulsera', 'cpu', 'pasta', 'disipador', 'ram', 'ssd', 'chapa', 'separadores', 'placa', 'fuente', 'c24', 'eps', 'gpu', 'frontal', 'revisar', 'enchufe'];
+
+/* ---------------- VENTILADORES DE LA CAJA ---------------- */
+// Ventilador de dibujo: marco cuadrado y aspas. Eje a lo largo de X.
+function ventiladorCartoon(k, lado, color = C.negro) {
+  const g = new THREE.Group();
+  const b = lado / 2, gr = 1.4;
+  for (const [y, z, h, d] of [[b - 0.4, 0, 0.8, lado], [-b + 0.4, 0, 0.8, lado], [0, b - 0.4, lado, 0.8], [0, -b + 0.4, lado, 0.8]])
+    poner(g, k.caja(gr, h, d, color, 0.04), 0, y, z);
+  const rotor = new THREE.Group(); g.add(rotor);
+  const buje = k.cil(lado * 0.17, gr * 0.8, C.negro, 0.04, 16); buje.rotation.z = Math.PI / 2; rotor.add(buje);
+  for (let i = 0; i < 7; i++) {
+    const brazo = new THREE.Group(); brazo.rotation.x = (i / 7) * Math.PI * 2; rotor.add(brazo);
+    const pala = poner(brazo, k.caja(0.12, lado * 0.32, lado * 0.16, C.azul, 0.03), 0, lado * 0.25, 0); pala.rotation.y = 0.45;
+  }
+  return { g, rotor };
+}
+
+function ventiladores() {
+  const P = nuevaPieza('ventiladores', {
+    nombre: 'Ventiladores de la caja',
+    texto: 'El aire frío entra por delante y el caliente sale por detrás y por arriba. Las flechitas del marco dicen hacia dónde sopla: los frontales meten aire y el trasero lo saca.',
+    accion: 'Atornillar los ventiladores',
+    tituloMal: 'Poner el trasero al revés',
+    textoMal: 'Si el ventilador trasero también mete aire, choca con el que entra por delante: el aire da vueltas dentro y el equipo se calienta.',
+    requiere: ['pulsera'],
+    foco: () => V(6, 2, -25),
+  });
+  const { k } = P, c = P.cuerpo;
+  const fr1 = ventiladorCartoon(k, 12), fr2 = ventiladorCartoon(k, 12), tr = ventiladorCartoon(k, 9);
+  [[fr1, 0.75], [fr2, 2.25], [tr, 3.75]].forEach(([v, y], i) => { v.g.position.set(6 + i * 0.6, y, -25); v.g.rotation.set(0, 0.3 * i, Math.PI / 2); c.add(v.g); });
+  zona(c, 13, 5, 13, 6.5, 2.5, -25);
+  const destinos = [
+    { v: fr1, p: V(CAJA.x1 - 1.6, 7.5, -12), r: E(0, 0, 0) },
+    { v: fr2, p: V(CAJA.x1 - 1.6, 7.5, 2), r: E(0, 0, 0) },
+    { v: tr, p: V(CAJA.x0 + 1.6, 10.1, -10.5), r: E(0, 0, 0) },
+  ];
+  Object.assign(P, { rotores: [fr1, fr2, tr].map(v => ({ obj: v.rotor, eje: 'x' })), velocidad: 0 });
+
+  // Flujo de aire: flechas que cruzan la caja
+  const flechas = [], geo = new THREE.ConeGeometry(0.45, 1.4, 10); geo.rotateZ(Math.PI / 2); // apunta a -X
+  const frio = new THREE.MeshBasicMaterial({ color: 0x5aa9ff }), caliente = new THREE.MeshBasicMaterial({ color: 0xff6a3d });
+  for (let i = 0; i < 18; i++) {
+    const m = new THREE.Mesh(geo, frio); m.visible = false; P.fijo.add(m);
+    const ini = V(CAJA.x1 - 2.5, 3 + (i % 3) * 4, -15 + (i % 6) * 4);
+    flechas.push({ m, ini, t: i / 18, ent: i % 2 === 0 });
+  }
+  const salida = V(CAJA.x0 - 3, 10.1, -10.5);
+  let modo = null;
+  P.aire = m => { modo = m; flechas.forEach(f => { f.m.visible = !!m; }); };
+  P.cadaFrame = dt => {
+    if (!modo) return;
+    for (const f of flechas) {
+      f.t = (f.t + dt * 0.22) % 1;
+      if (modo === 'bien') {
+        f.m.position.lerpVectors(f.ini, salida, f.t);
+        f.m.material = f.t > 0.55 ? caliente : frio;
+        f.m.rotation.set(0, 0, 0);
+      } else {
+        // enfrentado: unas entran por delante y otras por detrás, y se quedan dando vueltas en medio
+        const medio = V(-45, f.ini.y, f.ini.z);
+        const desde = f.ent ? f.ini : V(CAJA.x0 + 2, 10.1, f.ini.z * 0.5 - 5);
+        const u = Math.min(f.t * 1.6, 1);
+        f.m.position.lerpVectors(desde, medio, u);
+        if (u >= 1) { const a = f.t * 30; f.m.position.add(V(Math.cos(a) * 2, Math.sin(a) * 1.5, 0)); }
+        f.m.rotation.set(0, f.ent ? 0 : Math.PI, u >= 1 ? f.t * 20 : 0);
+        f.m.material = f.ent ? frio : caliente;
+      }
+    }
+  };
+
+  const poner3 = async (ctx, invertir) => {
+    ctx.enfocar(V(-45, 5, -5), 900);
+    for (const d of destinos) {
+      const r = invertir && d.v === tr ? E(0, Math.PI, 0) : d.r;
+      await volar(d.v.g, d.p, { rot: r, altura: 8, ms: 750 });
+    }
+  };
+  P.montar = async ctx => {
+    await poner3(ctx, false);
+    ctx.burbuja('Delante: entra', V(CAJA.x1, 15, -5));
+    ctx.burbuja('Detrás: sale', V(CAJA.x0, 17, -10.5));
+    P.velocidad = 14; P.aire('bien');
+    await esperar(2600);
+    P.aire(null);
+  };
+  P.mal = async ctx => {
+    await poner3(ctx, true);
+    P.velocidad = 14; P.aire('mal');
+    ctx.burbuja('Los dos meten aire…', V(CAJA.x0, 17, -10.5));
+    await esperar(1500);
+    ctx.burbuja('Aire enfrentado', V(-45, 15, -5), 'peligro');
+    await esperar(1600);
+    P.aire(null);
+  };
+  return P;
+}
+
+/* ---------------- DISCO DURO 3,5" ---------------- */
+function hdd() {
+  const P = nuevaPieza('hdd', {
+    nombre: 'Disco duro de 3,5″',
+    texto: 'Para guardar datos. Se fija en su bahía y lleva dos cables: el SATA de datos a la placa y el SATA de corriente a la fuente. Los dos tienen forma de L.',
+    accion: 'Fijar y conectar',
+    tituloMal: 'Forzar el conector SATA',
+    textoMal: 'Los conectores SATA tienen forma de L y solo entran en una posición. Si no entra, se gira; si se fuerza, se parte la pestaña del disco.',
+    requiere: ['placa', 'fuente'],
+  });
+  const { k } = P, c = P.cuerpo;
+  poner(c, k.caja(14.7, 2.6, 10.2, 0xa9b0b8, 0.06), 0, 0, 0);
+  poner(c, k.caja(9, 0.04, 6.5, C.crema, 0), -1, 1.32, 0);
+  poner(c, k.caja(3, 0.05, 0.8, C.azul, 0), -2, 1.36, 2.2);
+  poner(c, k.caja(0.3, 0.9, 1.4, C.negro, 0.03), 7.45, -0.3, 2);   // datos
+  poner(c, k.caja(0.3, 0.9, 2.4, C.negro, 0.03), 7.45, -0.3, -1.8); // corriente
+  P.grupo.position.set(33, 1.3, -25.5); P.grupo.rotation.y = 0.2;
+  P.foco = () => P.grupo.getWorldPosition(new THREE.Vector3());
+  const dentro = V(-37, CAJA.suelo + 1.6, 13.8);
+
+  const meter = async ctx => {
+    ctx.enfocar(V(-38, 2, 9), 900);
+    await volar(P.grupo, dentro, { rot: E(0, Math.PI / 2, 0), altura: 10, ms: 1100 });
+    ctx.burbuja('En su bahía', V(-37, 7, 14));
+  };
+  const caminoDatos = ctx => {
+    const placaSata = ctx.enPlaca(14.4, 0.9, 7.9);
+    return [V(-35, 2.1, 6.2), V(-34, 3.2, 3.5), V(placaSata.x, 3, placaSata.z + 1.5), placaSata];
+  };
+  P.montar = async ctx => {
+    await meter(ctx);
+    await tender(P, caminoDatos(ctx), 0.2, C.rojo, 700);
+    ctx.burbuja('SATA datos: a la placa', ctx.enPlaca(14.4, 4, 7.9));
+    await tender(P, [V(-49.8, 3.2, 11), V(-45, 4.5, 8.5), V(-39, 3.4, 6.6), V(-39, 2.1, 6.2)], 0.25, C.cable, 800);
+    ctx.burbuja('SATA corriente: de la fuente', V(-41, 6, 7));
+  };
+  P.mal = async ctx => {
+    await meter(ctx);
+    const clavija = new THREE.Group(); P.fijo.add(clavija);
+    poner(clavija, P.k.caja(1.4, 0.9, 0.6, C.rojo, 0.04), 0, 0, 0);
+    poner(clavija, P.k.caja(0.5, 0.5, 0.62, C.rojo, 0.03), 0.45, 0.65, 0);
+    clavija.position.set(-35, 5, 3); clavija.rotation.z = Math.PI;
+    await mover(clavija, V(-35, 2.2, 5.6), 500);
+    await temblar(clavija, 'x', 0.15);
+    ctx.burbuja('¡No entra así!', V(-35, 6, 5), 'peligro');
+    await esperar(500);
+    ctx.burbuja('Forma de L: gíralo', V(-35, 9, 5));
+    await esperar(900);
+  };
+  return P;
+}
+
+/* ---------------- TARJETA WI-FI ---------------- */
+function wifi() {
+  const P = nuevaPieza('wifi', {
+    nombre: 'Tarjeta Wi‑Fi PCIe',
+    texto: 'Va en una ranura PCIe x1: se quita la tapa de la caja, se inserta hasta el clic y se atornilla. Luego se enroscan las antenas por fuera y su cable USB del Bluetooth va a la placa.',
+    accion: 'Insertar y poner las antenas',
+    tituloMal: 'Olvidar las antenas',
+    textoMal: 'Sin antenas la tarjeta funciona, pero la señal es casi nula: la conexión va lentísima o se corta. Siempre se enroscan.',
+    requiere: ['placa'],
+  });
+  const { k } = P, c = P.cuerpo;
+  // Local como la gráfica: x a lo largo (chapa en 0), y hacia arriba, z grosor
+  poner(c, k.caja(10, 6.5, 0.15, 0x2c8a4a, 0.035), 5.2, 3.25, 0);
+  poner(c, k.caja(2.5, 0.5, 0.16, C.oro, 0.02), 2.2, -0.25, 0);
+  poner(c, k.caja(2.4, 3, 0.15, 0x2b3a67, 0.03), 6, 3, -0.15);
+  poner(c, k.caja(1.6, 1.6, 0.15, C.metal, 0.02), 6, 3, -0.3);
+  poner(c, k.caja(0.15, 8, 1.6, C.metal, 0.03), -0.1, 3.6, 0);
+  poner(c, k.caja(1.6, 0.15, 1.6, C.metal, 0.03), -0.85, 7.55, 0);
+  const antenas = [2, 5].map(y => {
+    const a = new THREE.Group(); a.position.set(-2.7, y, 0); a.visible = false; a.scale.setScalar(0.001); c.add(a);
+    poner(a, k.cil(0.25, 0.5, C.oro, 0.02, 10), -0.3, 0, 0).rotation.z = Math.PI / 2;
+    const v = poner(a, k.cil(0.35, 9, C.negro, 0.04, 10), -0.9, 4.3, 0); v.rotation.z = 0.12;
+    return a;
+  });
+  const tornillo = nuevoTornillo(k, c, -0.85, 9, 0);
+  P.grupo.position.set(12, 0.3, 30.2); P.grupo.rotation.set(-Math.PI / 2, 0, 0.1);
+  P.foco = () => P.grupo.getWorldPosition(new THREE.Vector3());
+
+  const insertar = async ctx => {
+    const dest = ctx.enPlaca(-15, 0.85, 7.6);
+    ctx.enfocar(dest.clone().add(V(8, 3, 0)), 900);
+    const tapa = ctx.piezas.caja.tapas[0];
+    await animar(400, t => { tapa.position.y = 7.5 + 14 * t; tapa.scale.setScalar(Math.max(0.001, 1 - t)); }, ease.salida);
+    tapa.visible = false;
+    await volar(P.grupo, dest.clone().add(V(0, 5, 0)), { rot: E(0, 0, 0), altura: 8, ms: 1000 });
+    await bajarA(P.grupo, dest.y, 420, ease.suave);
+    ctx.burbuja('PCIe x1', dest.clone().add(V(4, 9, 0)));
+    tornillo.visible = true;
+    await girarTornillo(tornillo, 9, 7.65, 400);
+    ctx.alPlaca(P.grupo);
+  };
+  P.montar = async ctx => {
+    await insertar(ctx);
+    ctx.enfocar(V(CAJA.x0 - 1, 8, 0), 800, V(-0.8, 0.7, 0.4));
+    for (const a of antenas) await aparecer(a, 380);
+    ctx.burbuja('Antenas por fuera', V(CAJA.x0 - 2, 19, 0));
+    P.cuerpo.updateWorldMatrix(true, false);
+    const ini = P.cuerpo.localToWorld(V(9, 6.6, 0)), fin = ctx.enPlaca(11.3, 0.9, 11.2);
+    await tender(P, [ini, ini.clone().add(V(4, 7, 2)), V(fin.x - 6, 15, fin.z), V(fin.x, 4, fin.z), fin], 0.12, C.negro, 900);
+    ctx.burbuja('Bluetooth: USB de la placa', fin.clone().add(V(0, 3, 0)));
+  };
+  P.mal = async ctx => {
+    await insertar(ctx);
+    ctx.enfocar(V(CAJA.x0 - 1, 8, 0), 800, V(-0.8, 0.7, 0.4));
+    await esperar(400);
+    ctx.burbuja('Señal Wi‑Fi: ▂', V(CAJA.x0 - 2, 14, 0), 'peligro');
+    await esperar(1100);
+    ctx.burbuja('Casi nada', V(CAJA.x0 - 2, 17, 0), 'peligro');
+    await esperar(900);
+  };
+  return P;
+}
+
+/* ---------------- MONITOR ---------------- */
+function monitor() {
+  const P = nuevaPieza('monitor', {
+    nombre: 'Monitor',
+    texto: 'Con gráfica dedicada, el cable del monitor va a las salidas de la tarjeta gráfica, no a las de la placa base. HDMI o DisplayPort, según las entradas del monitor.',
+    accion: 'Conectar a la gráfica',
+    tituloMal: 'Conectarlo a la placa',
+    textoMal: 'Con gráfica dedicada, las salidas de la placa no dan imagen (o solo si el procesador tiene gráfica integrada y se activa). El monitor va a la tarjeta.',
+    requiere: ['gpu'],
+    foco: () => V(-56, 6, -30),
+    focoDir: V(-0.75, 0.75, 0.6),
+  });
+  const { k } = P, c = P.cuerpo;
+  const M = V(-50, 0, -44);
+  poner(c, k.caja(40, 23, 1.6, C.negro, 0.09), M.x, 20, M.z);
+  const pantalla = poner(c, k.caja(38.4, 21.4, 0.1, 0x16243a, 0, { propio: true }), M.x, 20, M.z + 0.82);
+  poner(c, k.caja(3, 12, 1.6, C.negro, 0.06), M.x, 6.5, M.z - 1.2);
+  poner(c, k.caja(16, 0.8, 10, C.negro, 0.06), M.x, 0.4, M.z - 0.5);
+  poner(c, k.caja(6, 1.2, 1.2, 0x232733, 0.03), M.x + 2, 10, M.z - 1.4);
+  const entrada = V(M.x + 2, 10, M.z - 2.1);
+  Object.assign(P, { pantalla });
+
+  const camino = fin => [entrada, entrada.clone().add(V(-4, -6, -1)), V(-70, 0.5, -36), V(-69, 0.5, -8), V(fin.x - 2.5, fin.y, fin.z), fin];
+  P.montar = async ctx => {
+    ctx.enfocar(V(-60, 5, -18), 900, V(-0.75, 0.75, 0.6));
+    const gpu = ctx.piezas.gpu; gpu.cuerpo.updateWorldMatrix(true, false);
+    const salida = gpu.cuerpo.localToWorld(V(-0.8, 6, 1.0)); salida.x = CAJA.x0 - 0.3;
+    await tender(P, camino(salida), 0.25, C.negro, 1300);
+    ctx.burbuja('A la tarjeta gráfica', salida.clone().add(V(-1, 5, 0)));
+  };
+  P.mal = async ctx => {
+    ctx.enfocar(V(-60, 5, -18), 900, V(-0.75, 0.75, 0.6));
+    const hdmi = ctx.enPlaca(-15.32, 1.0, -0.5); hdmi.x = CAJA.x0 - 0.3;
+    await tender(P, camino(hdmi), 0.25, C.negro, 1300);
+    ctx.burbuja('¿A la placa?', hdmi.clone().add(V(-1, 5, 0)));
+    await esperar(800);
+    ctx.burbuja('Sin señal', V(M.x, 33, M.z), 'peligro');
+    await esperar(1200);
+  };
+  return P;
+}
+
+export const ORDEN = ['pulsera', 'cpu', 'pasta', 'disipador', 'ram', 'ssd', 'chapa', 'separadores', 'ventiladores', 'placa', 'fuente', 'c24', 'eps', 'hdd', 'gpu', 'wifi', 'frontal', 'revisar', 'monitor', 'enchufe'];
 
 export function construirPiezas() {
   return {
     caja: caja(), placa: placa(), pulsera: pulsera(), cpu: cpu(), pasta: pasta(), disipador: disipador(), ram: ram(), ssd: ssd(),
-    chapa: chapa(), separadores: separadores(), fuente: fuente(), c24: c24(), eps: eps(), gpu: gpu(), frontal: frontal(), revisar: revisar(), enchufe: enchufe(),
+    chapa: chapa(), separadores: separadores(), ventiladores: ventiladores(), fuente: fuente(), c24: c24(), eps: eps(), hdd: hdd(), gpu: gpu(), wifi: wifi(),
+    frontal: frontal(), revisar: revisar(), monitor: monitor(), enchufe: enchufe(),
   };
 }

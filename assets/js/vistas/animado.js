@@ -49,7 +49,7 @@ export async function vistaAnimado(temaId) {
 
   const dialogo = h('dialog.am-final',
     h('h2', '¡Equipo montado!'),
-    h('p', 'Primero las piezas sobre la placa, luego la placa a la caja, la fuente y sus cables, la gráfica y el frontal. Se revisa todo y se enchufa lo último. Así se hace.'),
+    h('p', 'Primero las piezas sobre la placa, luego la caja, la placa dentro, la fuente y sus cables, los discos y las tarjetas. Se revisa todo, se conecta el monitor y se enchufa lo último. Así se hace.'),
     h('div.am-ficha-botones',
       h('button.am-btn.am-principal', { type: 'button', onclick: () => { dialogo.close(); construir([], true); } }, 'Volver a montar'),
       h('button.am-btn', { type: 'button', onclick: () => dialogo.close() }, 'Seguir mirando')));
@@ -154,6 +154,7 @@ export async function vistaAnimado(temaId) {
         p.hover += (meta - p.hover) * Math.min(1, dt * 12);
         p.cuerpo.position.y = p.hover + p.salto;
         if (p.actualizarCordon) p.actualizarCordon();
+        if (p.cadaFrame) p.cadaFrame(dt);
       }
       for (const p of Object.values(P)) {
         if (!p.rotores) continue;
@@ -382,10 +383,13 @@ export async function vistaAnimado(temaId) {
     encendido = true;
     const B = P.placa;
     B.led.material.color.set(0x3fbf6a); B.led.material.emissive.set(0x2fbf5a);
-    P.disipador.velocidad = 22; P.fuente.velocidad = 14; P.gpu.velocidad = 16;
+    P.disipador.velocidad = 22; P.fuente.velocidad = 14; P.gpu.velocidad = 16; P.ventiladores.velocidad = 14;
+    P.ventiladores.aire('bien');
+    P.monitor.pantalla.material.color.set(0x7fb4ff); P.monitor.pantalla.material.emissive.set(0x3a6fd0);
     P.caja.ledFrente.material.color.set(0x3fbf6a); P.caja.ledFrente.material.emissive.set(0x2fbf5a);
     await irA(VISTA_FINAL.pos, VISTA_FINAL.obj, 1200);
     burbuja('¡Encendido!', ctx.enPlaca(0, 16, 0));
+    burbuja('¡Hay imagen!', new THREE.Vector3(-50, 35, -44));
     confeti();
     if (clase) return;
     await esperar(1400);
@@ -462,7 +466,7 @@ export async function vistaAnimado(temaId) {
     } else {
       cPaso.textContent = 'Terminado';
       cTitulo.textContent = '¡Equipo montado y encendido!';
-      cTexto.textContent = 'Repaso: pulsera; procesador, pasta, disipador, RAM y SSD en la mesa; chapa y separadores; placa a la caja; fuente, 24 pines y EPS; gráfica; panel frontal; revisar y, al final, enchufar.';
+      cTexto.textContent = 'Repaso: pulsera; procesador, pasta, disipador, RAM y SSD en la mesa; chapa, separadores y ventiladores; placa a la caja; fuente, 24 pines, EPS y disco duro; gráfica y Wi‑Fi; panel frontal; revisar; monitor a la gráfica y, al final, enchufar.';
     }
     bAnt.disabled = ocupado || n === 0;
     bRep.disabled = ocupado || n === 0;
