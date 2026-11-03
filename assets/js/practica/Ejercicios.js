@@ -119,8 +119,7 @@ var EJERCICIOS = {
         { id: 's-desenchufado', texto: 'Trabajar con todo desenchufado de la corriente hasta terminar el montaje' },
         { id: 's-superficie', texto: 'Trabajar sobre una superficie no conductora (mesa de madera o alfombrilla antiestática)' },
         { id: 's-pulsera', texto: 'Ponerse la pulsera antiestática conectada a una parte metálica sin pintar de la caja' },
-        { id: 's-bolsa', texto: 'Sacar cada pieza de su bolsa antiestática justo antes de montarla' },
-        { id: 's-bordes', texto: 'Coger las placas y los módulos por los bordes, sin tocar contactos ni chips' }
+        { id: 's-bordes', texto: 'Sacar cada pieza de su bolsa antiestática al montarla y cogerla por los bordes, sin tocar contactos ni chips' }
       ],
       // Si aparece cualquiera: falta grave
       peligrosas: [
@@ -128,49 +127,41 @@ var EJERCICIOS = {
           porque: 'se trabaja siempre desenchufado; la descarga se hace con la pulsera conectada al chasis.' },
         { id: 'x-abrir-fuente', texto: 'Abrir la fuente de alimentación para comprobar los condensadores',
           porque: 'la fuente no se abre nunca: sus condensadores pueden guardar carga aunque esté desenchufada.' },
-        { id: 'x-moqueta', texto: 'Montar sobre una alfombra o moqueta para que las piezas no se rayen',
-          porque: 'las alfombras generan electricidad estática, que puede estropear los chips.' },
         { id: 'x-forzar', texto: 'Si un módulo de RAM no entra, apretar más fuerte hasta que entre',
-          porque: 'nunca se fuerza un componente: hay que revisar la posición de la muesca.' },
-        { id: 'x-pano', texto: 'Limpiar los contactos de la RAM con un paño húmedo antes de insertarla',
-          porque: 'el agua y los componentes electrónicos no se mezclan; se cogen por los bordes y no se tocan los contactos.' }
+          porque: 'nunca se fuerza un componente: hay que revisar la posición de la muesca.' }
       ],
-      // Pasos de montaje (mismo modelo que la pestaña «Montar un PC» del laboratorio)
+      // Pasos de montaje. Solo se exige el orden donde de verdad importa:
+      // la RAM y el SSD M.2 pueden ir en cualquier momento; la chapa I/O y los separadores, antes de la placa;
+      // la pasta, antes de la refrigeración; los cables, después de la placa y la fuente; revisar y encender, al final.
       montaje: [
-        { id: 'io', texto: 'Colocar la chapa del panel trasero (I/O) en la caja', aplica: function () { return true; } },
-        { id: 'separadores', texto: 'Colocar los separadores solo donde la placa tiene agujeros', aplica: function () { return true; } },
+        { id: 'io', texto: 'Preparar la caja: colocar la chapa del panel trasero (I/O) y los separadores donde la placa tiene agujeros', aplica: function () { return true; } },
         { id: 'cpu', texto: 'Colocar el procesador en el socket (alinear el triángulo, sin presionar) y cerrar la palanca', aplica: function () { return true; } },
         { id: 'pasta', texto: 'Aplicar una pequeña cantidad de pasta térmica sobre el procesador', req: ['cpu'],
           aplica: function (s) { return !s.refri.pastaPuesta; },
           sobra: function () { return 'la refrigeración elegida ya trae la pasta térmica aplicada de fábrica.'; } },
-        { id: 'refri', texto: 'Montar la refrigeración sobre el procesador',
+        { id: 'refri', texto: 'Montar la refrigeración sobre el procesador y conectar su ventilador (o la bomba) a CPU_FAN',
           aplica: function () { return true; },
           req: function (s) {
             var r = s.refri.pastaPuesta ? ['cpu'] : ['pasta'];
             if (s.refri.radiador) r.push('placa');
             return r; },
-          porque: 'Sin pasta queda aire entre el procesador y el disipador, y el aire conduce muy mal el calor.' },
-        { id: 'cpufan', texto: 'Conectar el ventilador del procesador (o la bomba) a CPU_FAN', req: ['refri'], aplica: function () { return true; } },
+          porque: 'Sin pasta queda aire entre el procesador y el disipador, y el aire conduce muy mal el calor. La líquida se monta con la placa ya en la caja, para atornillar el radiador.' },
         { id: 'ram', texto: 'Insertar los módulos de RAM en las ranuras que indica el manual', aplica: function () { return true; } },
         { id: 'm2', texto: 'Instalar el SSD M.2 en su ranura y sujetarlo con su tornillo', aplica: function (s) { return _esM2(s); },
           sobra: function () { return 'no has elegido un SSD M.2.'; } },
-        { id: 'placa', texto: 'Atornillar la placa base en la caja', req: ['io', 'separadores'], aplica: function () { return true; },
+        { id: 'placa', texto: 'Atornillar la placa base en la caja', req: ['io'], aplica: function () { return true; },
           porque: 'La chapa trasera no se puede colocar con la placa ya atornillada, y sin separadores la placa toca el chasis.' },
         { id: 'fuente', texto: 'Atornillar la fuente de alimentación en su hueco, con el interruptor en O', aplica: function () { return true; } },
-        { id: 'c24', texto: 'Conectar el cable de 24 pines de la fuente a la placa', req: ['placa', 'fuente'], aplica: function () { return true; } },
-        { id: 'eps', texto: 'Conectar el cable EPS (4/8 pines) del procesador', req: ['placa', 'fuente'], aplica: function () { return true; } },
-        { id: 'gpu', texto: 'Insertar la tarjeta gráfica en la ranura PCIe x16 y atornillarla a la caja', req: ['placa'],
+        { id: 'cables', texto: 'Conectar los cables de la fuente a la placa: el de 24 pines y el EPS (4/8 pines) del procesador', req: ['placa', 'fuente'], aplica: function () { return true; } },
+        { id: 'gpu', texto: 'Insertar la tarjeta gráfica en la ranura PCIe x16, atornillarla a la caja y conectar sus cables PCIe si los lleva',
+          req: function (s) { return s.gpu.pcie8 > 0 ? ['placa', 'fuente'] : ['placa']; },
           aplica: function (s) { return _hayGpu(s); },
           sobra: function () { return 'no has elegido tarjeta gráfica dedicada.'; },
-          porque: 'La gráfica se sujeta al chasis; sin la placa atornillada, su peso doblaría la placa.' },
-        { id: 'gpu-cable', texto: 'Conectar los cables PCIe de la fuente a la tarjeta gráfica', req: ['gpu', 'fuente'],
-          aplica: function (s) { return _hayGpu(s) && s.gpu.pcie8 > 0; },
-          sobra: function (s) { return _hayGpu(s) ? 'esta gráfica no lleva conector de corriente: se alimenta por la ranura.' : 'no has elegido tarjeta gráfica dedicada.'; } },
+          porque: 'La gráfica se sujeta al chasis con la placa ya atornillada; y sus cables PCIe salen de la fuente.' },
         { id: 'disco', texto: 'Instalar el disco de 2,5" en su bahía y conectar el cable SATA de datos y el de corriente', req: ['placa', 'fuente'],
           aplica: function (s) { return !_esM2(s); },
           sobra: function () { return 'tu almacenamiento es M.2: no lleva cables.'; } },
-        { id: 'fpanel', texto: 'Conectar los botones y LED de la caja a F_PANEL siguiendo el manual', req: ['placa'], aplica: function () { return true; } },
-        { id: 'frontal', texto: 'Conectar los USB y el audio del frontal de la caja', req: ['placa'], aplica: function () { return true; } },
+        { id: 'frontal', texto: 'Conectar el frontal de la caja a la placa: botones y LED (F_PANEL), USB y audio', req: ['placa'], aplica: function () { return true; } },
         { id: 'revisar', texto: 'Revisar que no quedan tornillos sueltos y que ningún cable roza los ventiladores', req: ['TODOS'], aplica: function () { return true; } },
         { id: 'encender', texto: 'Enchufar la fuente, ponerla en I y encender para comprobar el POST', req: ['TODOS', 'revisar'], aplica: function () { return true; } }
       ]

@@ -64,6 +64,11 @@ var Motor = (function () {
         var ok = def.reglas.every(function (r) {
           var lista = r.usa.every(function (u) { return asignadas.indexOf(u) >= 0; });
           return !lista || r.check(sel);
+        }) && perfil.requisitos.every(function (q) {
+          // Los requisitos que dicen qué piezas usan («usa») se comprueban en cuanto están elegidas: acelera la búsqueda
+          if (!q.usa) return true;
+          var lista = q.usa.every(function (u) { return asignadas.indexOf(u) >= 0; });
+          return !lista || q.check(sel);
         });
         if (ok && paso(i + 1)) return true;
       }
@@ -76,7 +81,8 @@ var Motor = (function () {
   // ---------- Generación de un caso ----------
   function crearCaso(def, catalogo, seed) {
     var rng = rngDesdeSemilla(seed);
-    var porCat = piezasPorCategoria(catalogo);
+    // El examen puede añadir piezas propias (def.piezasExtra) que no están en el catálogo público
+    var porCat = piezasPorCategoria({ piezas: catalogo.piezas.concat(def.piezasExtra || []) });
     var perfiles = barajar(def.perfiles, rng);
     var perfil = null, solucion = null;
     for (var i = 0; i < perfiles.length && !solucion; i++) {
