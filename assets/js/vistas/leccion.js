@@ -3,7 +3,7 @@ import { h, md, tema, cargarJSON, progreso } from '../util.js';
 import { huecoVisor } from './comun.js';
 import { piezaSuelta } from '../piezas3d.js';
 
-const NOMBRE_MODELO = { placa: 'Placa base', cpu: 'Procesador', refri: 'Disipador', ram: 'Memoria RAM', almac: 'Almacenamiento', gpu: 'Tarjeta gráfica', fuente: 'Fuente', caja: 'Caja', hdd: 'Disco duro', optica: 'Unidad óptica', red: 'Tarjeta de red', monitor: 'Monitor', auxiliar: 'Memorias extraíbles' };
+const NOMBRE_MODELO = { placa: 'Placa base', cpu: 'Procesador', refri: 'Disipador', ram: 'Memoria RAM', almac: 'Almacenamiento', gpu: 'Tarjeta gráfica', fuente: 'Fuente', caja: 'Caja', hdd: 'Disco duro', optica: 'Unidad óptica', red: 'Tarjeta de red', monitor: 'Monitor', auxiliar: 'Memorias extraíbles', herram: 'Herramientas y útiles', tornillos: 'Tornillos y separador', cables: 'Cables de la fuente', fpanel: 'Panel frontal (F_PANEL)', postled: 'LED de diagnóstico' };
 
 export async function vistaLeccion(temaId, lecId) {
   const t = await tema(temaId);

@@ -1,0 +1,414 @@
+{
+ "id": "s3",
+ "titulo": "Cables, panel frontal y UEFI",
+ "objetivos": [
+  "Instalar la gráfica y conectar los cables de alimentación sin confundir el EPS y el PCIe.",
+  "Conectar el panel frontal, los USB, el audio y los ventiladores.",
+  "Ordenar el cableado.",
+  "Configurar los parámetros básicos de la UEFI y explicar la secuencia de arranque."
+ ],
+ "bloques": [
+  {
+   "tipo": "p",
+   "texto": "Las piezas ya están en la caja, pero todavía no se hablan: faltan los **cables**. Después configuraremos la **UEFI** y veremos qué pasa desde que pulsas el botón hasta que aparece el sistema operativo."
+  },
+  {
+   "tipo": "h",
+   "texto": "La tarjeta gráfica y otros adaptadores"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "Va en la ranura **PCIe x16** que indica el manual, normalmente la más cercana al procesador.",
+    "Se quitan las tapas traseras que ocupa (dos o tres en las grandes) y se atornilla por su chapa.",
+    "Si necesita alimentación, se conectan **todos** sus cables, hasta el fondo.",
+    "Las gráficas largas pueden combarse: usa el soporte que traen.",
+    "Las demás tarjetas (red, Wi-Fi, sonido) van igual, en ranuras PCIe x1 o x4."
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Los cables de la fuente"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Cable",
+    "Pines",
+    "Dónde va",
+    "A tener en cuenta"
+   ],
+   "filas": [
+    [
+     "**ATX principal**",
+     "24 (a veces 20+4)",
+     "ATX_24P, lateral derecho de la placa",
+     "El más grande. Hasta que la pestaña haga clic"
+    ],
+    [
+     "**EPS / CPU**",
+     "8 (4+4)",
+     "ATX12V o CPU_PWR, arriba a la izquierda",
+     "Alimenta el procesador. Algunas placas tienen dos"
+    ],
+    [
+     "**PCIe**",
+     "6 u 8 (6+2)",
+     "Tarjeta gráfica",
+     "Se parece al EPS, pero no es igual. Suele poner «PCIe» o «VGA»"
+    ],
+    [
+     "**12V-2x6** (12VHPWR)",
+     "16 (12 + 4 pequeños)",
+     "Gráficas recientes de gama alta",
+     "Hasta el fondo, sin hueco: medio metido se calienta"
+    ],
+    [
+     "**SATA** de alimentación",
+     "15, plano en L",
+     "Discos y unidades SATA",
+     "Varios conectores en cadena"
+    ],
+    [
+     "**Molex**",
+     "4, ancho",
+     "Ventiladores o accesorios antiguos",
+     "Cada vez se usa menos"
+    ]
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "cables",
+   "texto": "Toca cada conector. El EPS y el PCIe tienen 8 pines los dos, pero están cableados de otra forma.",
+   "foco": "eps"
+  },
+  {
+   "tipo": "nota",
+   "texto": "**El EPS y el PCIe de 8 pines son distintos.** Conectar un PCIe en el conector del procesador (o al revés) puede dañar la placa o la fuente. Mira lo que pone en el conector y, si cuesta meterlo, **no lo fuerces**."
+  },
+  {
+   "tipo": "analogia",
+   "texto": "El EPS y el PCIe son como **dos llaves que parecen iguales pero abren puertas distintas**."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Tienes un cable de 8 pines que pone «PCIe». ¿Dónde va?",
+   "opciones": [
+    "Al conector ATX12V del procesador",
+    "A la tarjeta gráfica",
+    "Al disco SATA",
+    "A F_PANEL"
+   ],
+   "correcta": 1,
+   "explicacion": "El **PCIe** alimenta la **gráfica**. El del procesador es el **EPS** (ATX12V o CPU_PWR)."
+  },
+  {
+   "tipo": "h",
+   "texto": "Los cables de datos"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**SATA de datos:** un cable estrecho de 7 pines por unidad, a un puerto SATA de la placa (empieza por el SATA 1 o el que diga el manual).",
+    "**USB internos:** del frontal a la placa.",
+    "Las **M.2** no llevan cables: van en la placa."
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "El panel frontal: F_PANEL"
+  },
+  {
+   "tipo": "p",
+   "texto": "Es una fila doble de patillas, normalmente abajo a la derecha de la placa. Cada cable de la caja lleva su nombre impreso."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Cable",
+    "Qué hace",
+    "Polaridad"
+   ],
+   "filas": [
+    [
+     "**POWER SW** (PWR_SW)",
+     "Botón de encendido",
+     "No tiene"
+    ],
+    [
+     "**RESET SW**",
+     "Botón de reinicio",
+     "No tiene"
+    ],
+    [
+     "**POWER LED** (PLED + y −)",
+     "Luz de encendido",
+     "Sí: el + a la patilla + del manual"
+    ],
+    [
+     "**HDD LED** (+ y −)",
+     "Luz de actividad del disco",
+     "Sí"
+    ]
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "fpanel",
+   "texto": "El cabezal F_PANEL de la placa «Tajo B-M»: arriba PLED+, PLED−, PWR, PWR; abajo HDD+, HDD−, RST, RST y una libre.",
+   "foco": "pwr"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "Los **botones** no tienen polaridad: funcionan en cualquier sentido.",
+    "Los **LED** sí: si uno no se enciende, casi siempre está al revés. Dale la vuelta.",
+    "En el cable, el **+** suele ser el hilo de color y el **−**, el blanco o negro.",
+    "Algunas placas traen un adaptador: se conecta primero la caja al adaptador y luego todo junto a la placa.",
+    "El altavoz (SPEAKER o BUZZER) va en otro cabezal: sirve para oír los pitidos."
+   ]
+  },
+  {
+   "tipo": "analogia",
+   "texto": "Los LED del frontal son como **las pilas de un mando**: al revés no funcionan, pero tampoco se rompe nada."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Conector de la placa",
+    "Cómo es",
+    "Para qué"
+   ],
+   "filas": [
+    [
+     "**USB 2.0** (USB_2, F_USB)",
+     "9 pines en dos filas (2 × 5 con un hueco)",
+     "USB 2.0 del frontal"
+    ],
+    [
+     "**USB 3.x** (USB3_1)",
+     "19 pines, grande y azul, con muesca",
+     "USB-A 3.x del frontal. Entra recto: sus patillas se doblan"
+    ],
+    [
+     "**USB-C** frontal",
+     "Pequeño y plano, con cierre",
+     "Solo si la placa tiene ese conector"
+    ],
+    [
+     "**HD_AUDIO** (AAFP)",
+     "9 pines en dos filas, con un hueco",
+     "Auriculares y micrófono"
+    ]
+   ]
+  },
+  {
+   "tipo": "nota",
+   "texto": "El USB 2.0 y el audio tienen el mismo tamaño, pero el hueco está en sitios distintos. Si cuesta meterlo, es el conector equivocado."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Has conectado el cable POWER LED y la luz no se enciende. ¿Qué es lo más probable?",
+   "opciones": [
+    "La fuente está rota",
+    "Está al revés: hay que darle la vuelta",
+    "Falta el EPS",
+    "Hay que actualizar la UEFI"
+   ],
+   "correcta": 1,
+   "explicacion": "Los LED tienen **polaridad**. Casi siempre está al revés: se da la vuelta y listo."
+  },
+  {
+   "tipo": "h",
+   "texto": "Los ventiladores"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Cabezal",
+    "Qué se conecta"
+   ],
+   "filas": [
+    [
+     "**CPU_FAN**",
+     "El ventilador del disipador (obligatorio)"
+    ],
+    [
+     "CPU_OPT",
+     "Un segundo ventilador del disipador"
+    ],
+    [
+     "AIO_PUMP",
+     "La bomba de la refrigeración líquida, si lo indica el manual"
+    ],
+    [
+     "**CHA_FAN** o SYS_FAN",
+     "Los ventiladores de la caja"
+    ]
+   ]
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "De **3 pines** (la placa cambia el voltaje) o de **4 pines PWM** (la placa manda una señal). Uno de 3 entra en un cabezal de 4 y al revés.",
+    "Si hay más ventiladores que cabezales: divisor (*splitter*) o concentrador (*hub*).",
+    "Luces: el **RGB de 12 V** (4 pines) y el **ARGB de 5 V** (3 pines) no son compatibles. Un ARGB en un cabezal de 12 V **quema sus LED**."
+   ]
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Un ventilador ARGB de 5 V (3 pines), ¿dónde NO se puede conectar?",
+   "opciones": [
+    "En un cabezal ARGB de 5 V",
+    "En un cabezal RGB de 12 V",
+    "En un concentrador ARGB",
+    "En el controlador de la caja"
+   ],
+   "correcta": 1,
+   "explicacion": "El RGB de 12 V y el ARGB de 5 V no son compatibles: en un cabezal de **12 V** se queman sus LED."
+  },
+  {
+   "tipo": "h",
+   "texto": "Ordenar el cableado"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "Los cables, por detrás de la bandeja y por los pasacables, saliendo cerca de su conector.",
+    "Sujetos con bridas o velcro, sin tensarlos ni doblarlos en ángulo recto.",
+    "Ningún cable toca un ventilador ni tapa la entrada de aire.",
+    "Los cables que sobran de una fuente no modular, en el compartimento de la fuente."
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Configurar la UEFI"
+  },
+  {
+   "tipo": "p",
+   "texto": "Aunque casi todos la llamen «la BIOS», un equipo nuevo tiene **UEFI**. Se entra pulsando varias veces **Supr** o **F2** al encender. Hay otra tecla para el **menú de arranque** (F8, F11 o F12) para arrancar una vez desde un USB. Muchas tienen un modo fácil (EZ Mode) y uno avanzado (normalmente **F7**)."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Parámetro",
+    "Qué es",
+    "En un equipo nuevo"
+   ],
+   "filas": [
+    [
+     "Fecha y hora",
+     "El reloj de la placa",
+     "La actual"
+    ],
+    [
+     "**Orden de arranque**",
+     "Dónde busca un sistema operativo",
+     "Para instalar, el USB primero; después, el disco del sistema (Windows Boot Manager)"
+    ],
+    [
+     "**XMP o EXPO**",
+     "La memoria a la velocidad de su etiqueta",
+     "Activado, si lo admiten"
+    ],
+    [
+     "Modo SATA",
+     "Cómo trabaja la controladora",
+     "**AHCI**. No se cambia con un sistema ya instalado"
+    ],
+    [
+     "**TPM** (Intel PTT / AMD fTPM)",
+     "Chip que guarda claves",
+     "Activado: Windows 11 lo exige"
+    ],
+    [
+     "**Arranque seguro**",
+     "Solo sistemas firmados",
+     "Activado para Windows 11"
+    ],
+    [
+     "Ventiladores",
+     "Curva de velocidad",
+     "Estándar o silencioso"
+    ],
+    [
+     "Contraseña",
+     "Que nadie cambie la configuración",
+     "En empresa o aula"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Para salir guardando, **F10** (Save & Exit). Si sales sin guardar, no se aplica nada."
+  },
+  {
+   "tipo": "nota",
+   "texto": "**No toques lo que no conoces:** voltajes, frecuencias y *overclocking* pueden dejar el equipo inestable. Si algo falla tras un cambio, usa **Load Optimized Defaults**. Si ni siquiera llega a la UEFI, se **borra la CMOS**: desenchufado, con el puente **CLR_CMOS** o quitando la pila CR2032 unos minutos, como diga el manual."
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "postled",
+   "texto": "El puente CLR_CMOS y la pila CR2032: así se borra la configuración de la UEFI.",
+   "foco": "clrcmos"
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Quieres instalar Windows 11 desde un USB solo esta vez. ¿Qué usas?",
+   "opciones": [
+    "El menú de arranque (F8, F11 o F12)",
+    "El puente CLR_CMOS",
+    "El modo SATA",
+    "El perfil XMP"
+   ],
+   "correcta": 0,
+   "explicacion": "El **menú de arranque** deja elegir **una sola vez** desde qué unidad arrancar, sin cambiar el orden."
+  },
+  {
+   "tipo": "h",
+   "texto": "La secuencia de arranque"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "**Reposo:** enchufado y apagado, la fuente da **5 V de reposo** para que la placa «escuche» el botón.",
+    "**Pulsación:** POWER SW avisa a la placa y la placa pide a la fuente que se encienda.",
+    "**La fuente arranca** y, con sus tensiones estables, envía **Power Good**.",
+    "**UEFI:** el procesador ejecuta el firmware, guardado en un chip de la placa.",
+    "**POST** (autoprueba de encendido): comprueba procesador, memoria, gráfica y dispositivos. Si hay un error grave, se para y avisa.",
+    "**Búsqueda del arranque:** busca, en el orden configurado, una unidad con sistema operativo.",
+    "**Gestor de arranque:** Windows Boot Manager o GRUB.",
+    "**Sistema operativo:** carga el núcleo, los controladores y la pantalla de inicio de sesión."
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Saber este orden sirve para **diagnosticar**: si no pasa nada al pulsar el botón, el fallo está en los primeros pasos (enchufe, fuente, botón); si giran los ventiladores pero no hay imagen, en el **POST**; si sale «no se encuentra un dispositivo de arranque», en la **búsqueda del arranque**. Lo ves cable a cable en **Por dentro → La fuente de alimentación**."
+  },
+  {
+   "tipo": "analogia",
+   "texto": "La secuencia de arranque es como **abrir una tienda por la mañana**: se da la luz (fuente), el encargado comprueba que todo funciona (POST), abre la puerta correcta (orden de arranque) y empieza a atender (sistema operativo)."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Los ventiladores giran pero no hay imagen. ¿En qué paso está el fallo?",
+   "opciones": [
+    "Reposo",
+    "La fuente no arranca",
+    "POST",
+    "Gestor de arranque"
+   ],
+   "correcta": 2,
+   "explicacion": "Si los ventiladores giran, la fuente ha arrancado. El fallo está en el **POST**."
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Seguridad (obligatorio):** todos los cables se conectan con la fuente desenchufada y con la pulsera puesta. Ningún conector se fuerza: **el EPS y el PCIe no se intercambian**. Antes de cerrar o encender, comprueba que ningún cable toca un ventilador."
+  },
+  {
+   "tipo": "resumen",
+   "texto": "La gráfica va en la **PCIe x16** con **todos** sus cables. La fuente trae el **24 pines** (placa), el **EPS** de 8 (procesador), el **PCIe** (gráfica), el **SATA** y el Molex; el EPS y el PCIe **no se intercambian**. En **F_PANEL** los botones no tienen polaridad y los LED sí. Los ventiladores, a **CPU_FAN** y CHA_FAN. El cableado, por detrás de la bandeja. En la **UEFI** (Supr o F2): fecha, orden de arranque, XMP o EXPO, AHCI, TPM y arranque seguro; se guarda con **F10**. Secuencia: **botón, fuente, Power Good, UEFI, POST, orden de arranque, gestor y sistema operativo**."
+  }
+ ]
+}

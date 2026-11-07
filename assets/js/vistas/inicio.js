@@ -1,7 +1,8 @@
 // inicio.js — Portada y lista de lecciones de un tema.
 import { h, curso, tema, progreso, cargarJSON } from '../util.js';
 import { huecoVisor } from './comun.js';
-import { EXAMEN_ACTIVO } from '../config.js';
+import { configExamen, PRACTICAS } from '../evaluacion.js';
+const EXAMEN_ACTIVO = configExamen('t1t2').activo;
 import { montaje } from '../piezas3d.js';
 
 const EQUIPO_PORTADA = ['caja-gredos', 'pb-z790', 'cpu-c7-14700k', 'ref-t120', 'ram-d5-2x16', 'ssd-nvme-1tb', 'gpu-rx60', 'fte-650'];
@@ -38,8 +39,9 @@ export async function vistaInicio() {
       t.ejercicios && t.ejercicios.length ? h('div.rejilla', { style: 'margin-top:14px' },
         
         h('div.tarjeta.reto-card', h('span.etiqueta', 'Para clase y repaso'), h('h3', 'Montaje animado'), h('p', 'Mira cómo se monta un PC paso a paso, en dibujos animados, y qué pasa si te equivocas en cada paso.'), h('a.btn.sec', { href: `#/${t.id}/animado` }, 'Ver el montaje')),
-        h('div.tarjeta.reto-card', h('span.etiqueta', 'Práctica libre'), h('h3', t.ejercicios[0].titulo), h('p', t.ejercicios[0].descripcion + ' Puedes repetirla las veces que quieras: no cuenta para nota.'), h('a.btn', { href: `#/${t.id}/practica` }, 'Practicar')),
-        EXAMEN_ACTIVO && h('div.tarjeta.reto-card', h('span.etiqueta', 'Examen'), h('h3', 'Con tu código'), h('p', 'Solo cuando el profesor lo abra. Tu nota se guarda al entregarlo.'), h('a.btn.sec', { href: `#/${t.id}/examen` }, 'Ir al examen'))) : null)));
+        h('div.tarjeta.reto-card', h('span.etiqueta', 'Para clase y repaso'), h('h3', 'Por dentro'), h('p', 'Abre las piezas y mira qué hay dentro: pasta térmica, disipadores, la fuente y el disco duro. Cambia algo y mira qué pasa.'), h('a.btn.sec', { href: '#/pordentro' }, 'Abrir las piezas')),
+        h('div.tarjeta.reto-card', h('span.etiqueta', 'Práctica libre · Temas 1 y 2'), h('h3', 'Monta un PC por piezas'), h('p', t.ejercicios[0].descripcion + ' Puedes repetirla las veces que quieras: no cuenta para nota.'), h('a.btn', { href: `#/${t.id}/practica` }, 'Practicar')),
+        EXAMEN_ACTIVO && h('div.tarjeta.reto-card', h('span.etiqueta', 'Examen'), h('h3', 'Examen Temas 1 y 2'), h('p', 'Solo cuando el profesor lo abra. Tu nota se guarda al entregarlo.'), h('a.btn.sec', { href: `#/${t.id}/examen` }, 'Ir al examen'))) : null)));
 
   return {
     el,
@@ -83,5 +85,6 @@ export async function vistaTema(temaId) {
     h('div.fila', { style: 'margin-top:24px' },
       t.piezas && t.piezas.length ? h('a.btn.sec', { href: `#/${t.id}/piezas` }, 'Piezas en 3D') : null,
       t.id === 'tema1' ? h('a.btn.sec', { href: `#/${t.id}/animado` }, 'Montaje animado') : null,
-      practica ? h('a.btn', { href: `#/${practica}/practica` }, 'Práctica: elige y monta un PC') : null)) };
+      practica ? h('a.btn', { href: `#/${practica}/practica` }, 'Práctica: monta un PC por piezas') : null,
+      t.id === 'tema3' ? h('a.btn', { href: '#/tema3/practica' }, 'Práctica: este PC no arranca') : null)) };
 }

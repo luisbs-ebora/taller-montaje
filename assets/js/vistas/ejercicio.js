@@ -4,7 +4,7 @@ import { h, md, tema, progreso } from '../util.js';
 import { huecoVisor, precio, caracteristicas } from './comun.js';
 import { montaje } from '../piezas3d.js';
 import { llamar, scriptConfigurado } from '../api.js';
-import { EXAMEN_ACTIVO } from '../config.js';
+import { configExamen, examen as datosExamen, PRACTICAS } from '../evaluacion.js';
 
 const PASO_A_PIEZA = { cpu: 'cpu', refri: 'refri', ram: 'ram', m2: 'almac', disco: 'almac', placa: 'placa', fuente: 'fuente', gpu: 'gpu' };
 const EN_PLACA = ['cpu', 'refri', 'ram', 'm2'];
@@ -14,6 +14,10 @@ export async function vistaEjercicio(temaId, modo) {
   const ej = (t.ejercicios || [])[0];
   if (!ej) throw new Error('Este tema no tiene ejercicio de montaje.');
   const examen = modo === 'examen';
+  // Este ejercicio es el de los Temas 1 y 2: su examen es «t1t2»
+  const ID_EXAMEN = 't1t2';
+  const infoEx = datosExamen(ID_EXAMEN), infoPr = PRACTICAS.find(p => p.id === ej.id);
+  const EXAMEN_ACTIVO = configExamen(ID_EXAMEN).activo;
   const clave = `sesion:${temaId}:${modo}`;
   let s = progreso.get(clave) || null; // { casoId, caso, codigo, seleccion, pasos, fase }
   const guardar = () => progreso.set(clave, s);
@@ -48,7 +52,7 @@ export async function vistaEjercicio(temaId, modo) {
       : [['piezas', '1 · Elige las piezas'], ['montaje', '2 · Ordena el montaje'], ['resultado', examen ? '3 · Entregado' : '3 · Resultado']];
     const i = fases.findIndex(f => f[0] === fase);
     return h('div.ej-cab',
-      h('div', h('span.etiqueta', examen ? 'Examen' : 'Práctica · Tema ' + t.numero), h('h1', examen ? (caso && caso.titulo) || 'Examen práctico' : ej.titulo)),
+      h('div', h('span.etiqueta', examen ? infoEx.titulo : 'Práctica · ' + (infoPr ? infoPr.temas : 'Tema ' + t.numero)), h('h1', examen ? (caso && caso.titulo) || infoEx.subtitulo : (infoPr ? infoPr.titulo : ej.titulo))),
       fase !== 'inicio' ? h('div.fila', examen && fase !== 'resultado' ? reloj : null, h('div.fases', fases.map((f, k) => h('span', { class: k < i ? 'hecha' : k === i ? 'actual' : '' }, f[1])))) : null);
   }
 
@@ -78,7 +82,7 @@ export async function vistaEjercicio(temaId, modo) {
       raiz.replaceChildren(cabecera('inicio'), h('div.mensaje', 'El examen todavía no está abierto. Mientras tanto, puedes hacer la práctica todas las veces que quieras.'), h('div.fila', { style: 'margin-top:16px' }, h('a.btn.azul', { href: `#/${temaId}/practica` }, 'Ir a la práctica')));
       return;
     }
-    if (examen && !scriptConfigurado()) {
+    if (examen && !scriptConfigurado(ID_EXAMEN)) {
       raiz.replaceChildren(cabecera('inicio'), h('div.mensaje.error', 'Esta parte todavía no está conectada con el servidor del profesor. El resto de la web (lecciones y piezas) funciona igual.'));
       return;
     }
@@ -89,7 +93,7 @@ export async function vistaEjercicio(temaId, modo) {
         e.preventDefault(); btn.disabled = true; btn.textContent = 'Conectando…';
         try {
           const codigo = input.value.trim().toUpperCase();
-          const r = await llamar('examen-empezar', { codigo });
+          const r = await llamar('examen-empezar', { codigo }, ID_EXAMEN);
           const mismo = s && s.casoId === r.casoId;
           s = { casoId: r.casoId, caso: r.caso, codigo, alumno: r.alumno, seleccion: mismo ? s.seleccion : {}, pasos: mismo ? s.pasos : [], fase: mismo ? s.fase : 'piezas',
             limite: r.limite || null, desfase: r.ahora ? Date.parse(r.ahora) - Date.now() : 0 };
@@ -208,7 +212,7 @@ export async function vistaEjercicio(temaId, modo) {
     try {
       const respuesta = { seleccion: s.seleccion, pasos: s.pasos };
       const r = examen
-        ? await llamar('examen-entregar', { codigo: s.codigo, casoId: s.casoId, respuesta })
+        ? await llamar('examen-entregar', { codigo: s.codigo, casoId: s.casoId, respuesta }, ID_EXAMEN)
         : await llamar('practica-entregar', { casoId: s.casoId, respuesta });
       if (!examen) progreso.anotarPractica({ tema: temaId, nota: r.resultado.nota });
       const caso = s.caso;
@@ -236,6 +240,7 @@ export async function vistaEjercicio(temaId, modo) {
       partes.push(h('div.tarjeta', { style: 'padding:22px' },
         h('span.etiqueta', 'Nota'), h('div.nota-grande', nota.toLocaleString('es-ES', { maximumFractionDigits: 2 }), h('small', { style: 'font-size:28px;color:var(--tinta-2)' }, ' / 10')),
         (res ? res.faltaGrave : r.faltaGrave) ? h('p.mensaje.error', 'Has elegido una acción peligrosa. En un taller real, eso es una falta grave.') : null,
+        (res ? res.noFunciona : r.noFunciona) ? h('p.mensaje.error', `Tu ordenador no funcionaría o no se podría montar: hay piezas incompatibles. Por eso la nota máxima es ${String((res ? res.topeNoFunciona : r.tope) ?? 4).replace('.', ',')}.`) : null,
         bloques ? h('div.bloques', claves.map(k => h('div.tarjeta.bloque', h('small', nombres[k]), h('b', `${bloques[k].toLocaleString('es-ES')} / ${mapMax[k] != null ? mapMax[k].toLocaleString('es-ES') : '–'}`)))) : null));
     }
     if (res && res.detalle) {

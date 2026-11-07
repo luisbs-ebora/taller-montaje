@@ -12,7 +12,7 @@
   ],
   "piezas": ["placa", "cpu", "refri", "ram", "almac", "gpu", "fuente", "caja"],
   "ejercicios": [
-    { "id": "t1-montaje", "titulo": "Elige y monta un PC",
+    { "id": "t1-montaje", "titulo": "Monta un PC por piezas",
       "descripcion": "Te llega un cliente con un encargo. Elige piezas compatibles que cumplan lo que pide y ordena los pasos de montaje con todas las medidas de seguridad." }
   ]
 }

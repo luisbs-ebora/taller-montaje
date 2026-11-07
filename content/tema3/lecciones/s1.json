@@ -1,0 +1,494 @@
+{
+ "id": "s1",
+ "titulo": "Preparar el montaje",
+ "objetivos": [
+  "Conocer las cuatro fases de un montaje.",
+  "Elegir las herramientas y los útiles adecuados, y distinguir los tornillos 6-32, M3 y M2.",
+  "Aplicar la seguridad eléctrica, antiestática y personal.",
+  "Leer el manual y el esquema de la placa, preparar la caja y decidir el orden de montaje."
+ ],
+ "bloques": [
+  {
+   "tipo": "p",
+   "texto": "En el Tema 1 vimos qué hace cada componente y en el Tema 2, cómo elegirlos. Ahora toca **montarlos**. Un buen montaje empieza antes de coger el destornillador: la mayoría de los fallos (un tornillo perdido dentro de la caja, un **separador de más** que provoca un cortocircuito, un procesador con las patillas dobladas) vienen de no preparar el puesto, no leer el manual o no planificar el orden."
+  },
+  {
+   "tipo": "h",
+   "texto": "Las fases de un montaje"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Fase",
+    "Qué se hace",
+    "Lección"
+   ],
+   "filas": [
+    [
+     "1. Preparar",
+     "Herramientas, puesto de trabajo, manuales, caja abierta y orden de montaje decidido",
+     "Esta"
+    ],
+    [
+     "2. Montar",
+     "Procesador, disipador, memoria, unidades, fuente y placa base dentro de la caja",
+     "Lección 2"
+    ],
+    [
+     "3. Conectar y configurar",
+     "Tarjetas, cables, panel frontal, ventiladores y ajustes básicos de la UEFI",
+     "Lección 3"
+    ],
+    [
+     "4. Comprobar y documentar",
+     "Primer arranque, POST, solución de errores, utilidades e informe de montaje",
+     "Lección 4"
+    ]
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Herramientas y útiles"
+  },
+  {
+   "tipo": "p",
+   "texto": "**Herramientas** son lo que se usa para trabajar (un destornillador). **Útiles** son lo que ayuda a trabajar bien y seguro (una bandeja de tornillos, una pulsera antiestática)."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Herramienta o útil",
+    "Para qué sirve",
+    "Consejo"
+   ],
+   "filas": [
+    [
+     "Destornillador de estrella **PH2**",
+     "La mayoría de los tornillos: placa, fuente, discos, tarjetas",
+     "Mejor con punta imantada"
+    ],
+    [
+     "Destornillador pequeño **PH1** o PH0",
+     "Tornillos pequeños: la unidad M.2, algunos disipadores",
+     "No uses el grande: se estropea la cabeza"
+    ],
+    [
+     "**Pulsera antiestática**",
+     "Iguala tu carga con la del equipo",
+     "Pinza a la toma de tierra o a una parte metálica sin pintar"
+    ],
+    [
+     "Alfombrilla antiestática",
+     "Superficie que descarga la electricidad estática poco a poco",
+     "Si no hay, mesa de madera o laminado; nunca moqueta"
+    ],
+    [
+     "Bolsas antiestáticas",
+     "Guardar las piezas que no usas",
+     "Cada pieza en su bolsa hasta instalarla"
+    ],
+    [
+     "Bandeja para tornillos",
+     "Que no se pierdan ni se mezclen",
+     "Sepáralos por tipo o por pieza"
+    ],
+    [
+     "Bridas o velcro",
+     "Ordenar los cables",
+     "El velcro se reutiliza; las bridas, no"
+    ],
+    [
+     "Pinzas de plástico",
+     "Recoger un tornillo caído o poner un puente",
+     "De plástico: no hacen contacto"
+    ],
+    [
+     "Linterna",
+     "Leer la serigrafía de la placa",
+     "La del móvil sirve"
+    ],
+    [
+     "Pasta térmica",
+     "Contacto entre procesador y disipador",
+     "Muchos disipadores ya la traen"
+    ],
+    [
+     "Alcohol isopropílico y paño sin pelusa",
+     "Limpiar pasta vieja",
+     "De 90 % o más"
+    ],
+    [
+     "Manuales del fabricante",
+     "Saber dónde va cada pieza y cada cable",
+     "A mano durante todo el montaje"
+    ]
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "herram",
+   "texto": "Las herramientas y útiles del puesto. Toca cada una para ver para qué sirve.",
+   "foco": "pulsera"
+  },
+  {
+   "tipo": "h",
+   "texto": "Los tornillos de un ordenador"
+  },
+  {
+   "tipo": "p",
+   "texto": "Se usan casi siempre **tres tipos**. Se parecen mucho, pero **no son intercambiables**: si un tornillo no entra con suavidad, no es el suyo."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Tipo",
+    "Cómo es",
+    "Dónde se usa"
+   ],
+   "filas": [
+    [
+     "**6-32** (UNC)",
+     "Grueso, con la rosca ancha. Cabeza hexagonal o redonda grande",
+     "Fuente, discos de 3,5″, tarjetas y, en muchas cajas, la placa"
+    ],
+    [
+     "**M3**",
+     "Algo más fino, con la rosca más apretada",
+     "SSD SATA de 2,5″, unidades ópticas y algunas placas"
+    ],
+    [
+     "**M2**",
+     "Muy pequeño",
+     "La unidad M.2"
+    ]
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "tornillos",
+   "texto": "De izquierda a derecha: 6-32, M3, M2 y un separador. Fíjate en la rosca: la del 6-32 es más ancha.",
+   "foco": "632"
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Regla práctica:** usa los tornillos que vienen con cada pieza. La caja trae los suyos (placa, discos, fuente) y la placa trae el de la M.2. Aprieta firme, pero sin forzar: un tornillo pasado de rosca deja de sujetar."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Qué tornillo usarías para fijar una unidad M.2?",
+   "opciones": [
+    "6-32",
+    "M3",
+    "M2",
+    "Cualquiera que entre"
+   ],
+   "correcta": 2,
+   "explicacion": "La unidad M.2 se fija con el tornillo **M2**, el más pequeño, que trae la placa base."
+  },
+  {
+   "tipo": "h",
+   "texto": "Seguridad en el montaje"
+  },
+  {
+   "tipo": "p",
+   "texto": "**Seguridad eléctrica.** Se monta siempre con la fuente **desenchufada** y con su interruptor trasero en **0**. Nunca se abre la fuente: sus condensadores pueden guardar carga aunque esté desenchufada. No se conecta ni desconecta nada con el equipo enchufado, aunque esté apagado: la placa sigue recibiendo la tensión de reposo."
+  },
+  {
+   "tipo": "p",
+   "texto": "**Electricidad estática (ESD).** Al caminar sobre una alfombra o quitarte un jersey te cargas de electricidad. Al tocar algo metálico salta de golpe: es el calambrazo de la puerta del coche. Los chips se estropean con descargas mucho más pequeñas, que tú ni notas, y a veces el daño aparece semanas después."
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "Ponte la **pulsera** antes de sacar las piezas de su bolsa.",
+    "Coge las piezas **por los bordes**: sin tocar contactos dorados, chips ni patillas.",
+    "Deja cada pieza en su **bolsa antiestática** hasta instalarla.",
+    "Evita la lana y las fibras sintéticas, y no trabajes sobre moqueta."
+   ]
+  },
+  {
+   "tipo": "analogia",
+   "texto": "La pulsera antiestática es como **tocar la puerta del coche antes de entrar**: descargas la electricidad poco a poco y sin chispazo."
+  },
+  {
+   "tipo": "p",
+   "texto": "**Seguridad personal.** Mesa despejada, iluminada y sin comida ni bebida. Sin anillos, relojes ni pulseras metálicas, y el pelo recogido. Cuidado con los bordes de la chapa y con el vidrio templado (con las dos manos y tumbado). Caja tumbada sobre la mesa, espalda recta, y piernas flexionadas para levantar."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Por qué no se conecta nada con el equipo enchufado aunque esté apagado?",
+   "opciones": [
+    "Porque se borra la UEFI",
+    "Porque la placa sigue recibiendo la tensión de reposo",
+    "Porque la fuente se pone en 115 V",
+    "Porque se descarga la pila"
+   ],
+   "correcta": 1,
+   "explicacion": "Mientras haya cable, la fuente da a la placa una pequeña **tensión de reposo** para escuchar el botón."
+  },
+  {
+   "tipo": "h",
+   "texto": "El manual y el esquema de la placa"
+  },
+  {
+   "tipo": "p",
+   "texto": "El manual más importante del montaje es el de la **placa base**: dice dónde va cada pieza, cada cable y en qué orden. Un técnico no adivina dónde va un cable: lo mira. Si se pierde el de papel, se descarga en PDF con el **modelo exacto** (y la revisión, por ejemplo «Rev. 1.1»)."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Apartado del manual",
+    "Qué encuentras",
+    "Para qué"
+   ],
+   "filas": [
+    [
+     "Especificaciones",
+     "Zócalo, procesadores y memoria admitidos, ranuras, M.2, SATA, puertos",
+     "Comprobar la compatibilidad"
+    ],
+    [
+     "Esquema (*layout*)",
+     "Dibujo de la placa con el nombre y la posición de cada conector",
+     "Localizar cada conector"
+    ],
+    [
+     "Procesador y memoria",
+     "Cómo se abre el zócalo y qué ranuras usar",
+     "Montar sin errores"
+    ],
+    [
+     "Conectores internos",
+     "Patillas del panel frontal, USB, audio, ventiladores",
+     "Conectar el frontal"
+    ],
+    [
+     "Puertos traseros",
+     "Qué es cada puerto",
+     "Monitor, red, audio"
+    ],
+    [
+     "UEFI/BIOS",
+     "Cómo entrar y qué hace cada opción",
+     "Configurar (lección 3)"
+    ],
+    [
+     "Solución de problemas",
+     "LED, pitidos y códigos de error",
+     "Diagnosticar (lección 4)"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Los nombres del esquema están también **serigrafiados** (impresos en blanco) en la placa, al lado de cada conector. El fabricante publica además la **QVL** (lista de memorias probadas) y las actualizaciones de la UEFI."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Nombre en la placa",
+    "Qué se conecta"
+   ],
+   "filas": [
+    [
+     "**ATX12V** (CPU_PWR, EPS)",
+     "Cable de 8 (4+4) pines que alimenta el procesador"
+    ],
+    [
+     "**ATX_24P**",
+     "Cable principal de 24 pines"
+    ],
+    [
+     "**DIMM_A1 … B2**",
+     "Módulos de memoria: el manual dice cuáles usar primero"
+    ],
+    [
+     "**M2_1, M2_2**",
+     "Unidades M.2"
+    ],
+    [
+     "**PCIEX16, PCIEX1**",
+     "Gráfica y otras tarjetas"
+    ],
+    [
+     "**SATA 1-4**",
+     "Cables de datos de las unidades SATA"
+    ],
+    [
+     "**CPU_FAN, CHA_FAN**",
+     "Ventilador del procesador y de la caja"
+    ],
+    [
+     "**F_PANEL**",
+     "Botones y LED del frontal"
+    ],
+    [
+     "**USB_2, USB3_1, HD_AUDIO**",
+     "USB y audio del frontal"
+    ]
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "placa",
+   "texto": "Busca en la placa los conectores del esquema: el EPS (ATX12V) arriba a la izquierda, el de 24 pines a la derecha y F_PANEL abajo.",
+   "foco": "eps"
+  },
+  {
+   "tipo": "analogia",
+   "texto": "El esquema de la placa es **el plano de un edificio**: cada habitación (conector) tiene su nombre en la puerta (serigrafía)."
+  },
+  {
+   "tipo": "nota",
+   "texto": "Cada fabricante usa nombres algo distintos (F_PANEL, JFP1, PANEL1…). Por eso siempre se consulta el manual **de esa placa**."
+  },
+  {
+   "tipo": "h",
+   "texto": "Abrir y preparar la caja"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Quita los dos paneles laterales: por el izquierdo se monta y por el derecho se pasan los cables.",
+    "Saca la bolsa de tornillos y accesorios.",
+    "Comprueba los **separadores**: uno debajo de cada agujero de la placa y **ninguno** donde la placa no tiene agujero. Si sobra alguno, quítalo.",
+    "Si la placa trae la chapa del panel trasero (*I/O shield*) suelta, colócala desde dentro hasta que encaje en sus cuatro lados.",
+    "Quita las tapas de las ranuras traseras por donde saldrán las tarjetas (el borde corta).",
+    "Localiza los pasacables y piensa por dónde irá cada cable.",
+    "Revisa los ventiladores de la caja: delante y abajo, entrada; detrás y arriba, salida."
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "tornillos",
+   "texto": "El separador mantiene la placa en el aire. Uno de más, donde la placa no tiene agujero, toca su circuito por debajo y provoca un cortocircuito.",
+   "foco": "separador"
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "La caja trae 9 separadores puestos y tu placa MicroATX tiene 6 agujeros. ¿Qué haces?",
+   "opciones": [
+    "Nada, así está más sujeta",
+    "Quitar los separadores que no coinciden con un agujero",
+    "Poner tornillos en los 9",
+    "Quitar todos y apoyarla en la chapa"
+   ],
+   "correcta": 1,
+   "explicacion": "Un separador sin agujero encima toca el circuito de la placa y puede provocar un **cortocircuito**. Solo se dejan los que coinciden con un agujero."
+  },
+  {
+   "tipo": "h",
+   "texto": "El orden de montaje"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Paso",
+    "Qué se monta",
+    "Dónde"
+   ],
+   "filas": [
+    [
+     "1",
+     "Procesador",
+     "Fuera de la caja, con la placa sobre su caja de cartón"
+    ],
+    [
+     "2",
+     "Memoria RAM",
+     "Fuera de la caja"
+    ],
+    [
+     "3",
+     "Unidad M.2",
+     "Fuera de la caja"
+    ],
+    [
+     "4",
+     "Disipador",
+     "Fuera de la caja (si es muy grande o líquido, puede ir después)"
+    ],
+    [
+     "5",
+     "Fuente",
+     "En la caja"
+    ],
+    [
+     "6",
+     "Placa base",
+     "En la caja, sobre los separadores"
+    ],
+    [
+     "7",
+     "Discos y unidades SATA",
+     "En las bahías"
+    ],
+    [
+     "8",
+     "Cables de alimentación de placa y procesador",
+     "Dentro de la caja"
+    ],
+    [
+     "9",
+     "Panel frontal, USB, audio y ventiladores",
+     "Dentro de la caja"
+    ],
+    [
+     "10",
+     "Gráfica y otras tarjetas",
+     "Ranuras PCIe"
+    ],
+    [
+     "11",
+     "Ordenar los cables",
+     "Por detrás de la bandeja"
+    ],
+    [
+     "12",
+     "Primera prueba, con la caja abierta",
+     "En el puesto"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Montar procesador, memoria y disipador **fuera de la caja** es más cómodo: más espacio, más luz y menos riesgo. La gráfica va casi al final porque es grande y tapa conectores. Este orden no es una ley: si el manual de la caja o del disipador dice otra cosa, **manda el manual**."
+  },
+  {
+   "tipo": "analogia",
+   "texto": "Montar un ordenador es como **montar un mueble de caja plana**: si no lees las instrucciones y no separas los tornillos, al final sobra uno y algo se tambalea."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Por qué la tarjeta gráfica se monta casi al final?",
+   "opciones": [
+    "Porque es lo más caro",
+    "Porque es grande y tapa otros conectores",
+    "Porque necesita la UEFI configurada",
+    "Porque se calienta"
+   ],
+   "correcta": 1,
+   "explicacion": "La gráfica es grande y, una vez puesta, tapa conectores de la placa (SATA, frontal…)."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Dónde se monta el procesador?",
+   "opciones": [
+    "Con la placa ya atornillada en la caja",
+    "Fuera de la caja, con la placa sobre su caja de cartón",
+    "Sobre una bandeja metálica",
+    "Sobre la moqueta, que es blanda"
+   ],
+   "correcta": 1,
+   "explicacion": "Fuera de la caja hay más espacio y luz. La caja de cartón de la placa es plana y no conduce."
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Seguridad eléctrica y antiestática (obligatorio):** fuente desenchufada y con el interruptor en **0** durante todo el montaje, pulsera antiestática puesta antes de sacar cualquier pieza de su bolsa, nunca abras la fuente y coge las piezas por los bordes."
+  },
+  {
+   "tipo": "resumen",
+   "texto": "Un montaje tiene cuatro fases: **preparar, montar, conectar y configurar, y comprobar y documentar**. Herramientas: destornilladores **PH2 y PH1**; útiles: **pulsera y alfombrilla antiestáticas**, bandeja, bridas. Los tornillos **6-32, M3 y M2** no son intercambiables. Se monta con la fuente **desenchufada** y la pulsera puesta. El **manual de la placa** dice dónde va cada cosa y los nombres están serigrafiados. Antes se prepara la caja (**separadores**, panel trasero, tapas) y se decide el orden: CPU, RAM, M.2 y disipador fuera; después fuente, placa, unidades, cables y tarjetas."
+  }
+ ]
+}

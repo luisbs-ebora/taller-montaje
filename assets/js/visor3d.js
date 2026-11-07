@@ -137,7 +137,7 @@ export class Visor {
     const r = this.renderer.domElement.getBoundingClientRect();
     const p = new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     this.raycaster.setFromCamera(p, this.camara);
-    const hit = this.raycaster.intersectObjects(this.raiz.children, true).find(h => !h.object.userData.noTocar);
+    const hit = this.raycaster.intersectObjects(this.raiz.children, true).find(h => { if (h.object.userData.noTocar) return false; let o = h.object; while (o && !o.userData.parte) o = o.parent; return !!o; }); // se salta cristales y paredes sin nombre
     let parte = null;
     if (hit) { let o = hit.object; while (o && !o.userData.parte) o = o.parent; parte = o ? o.userData.parte : null; }
     this.resaltar(parte);

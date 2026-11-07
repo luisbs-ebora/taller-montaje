@@ -5,6 +5,9 @@ import { vistaLeccion } from './vistas/leccion.js';
 import { vistaPiezas } from './vistas/piezas.js';
 import { vistaEjercicio } from './vistas/ejercicio.js';
 import { vistaAnimado } from './vistas/animado.js';
+import { vistaPorDentro } from './vistas/pordentro.js';
+import { vistaPracticas, vistaExamenes } from './vistas/evaluacion.js';
+import { vistaAveria } from './vistas/averia.js';
 
 const main = document.getElementById('contenido');
 let actual = null;
@@ -27,6 +30,10 @@ const RUTAS = [
   [/^$/, () => vistaInicio()],
   [/^creditos$/, () => vistaCreditos()],
   [/^lecciones$/, () => vistaLecciones()],
+  [/^practicas$/, () => vistaPracticas()],
+  [/^tema3\/practica$/, () => vistaAveria()],
+  [/^examenes$/, () => vistaExamenes()],
+  [/^pordentro(?:\/([\w-]+))?$/, m => vistaPorDentro(m[1])],
   [/^([\w-]+)$/, m => vistaTema(m[1])],
   [/^([\w-]+)\/leccion\/([\w-]+)$/, m => vistaLeccion(m[1], m[2])],
   [/^([\w-]+)\/piezas$/, m => vistaPiezas(m[1])],
@@ -41,7 +48,7 @@ async function navegar() {
   if (actual && actual.destruir) { try { actual.destruir(); } catch (e) { console.error(e); } }
   actual = null;
   main.replaceChildren(h('div.cargando', 'Cargando…'));
-  const seccion = ruta === '' ? 'inicio' : ruta === 'creditos' ? 'creditos' : ruta.includes('/leccion/') || /^[\w-]+$/.test(ruta) ? 'tema' : ruta.split('/').pop();
+  const seccion = ruta === '' ? 'inicio' : ruta === 'creditos' ? 'creditos' : ruta.startsWith('pordentro') ? 'pordentro' : ruta === 'practicas' || ruta.endsWith('/practica') ? 'practicas' : ruta === 'examenes' || ruta.endsWith('/examen') ? 'examenes' : ruta.includes('/leccion/') || /^[\w-]+$/.test(ruta) ? 'tema' : ruta.split('/').pop();
   document.querySelectorAll('.menu a').forEach(a => {
     if (a.dataset.ruta === seccion) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
   });
@@ -63,6 +70,5 @@ async function navegar() {
   main.focus({ preventScroll: true });
 }
 
-import('./config.js').then(c => { if (!c.EXAMEN_ACTIVO) document.querySelector('.menu a[data-ruta="examen"]')?.remove(); });
 window.addEventListener('hashchange', navegar);
 navegar();

@@ -1,0 +1,40 @@
+{
+ "id": "tema3",
+ "numero": 3,
+ "titulo": "Ensamblado de equipos microinformáticos",
+ "resumen": "Cómo se monta un equipo de verdad: preparar el puesto, montar las piezas, conectar los cables y el frontal, configurar la UEFI y comprobar que arranca.",
+ "lecciones": [
+  {
+   "id": "s1",
+   "titulo": "Preparar el montaje",
+   "subtitulo": "Fases, herramientas, tornillos, seguridad, manual y orden",
+   "archivo": "lecciones/s1.json"
+  },
+  {
+   "id": "s2",
+   "titulo": "Procesador, refrigeración, memoria y unidades",
+   "subtitulo": "Zócalo LGA y PGA, pasta térmica, disipadores, RAM, M.2, fuente y placa",
+   "archivo": "lecciones/s2.json"
+  },
+  {
+   "id": "s3",
+   "titulo": "Cables, panel frontal y UEFI",
+   "subtitulo": "Gráfica, cables de la fuente, F_PANEL, ventiladores, UEFI y secuencia de arranque",
+   "archivo": "lecciones/s3.json"
+  },
+  {
+   "id": "s4",
+   "titulo": "Primer arranque y diagnóstico",
+   "subtitulo": "Revisión, POST, LED de diagnóstico, utilidades e informe de montaje",
+   "archivo": "lecciones/s4.json"
+  }
+ ],
+ "piezas": [
+  "herram",
+  "tornillos",
+  "cables",
+  "fpanel",
+  "postled"
+ ],
+ "ejercicios": []
+}

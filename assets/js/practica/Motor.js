@@ -165,15 +165,18 @@ var Motor = (function () {
     });
 
     // 2) Compatibilidad
-    var okReglas = 0;
+    var okReglas = 0, fallidas = [];
     def.reglas.forEach(function (r) {
       var aplicable = r.usa.every(function (c) { return sel[c]; });
       var ok = aplicable && r.check(sel);
       if (ok) okReglas++;
-      detalle.push({ bloque: 'compatibilidad', regla: r.id, ok: ok,
+      if (!ok) fallidas.push(r.id);
+      detalle.push({ bloque: 'compatibilidad', regla: r.id, ok: ok, grave: !ok,
         texto: ok ? r.texto : (aplicable ? r.explica(sel) : r.texto + ' (no se puede comprobar: falta una pieza)') });
     });
     var compat = pesos.compat * okReglas / def.reglas.length;
+    // Cualquier incompatibilidad = el ordenador no funciona o no se puede montar → nota máxima limitada
+    var noFunciona = fallidas.length > 0;
 
     // 3) Encargo del cliente
     var reqs = perfil.requisitos.map(function (q) {
@@ -243,8 +246,14 @@ var Motor = (function () {
     orden = Math.max(0, orden - (def.penalizacionPasoSobrante || 0.25) * sobran.length);
 
     var nota = compat + cliente + seguridad + orden;
+    var tope = def.topeNoFunciona === undefined || def.topeNoFunciona === null ? 4 : def.topeNoFunciona;
+    var notaFinal = noFunciona && tope !== false && !isNaN(Number(tope)) ? Math.min(nota, Number(tope)) : nota;
     return {
-      nota: redondear(nota),
+      nota: redondear(notaFinal),
+      notaSinTope: redondear(nota),
+      noFunciona: noFunciona,
+      topeNoFunciona: noFunciona ? tope : null,
+      reglasFallidas: fallidas,
       bloques: { compatibilidad: redondear(compat), cliente: redondear(cliente), seguridad: redondear(seguridad), orden: redondear(orden) },
       maximos: pesos,
       faltaGrave: faltaGrave,

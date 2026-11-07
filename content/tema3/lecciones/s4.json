@@ -1,0 +1,421 @@
+{
+ "id": "s4",
+ "titulo": "Primer arranque y diagnóstico",
+ "objetivos": [
+  "Revisar el equipo antes de enchufarlo y hacer el primer arranque.",
+  "Buscar la causa de un fallo por el síntoma.",
+  "Interpretar los avisos del POST: pitidos, LED de diagnóstico y mensajes.",
+  "Comprobar el equipo con utilidades y redactar el informe de montaje."
+ ],
+ "bloques": [
+  {
+   "tipo": "p",
+   "texto": "Un técnico no entrega un equipo porque «enciende»: lo entrega cuando ha comprobado que **detecta todo el hardware**, que **no se calienta** y que lo ha dejado **por escrito**."
+  },
+  {
+   "tipo": "h",
+   "texto": "Antes de enchufar: la revisión"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Comprueba",
+    "Por qué"
+   ],
+   "filas": [
+    [
+     "No hay tornillos ni piezas sueltas dentro",
+     "Un tornillo suelto puede provocar un cortocircuito"
+    ],
+    [
+     "El **24 pines** y el **EPS** están conectados hasta el clic",
+     "Sin el EPS, el procesador no recibe corriente y no hay imagen"
+    ],
+    [
+     "La **memoria** está bien insertada, con las pestañas cerradas",
+     "Es la causa más frecuente de «enciende pero no da imagen»"
+    ],
+    [
+     "El ventilador del disipador está en **CPU_FAN**",
+     "Sin él, el procesador se calienta y la placa avisa o se apaga"
+    ],
+    [
+     "La **gráfica** tiene todos sus cables",
+     "Si no, no arranca o avisa con un LED"
+    ],
+    [
+     "El **monitor** está conectado a la gráfica, no a la placa",
+     "Con gráfica dedicada, los puertos de la placa no suelen dar imagen"
+    ],
+    [
+     "**POWER SW** está en su sitio de F_PANEL",
+     "Sin él, el botón no hace nada"
+    ],
+    [
+     "Ningún cable toca un ventilador",
+     "Lo frenaría o lo rompería"
+    ],
+    [
+     "El interruptor de la fuente está en **I**",
+     "En 0, el equipo no recibe corriente"
+    ]
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "El primer arranque"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Deja la caja **abierta**, sin el panel lateral: así ves ventiladores y LED.",
+    "Conecta monitor, teclado y cable de corriente. Interruptor de la fuente en **I**.",
+    "Pulsa el botón. Mira que giran los ventiladores (procesador, fuente y caja) y que se enciende algún LED de la placa.",
+    "**Ten paciencia:** en el primer arranque la placa ajusta la memoria (*memory training*). Con DDR5 puede tardar varios minutos y reiniciarse una o dos veces sin imagen. **No apagues.**",
+    "Con imagen, entra en la UEFI (Supr o F2) y comprueba procesador, toda la memoria, todas las unidades y la temperatura en reposo (suele estar por debajo de **50 °C**).",
+    "Si la temperatura sube muy deprisa (más de **80-90 °C** sin hacer nada), apaga: disipador mal puesto, sin pasta, con el plástico o sin su ventilador conectado."
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Si no arranca: buscar la causa por el síntoma"
+  },
+  {
+   "tipo": "p",
+   "texto": "En un equipo recién montado casi siempre es **un cable o una pieza mal colocada**, no una pieza averiada. Se busca la causa **por el síntoma**, de lo más sencillo a lo más complicado, y **desenchufado** antes de tocar nada dentro."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Síntoma",
+    "Dónde falla",
+    "Qué revisar"
+   ],
+   "filas": [
+    [
+     "**No pasa nada:** ni ventiladores ni luces",
+     "La fuente no arranca",
+     "Enchufe y regleta; interruptor en I; cable de 24 pines; POWER SW en F_PANEL"
+    ],
+    [
+     "**Los ventiladores giran, pero no hay imagen**",
+     "POST",
+     "Monitor en la gráfica y encendido; memoria; EPS; cables de la gráfica; LED de diagnóstico"
+    ],
+    [
+     "**Se enciende y se apaga** a los pocos segundos",
+     "Fuente o POST",
+     "Un cortocircuito (un separador de más, un tornillo suelto); el EPS; el disipador mal colocado"
+    ],
+    [
+     "**Se reinicia una y otra vez** sin imagen",
+     "POST (memoria)",
+     "Esperar al ajuste de memoria; si sigue, borrar la CMOS para quitar XMP o EXPO y probar con un solo módulo"
+    ],
+    [
+     "Aparece **«CPU Fan Error»**",
+     "POST",
+     "El ventilador del disipador no está en CPU_FAN"
+    ],
+    [
+     "**«Reboot and select proper boot device»** o «No bootable device»",
+     "Búsqueda del arranque",
+     "No hay sistema instalado, el orden de arranque está mal o el disco no está conectado"
+    ],
+    [
+     "La **fecha y la hora se borran** al desenchufar",
+     "Reposo",
+     "La pila CR2032 está agotada"
+    ]
+   ]
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Pulsas el botón y no pasa nada: ni ventiladores ni luces. ¿Qué revisas primero?",
+   "opciones": [
+    "La memoria",
+    "El enchufe, el interruptor de la fuente, el 24 pines y POWER SW",
+    "La temperatura en la UEFI",
+    "El orden de arranque"
+   ],
+   "correcta": 1,
+   "explicacion": "Si no pasa nada, **la fuente no arranca**: se empieza por lo más sencillo (enchufe e interruptor) y se sigue por el 24 pines y POWER SW."
+  },
+  {
+   "tipo": "h",
+   "texto": "El POST y sus avisos"
+  },
+  {
+   "tipo": "p",
+   "texto": "Si el POST encuentra un error grave, el equipo se para **antes de dar imagen** y lo avisa de otra forma. Su significado depende del fabricante y está en el apartado de **solución de problemas** del manual."
+  },
+  {
+   "tipo": "p",
+   "texto": "**Pitidos.** Con altavoz interno (cabezal SPEAKER), avisa con combinaciones de pitidos cortos y largos. En muchos equipos, **un pitido corto** al encender significa que todo ha ido bien. El resto cambia según el fabricante (AMI, Phoenix…): hay que mirar la tabla del manual. Muchas cajas ya no traen altavoz: por eso se usan LED."
+  },
+  {
+   "tipo": "p",
+   "texto": "**LED de diagnóstico.** Muchas placas tienen cuatro LED: **CPU, DRAM, VGA y BOOT**. Se encienden uno detrás de otro y, si el arranque se para, **se queda encendido el de la pieza que falla**."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "LED encendido",
+    "Dónde falla",
+    "Qué revisar primero"
+   ],
+   "filas": [
+    [
+     "**CPU**",
+     "Procesador",
+     "Cable EPS; procesador bien asentado; compatibilidad (puede necesitar actualizar la UEFI)"
+    ],
+    [
+     "**DRAM**",
+     "Memoria",
+     "Módulos bien insertados y en las ranuras del manual; un solo módulo; quitar XMP o EXPO"
+    ],
+    [
+     "**VGA**",
+     "Gráfica",
+     "Bien insertada y con sus cables; monitor conectado a la gráfica"
+    ],
+    [
+     "**BOOT**",
+     "Dispositivo de arranque",
+     "Disco conectado; orden de arranque; sistema instalado"
+    ]
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "postled",
+   "texto": "Los cuatro LED de diagnóstico. En este ejemplo se ha quedado encendido el DRAM: el problema está en la memoria.",
+   "foco": "led-dram",
+   "datos": {
+    "encendido": "led-dram"
+   }
+  },
+  {
+   "tipo": "analogia",
+   "texto": "Los LED de diagnóstico son como **los testigos del salpicadero de un coche**: el que se queda encendido te dice dónde mirar. Y el POST es como **el chequeo de un piloto antes de despegar**."
+  },
+  {
+   "tipo": "p",
+   "texto": "Las placas de gama alta tienen además un **visor de dos dígitos** con un **código POST** (su significado está en la tabla del manual)."
+  },
+  {
+   "tipo": "p",
+   "texto": "**Mensajes en pantalla.** Si el error no es grave, el equipo da imagen y lo escribe, a veces con «**Press F1 to continue**». Pasa al cambiar una pieza, al borrar la CMOS o sin el ventilador del procesador. **Lee el mensaje antes de pulsar F1.**"
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Los ventiladores giran, no hay imagen y se queda encendido el LED VGA. ¿Qué revisas primero?",
+   "opciones": [
+    "El cable EPS",
+    "Que la gráfica esté bien insertada, con sus cables, y el monitor conectado a ella",
+    "La pila de la placa",
+    "El cable POWER SW"
+   ],
+   "correcta": 1,
+   "explicacion": "El LED **VGA** apunta a la gráfica: inserción, cables de alimentación y monitor conectado a la gráfica."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Aparece «Reboot and select proper boot device». ¿Dónde está el fallo?",
+   "opciones": [
+    "La fuente no arranca",
+    "En la memoria",
+    "En la búsqueda del arranque: no encuentra con qué arrancar",
+    "En el panel frontal"
+   ],
+   "correcta": 2,
+   "explicacion": "Ese mensaje sale en la **búsqueda del arranque**: no hay sistema instalado, el orden de arranque está mal o el disco no está conectado."
+  },
+  {
+   "tipo": "h",
+   "texto": "Utilidades de chequeo y diagnóstico"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Utilidad",
+    "Qué comprueba",
+    "Cómo se usa"
+   ],
+   "filas": [
+    [
+     "Monitor de hardware de la UEFI",
+     "Temperaturas, voltajes, ventiladores",
+     "Apartado Hardware Monitor o PC Health. Sin sistema operativo"
+    ],
+    [
+     "Administrador de tareas",
+     "Procesador, memoria (cantidad, velocidad, ranuras), discos y GPU",
+     "Ctrl + Mayús + Esc → Rendimiento"
+    ],
+    [
+     "**msinfo32**",
+     "Placa, procesador, memoria, versión de la UEFI",
+     "Windows + R → msinfo32"
+    ],
+    [
+     "**mdsched**",
+     "Errores en la RAM",
+     "Windows + R → mdsched. Reinicia y prueba antes de cargar Windows"
+    ],
+    [
+     "MemTest86",
+     "La RAM, de forma más completa",
+     "Desde un USB, sin sistema. Tarda"
+    ],
+    [
+     "CPU-Z",
+     "Procesador, placa y memoria (canales y velocidad real)",
+     "Gratuito, para Windows"
+    ],
+    [
+     "HWiNFO",
+     "Todos los sensores",
+     "Gratuito, para Windows"
+    ],
+    [
+     "CrystalDiskInfo",
+     "Salud de los discos (S.M.A.R.T.)",
+     "Un estado distinto de «Bueno» es un aviso"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "También desde **PowerShell** (Windows 10 y 11): `Get-PhysicalDisk | Select-Object FriendlyName, MediaType, Size, HealthStatus`. La columna HealthStatus tiene que decir **Healthy** en todas las unidades."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Comprobación",
+    "Qué tiene que salir"
+   ],
+   "filas": [
+    [
+     "Memoria",
+     "Toda la instalada (por ejemplo, 16 GB en 2 de 4 ranuras) y, con XMP o EXPO, la velocidad de su etiqueta"
+    ],
+    [
+     "Unidades",
+     "Todas, con su capacidad y en estado Bueno o Healthy"
+    ],
+    [
+     "Temperatura en reposo",
+     "Normalmente por debajo de 50 °C"
+    ],
+    [
+     "Ventiladores",
+     "Todos giran y aparecen con sus RPM"
+    ],
+    [
+     "Administrador de dispositivos",
+     "Ningún triángulo amarillo (faltaría un controlador)"
+    ]
+   ]
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Qué utilidad usas para ver la salud S.M.A.R.T. de los discos?",
+   "opciones": [
+    "mdsched",
+    "CrystalDiskInfo",
+    "CPU-Z",
+    "msinfo32"
+   ],
+   "correcta": 1,
+   "explicacion": "**CrystalDiskInfo** muestra el estado S.M.A.R.T.; también sirve `Get-PhysicalDisk` en PowerShell."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Cuál está bien escrito en un informe de montaje?",
+   "opciones": [
+    "«El equipo va bien»",
+    "«Se calienta poco»",
+    "«Temperatura del procesador en reposo: 38 °C»",
+    "«Lo he montado como siempre»"
+   ],
+   "correcta": 2,
+   "explicacion": "Un informe lleva **datos concretos**, no opiniones."
+  },
+  {
+   "tipo": "h",
+   "texto": "El informe de montaje"
+  },
+  {
+   "tipo": "p",
+   "texto": "Deja por escrito cómo se ha montado el equipo, qué lleva y cómo se ha comprobado. Sirve al siguiente técnico, a la empresa para su inventario y al cliente como garantía."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Apartado",
+    "Contenido"
+   ],
+   "filas": [
+    [
+     "Datos generales",
+     "Fecha, técnico, cliente o departamento, nombre del equipo y número de inventario"
+    ],
+    [
+     "Componentes",
+     "Marca, modelo y **número de serie** de cada uno"
+    ],
+    [
+     "Proceso de montaje",
+     "Pasos y decisiones importantes (por ejemplo, en qué ranuras va la memoria)"
+    ],
+    [
+     "Incidencias",
+     "Qué problema apareció, cómo se detectó y cómo se resolvió (o «ninguna»)"
+    ],
+    [
+     "Configuración de la UEFI",
+     "Versión del firmware y parámetros cambiados"
+    ],
+    [
+     "Pruebas",
+     "Qué utilidad y qué resultado"
+    ],
+    [
+     "Resultado final",
+     "Apto o no apto, observaciones y firma"
+    ]
+   ]
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "Con **datos concretos**: «Temperatura en reposo: 38 °C», no «se calienta poco».",
+    "Con los **nombres técnicos** (EPS, F_PANEL, A2 y B2).",
+    "Las incidencias, con **causa y solución**.",
+    "Breve y ordenado: mejor una tabla bien rellena que tres páginas."
+   ]
+  },
+  {
+   "tipo": "analogia",
+   "texto": "El informe es como **el libro de revisiones de un coche**: el siguiente mecánico sabe qué se hizo, cuándo y con qué piezas."
+  },
+  {
+   "tipo": "p",
+   "texto": "**Ejemplo:** los ventiladores giran pero no hay imagen. Se esperan tres minutos (ajuste de memoria) y sigue igual. Se queda encendido el **LED DRAM**. Se apaga, se desenchufa, se pulsa el botón para descargar y, con la pulsera, se revisan los módulos: uno tiene una pestaña sin cerrar. Se presiona hasta el clic y aparece la imagen. En el informe: «*Incidencia: sin imagen, LED DRAM encendido. Causa: módulo de la ranura B2 mal insertado. Solución: se reinserta el módulo. Resultado: 16 GB detectados en doble canal.*»"
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Seguridad (obligatorio):** antes de tocar nada dentro para buscar un fallo, **apaga, interruptor en 0 y desenchufa**. Pulsa el botón unos segundos para descargar la energía residual. Pulsera puesta para recolocar cualquier pieza. Si hay **olor a quemado, humo o chispas**, desenchufa enseguida, avisa al profesor y no lo vuelvas a encender."
+  },
+  {
+   "tipo": "p",
+   "texto": "Para practicar todo esto con averías al azar: **Prácticas → Este PC no arranca**."
+  },
+  {
+   "tipo": "resumen",
+   "texto": "Antes del primer arranque se revisa todo con la caja abierta: **24 pines y EPS**, memoria, **CPU_FAN**, cables de la gráfica, **monitor en la gráfica** e interruptor de la fuente. En el primer arranque se mira que giren los ventiladores y se espera al **ajuste de memoria**. Si no arranca, se busca la causa **por el síntoma**, siempre **desenchufado**. El POST avisa con **pitidos, LED (CPU, DRAM, VGA, BOOT), códigos o mensajes**, y su significado está en el manual. Con el monitor de hardware, el Administrador de tareas, msinfo32, mdsched, CPU-Z, HWiNFO o CrystalDiskInfo se comprueba que todo funciona, y se documenta en el **informe de montaje**."
+  }
+ ]
+}

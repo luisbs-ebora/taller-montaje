@@ -2,14 +2,15 @@
 // Cada pieza se construye centrada en el origen, con la cara útil hacia +Z y «arriba» hacia +Y.
 // Las subpiezas llevan userData.parte (clave de content/<tema>/piezas.json) para poder tocarlas.
 import * as THREE from 'three';
+import { piezaTema3 } from './piezas3d-t3.js';
 
-const C = {
+export const C = {
   pcb: 0x2f5d4f, pcbOscuro: 0x244a3f, ranura: 0x1d2228, ranuraGris: 0x8a929c, metal: 0xb9c1c9,
   metalOscuro: 0x5e6670, oro: 0xd6aa4e, cobre: 0xc77b45, negro: 0x22262b, plastico: 0x30353c,
   blanco: 0xe9e6df, acento: 0x2b62b8, ambar: 0xe0a13a, verdeRam: 0x2f6f4f, chip: 0x16191d
 };
 const mats = new Map();
-function mat(color, opts = {}) {
+export function mat(color, opts = {}) {
   const k = color + JSON.stringify(opts);
   if (!mats.has(k)) mats.set(k, new THREE.MeshStandardMaterial({ color, roughness: 0.6, metalness: 0.1, ...opts }));
   return mats.get(k);
@@ -17,14 +18,14 @@ function mat(color, opts = {}) {
 const mm = v => v / 10;
 
 /** Caja en mm. x,y,z = esquina mínima en mm respecto al grupo. */
-function caja(g, w, h, d, color, x, y, z, parte, opts) {
+export function caja(g, w, h, d, color, x, y, z, parte, opts) {
   const m = new THREE.Mesh(new THREE.BoxGeometry(mm(w), mm(h), mm(d)), mat(color, opts));
   m.position.set(mm(x + w / 2), mm(y + h / 2), mm(z + d / 2));
   m.castShadow = m.receiveShadow = true;
   if (parte) m.userData.parte = parte;
   g.add(m); return m;
 }
-function cilindro(g, r, alto, color, x, y, z, eje = 'z', parte, opts, seg = 24) {
+export function cilindro(g, r, alto, color, x, y, z, eje = 'z', parte, opts, seg = 24) {
   const m = new THREE.Mesh(new THREE.CylinderGeometry(mm(r), mm(r), mm(alto), seg), mat(color, opts));
   if (eje === 'z') m.rotation.x = Math.PI / 2;
   if (eje === 'x') m.rotation.z = Math.PI / 2;
@@ -435,7 +436,7 @@ export function piezaSuelta(cat, datos = {}) {
     case 'red': return tarjetaRed(datos.tipo || 'wifi');
     case 'monitor': return monitor();
     case 'auxiliar': return auxiliar();
-    default: return new THREE.Group();
+    default: return piezaTema3(cat, datos) || new THREE.Group();
   }
 }
 export function tipoRefri(d = {}) {

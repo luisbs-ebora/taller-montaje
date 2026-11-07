@@ -1,0 +1,147 @@
+{
+ "herram": {
+  "nombre": "Herramientas y útiles",
+  "resumen": "Lo que hace falta en el puesto para montar un equipo. Herramientas son lo que se usa para trabajar; útiles, lo que ayuda a trabajar bien y seguro.",
+  "donde": "En la mesa de trabajo, despejada y sobre la alfombrilla antiestática, antes de abrir ninguna caja.",
+  "fijate": "Que el destornillador sea el del tamaño del tornillo (PH2 o PH1) y que la pulsera esté bien enganchada a la toma de tierra o a una parte metálica sin pintar.",
+  "partes": {
+   "ph2": "Destornillador de estrella PH2: la mayoría de los tornillos del equipo (placa, fuente, discos, tarjetas). Mejor con punta imantada.",
+   "ph1": "Destornillador pequeño PH1 o PH0: tornillos pequeños, como el de la unidad M.2. Con el grande se estropea la cabeza.",
+   "pulsera": "Pulsera antiestática: iguala tu carga con la del equipo. La pinza va a la toma de tierra o a una parte metálica sin pintar del chasis.",
+   "bandeja": "Bandeja de tornillos: que no se pierdan ni se mezclen. Separa los tornillos por tipo o por pieza.",
+   "pinzas": "Pinzas de plástico: recoger un tornillo caído o colocar un puente (jumper). De plástico, para no hacer contacto eléctrico.",
+   "bridas": "Bridas: ordenar los cables. Las bridas no se reutilizan; el velcro, sí.",
+   "pasta": "Pasta térmica: mejora el contacto entre el procesador y el disipador. Muchos disipadores ya la traen puesta.",
+   "alcohol": "Alcohol isopropílico (90 % o más) y paño sin pelusa: limpiar la pasta térmica vieja."
+  }
+ },
+ "tornillos": {
+  "nombre": "Tornillos y separador",
+  "resumen": "Un ordenador usa casi siempre tres tipos de tornillo: 6-32, M3 y M2. Se parecen, pero no son intercambiables.",
+  "donde": "6-32: fuente, discos de 3,5″, tarjetas y muchas veces la placa. M3: SSD de 2,5″, unidades ópticas y algunas placas. M2: la unidad M.2. El separador va atornillado a la bandeja de la caja, debajo de cada agujero de la placa.",
+  "fijate": "Si un tornillo no entra con suavidad, no es el suyo. Usa los que vienen con cada pieza y aprieta firme, sin forzar.",
+  "partes": {
+   "632": "Tornillo 6-32 (UNC): grueso, con la rosca ancha. Fuente, discos de 3,5″, tarjetas de expansión y, en muchas cajas, la placa base.",
+   "m3": "Tornillo M3: algo más fino, con la rosca más apretada. SSD SATA de 2,5″, unidades ópticas y algunas placas.",
+   "m2": "Tornillo M2: muy pequeño. Fija la unidad M.2. Lo trae la placa base.",
+   "separador": "Separador (standoff): mantiene la placa en el aire, sin tocar la chapa. Uno debajo de cada agujero de la placa y ninguno más: un separador de más puede provocar un cortocircuito."
+  }
+ },
+ "cables": {
+  "nombre": "Cables de la fuente",
+  "resumen": "Cada cable de la fuente tiene una forma distinta para que solo entre en su sitio, y lleva su nombre escrito. Algunos se parecen mucho: el EPS y el PCIe no se intercambian.",
+  "donde": "El de 24 pines, a la placa; el EPS, arriba a la izquierda de la placa; el PCIe o el 12V-2x6, a la gráfica; el SATA, a los discos; el Molex, a accesorios antiguos.",
+  "fijate": "Lo que pone en el conector. Si cuesta meterlo, no lo fuerces: es que no es el suyo.",
+  "partes": {
+   "atx24": "ATX de 24 pines: el principal, alimenta la placa. Va al conector ATX_24P y se presiona hasta que la pestaña haga clic.",
+   "eps": "EPS de 8 pines (4+4): alimenta el procesador. Va al conector ATX12V o CPU_PWR. Sin él, no hay imagen.",
+   "pcie": "PCIe de 8 pines (6+2): alimenta la gráfica. Tiene 8 pines como el EPS, pero está cableado de otra forma: no los confundas.",
+   "12v2x6": "12V-2x6 (o 12VHPWR): 16 pines, para gráficas recientes de gama alta. Tiene que entrar hasta el fondo, sin hueco, o puede calentarse.",
+   "sata-corriente": "SATA de alimentación: conector plano en L de 15 contactos. Alimenta discos y unidades SATA.",
+   "sata-datos": "SATA de datos: estrecho, de 7 contactos. Va de la unidad a un puerto SATA de la placa.",
+   "molex": "Molex: 4 pines, conector ancho. Ventiladores o accesorios antiguos: cada vez se usa menos."
+  }
+ },
+ "fpanel": {
+  "nombre": "Panel frontal (F_PANEL)",
+  "resumen": "Los botones y las luces del frontal de la caja se conectan a una fila doble de patillas de la placa. Los botones no tienen polaridad; los LED, sí.",
+  "donde": "Normalmente abajo a la derecha de la placa. Cada placa tiene su dibujo de patillas en el manual: este es el de la «Tajo B-M».",
+  "fijate": "El nombre impreso en cada cable y el dibujo del manual. Si un LED no se enciende, casi siempre está al revés.",
+  "partes": {
+   "pwr": "POWER SW: el botón de encendido. No tiene polaridad. Sin él en su sitio, el botón no hace nada.",
+   "rst": "RESET SW: el botón de reinicio. No tiene polaridad. No todas las cajas lo traen.",
+   "pled": "POWER LED (+ y −): la luz de encendido. Tiene polaridad: el + a la patilla + del manual.",
+   "hdd": "HDD LED (+ y −): la luz que parpadea al leer o escribir en el disco. Tiene polaridad.",
+   "libre": "Patilla libre: no se conecta nada.",
+   "cabezal": "Cabezal F_PANEL: dos filas de patillas. Su nombre está serigrafiado al lado (F_PANEL, JFP1 o PANEL1, según el fabricante).",
+   "usb3": "USB 3.x (USB3_1): conector grande y azul de 19 pines para los USB del frontal. Entra recto y con suavidad: sus patillas se doblan.",
+   "audio": "HD_AUDIO: auriculares y micrófono del frontal. Se parece al USB 2.0, pero el hueco está en otro sitio.",
+   "pcb": "Placa base."
+  }
+ },
+ "postled": {
+  "nombre": "LED de diagnóstico",
+  "resumen": "Cuatro LED junto a la memoria: CPU, DRAM, VGA y BOOT. Durante el POST se encienden uno detrás de otro; si el arranque se para, se queda encendido el de la pieza que falla.",
+  "donde": "Cerca de las ranuras de memoria o del conector de 24 pines. Cada fabricante les da su nombre (Q-LED, EZ Debug LED…), pero funcionan igual.",
+  "fijate": "Qué LED se queda encendido y la tabla de solución de problemas del manual.",
+  "partes": {
+   "led-cpu": "LED CPU: falla el procesador. Revisa el cable EPS, que el procesador esté bien asentado y su compatibilidad (puede necesitar actualizar la UEFI).",
+   "led-dram": "LED DRAM: falla la memoria. Revisa los módulos y las ranuras, prueba con un solo módulo y desactiva el XMP o EXPO.",
+   "led-vga": "LED VGA: falla la gráfica. Revisa que esté bien insertada, sus cables de alimentación y que el monitor esté conectado a la gráfica.",
+   "led-boot": "LED BOOT: no encuentra con qué arrancar. Revisa que el disco esté conectado, el orden de arranque y que haya un sistema operativo.",
+   "clrcmos": "Puente CLR_CMOS: borra la configuración de la UEFI (con el equipo desenchufado, como indique el manual).",
+   "pila": "Pila CR2032: mantiene la fecha y la configuración. Si la fecha se borra al desenchufar, está agotada.",
+   "dimm": "Ranuras de memoria.",
+   "atx24": "Conector ATX de 24 pines.",
+   "pcb": "Placa base."
+  }
+ },
+ "placa": {
+  "nombre": "Placa base",
+  "resumen": "La placa de circuito principal: sobre ella se conectan todos los demás componentes. Sus pistas de cobre forman los buses.",
+  "donde": "Atornillada al panel del fondo de la caja, sobre separadores, con su panel trasero asomando por detrás.",
+  "fijate": "Formato (ATX, MicroATX, Mini-ITX), socket, chipset, tipo de RAM y número de ranuras, ranuras M.2 y salidas de vídeo.",
+  "partes": {
+   "socket": "Socket: aloja el procesador. Solo admite procesadores de su mismo socket.",
+   "dimm": "Ranuras DIMM: para los módulos de RAM. Con dos módulos, usa las que indica el manual (doble canal).",
+   "pcie16": "Ranura PCIe x16: la más larga. Para la tarjeta gráfica.",
+   "pcie1": "Ranura PCIe x1: la más corta. Para tarjetas que necesitan poco ancho de banda (red, sonido…).",
+   "m2": "Ranura M.2: para SSD en formato tarjeta. Comprueba en el manual si admite NVMe, SATA o los dos.",
+   "sata": "Puertos SATA: para discos duros, SSD de 2,5\" y unidades ópticas (cable de datos).",
+   "atx24": "Conector ATX de 24 pines: la corriente principal de la placa, desde la fuente.",
+   "eps": "Conector EPS (4/8 pines): la corriente del procesador. Sin él, el equipo no arranca.",
+   "chipset": "Chipset (con disipador plano): organiza la comunicación con discos, USB, red y sonido.",
+   "vrm": "VRM: fabrica la tensión del procesador a partir de los 12 V de la fuente. Lleva disipadores.",
+   "pila": "Pila CR2032: mantiene el reloj y la configuración con el equipo desenchufado.",
+   "io": "Panel trasero (I/O): USB, red, audio y vídeo que asoman por detrás de la caja.",
+   "cpufan": "Conector CPU_FAN: para el ventilador del procesador (4 pines, PWM).",
+   "fpanel": "Conector F_PANEL: botones de encendido y reinicio y LED de la caja. El orden de los pines está en el manual.",
+   "bios": "Chip de la BIOS/UEFI: memoria flash con el firmware de la placa."
+  }
+ },
+ "cpu": {
+  "nombre": "Procesador (CPU)",
+  "resumen": "Interpreta y ejecuta las instrucciones de los programas y coordina al resto de componentes.",
+  "donde": "En el socket de la placa, con la palanca cerrada. Encima, pasta térmica y la refrigeración.",
+  "fijate": "Socket, núcleos e hilos, frecuencia base y turbo, TDP, gráficos integrados y si trae disipador de serie.",
+  "partes": {
+   "ihs": "Tapa metálica (IHS): protege el chip y transmite el calor al disipador.",
+   "triangulo": "Triángulo dorado: se alinea con la marca del socket. Así solo entra en una posición.",
+   "sustrato": "Sustrato: la placa verde con los contactos que tocan el socket. No se toca con los dedos."
+  }
+ },
+ "refri": {
+  "nombre": "Refrigeración del procesador",
+  "resumen": "Evacúa el calor del procesador. Tiene que ser compatible con el socket y capaz de evacuar el TDP.",
+  "donde": "Sobre el procesador, con pasta térmica entre los dos. Su ventilador va al conector CPU_FAN.",
+  "fijate": "Tipo (aire o líquida), sockets compatibles, TDP que soporta y altura (que quepa en la caja).",
+  "partes": {
+   "base": "Base de contacto: apoya sobre el procesador, con pasta térmica en medio.",
+   "heatpipes": "Heat pipes: tubos de cobre que llevan el calor muy deprisa de la base a las aletas.",
+   "aletas": "Aletas: mucha superficie para pasar el calor al aire.",
+   "ventilador": "Ventilador: mueve el aire a través de las aletas. Se conecta a CPU_FAN."
+  }
+ },
+ "ram": {
+  "nombre": "Módulo de memoria RAM",
+  "resumen": "La memoria de trabajo: guarda los programas y datos en uso. Es volátil.",
+  "donde": "En las ranuras DIMM de la placa, junto al socket. Se presiona por los dos extremos hasta que cierran las pestañas.",
+  "fijate": "Generación (DDR4/DDR5), formato (DIMM/SO-DIMM), capacidad, velocidad (MT/s) y latencia (CL).",
+  "partes": {
+   "muesca": "Muesca: no está en el centro. Impide meter el módulo al revés o en una ranura de otra generación.",
+   "contactos": "Contactos dorados: no se tocan. El módulo se coge por los bordes.",
+   "chips": "Chips de memoria (DRAM), normalmente bajo un disipador."
+  }
+ },
+ "fuente": {
+  "nombre": "Fuente de alimentación",
+  "resumen": "Convierte la corriente del enchufe en las tensiones que necesitan los componentes.",
+  "donde": "Normalmente abajo y al fondo de la caja. Se atornilla por detrás.",
+  "fijate": "Potencia (W), certificación (80 PLUS…), formato (ATX o SFX) y conectores (24 pines, EPS, PCIe, SATA).",
+  "partes": {
+   "interruptor": "Interruptor I/O: durante el montaje, en O y desenchufada.",
+   "ventilador": "Ventilador de la fuente.",
+   "carcasa": "Carcasa: no se abre nunca. Los condensadores de dentro pueden guardar carga."
+  }
+ }
+}

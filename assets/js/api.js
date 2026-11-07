@@ -1,9 +1,10 @@
 // api.js — Práctica: se genera y corrige en el navegador (no cuenta para nota).
 //          Examen: lo genera y corrige el Apps Script (la página solo envía y muestra).
-import { URL_SCRIPT } from './config.js';
+import { configExamen } from './evaluacion.js';
 import { cargarJSON, BASE_CONTENIDO } from './util.js';
 
-export function scriptConfigurado() { return /^https:\/\/script\.google(usercontent)?\.com\//.test(URL_SCRIPT) || URL_SCRIPT.startsWith('/'); }
+// Cada examen tiene su propia URL de Apps Script (ver evaluacion.js)
+export function scriptConfigurado(idExamen = 't1t2') { const u = configExamen(idExamen).url; return /^https:\/\/script\.google(usercontent)?\.com\//.test(u) || u.startsWith('/'); }
 
 // ---------- Práctica local ----------
 let motorListo = null;
@@ -41,9 +42,10 @@ async function practicaLocal(accion, datos) {
 }
 
 // ---------- Llamada única ----------
-export async function llamar(accion, datos = {}) {
+export async function llamar(accion, datos = {}, idExamen = 't1t2') {
   if (accion.startsWith('practica-')) return practicaLocal(accion, datos);
-  if (!scriptConfigurado()) throw new Error('La web aún no está conectada con la hoja de notas. Avisa al profesor.');
+  const URL_SCRIPT = configExamen(idExamen).url;
+  if (!scriptConfigurado(idExamen)) throw new Error('La web aún no está conectada con la hoja de notas. Avisa al profesor.');
   let r;
   try {
     // text/plain evita la petición previa CORS que Apps Script no admite

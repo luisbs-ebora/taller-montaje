@@ -1,0 +1,59 @@
+/* dibujo.css — Estilo «dibujo» en dos niveles (el mismo del Taller Web).
+   Nivel dibujo (bordes de tinta, sombra plana, colores vivos): cabecera, portada, tarjetas, botones, etiquetas, títulos de sección.
+   Nivel tranquilo (como estaba): texto largo, resultados del validador, editor por dentro, listas de errores.
+   Para volver atrás basta con quitar el <link> de este fichero en index.html. */
+:root {
+  --d-tinta: #1d1b24; --d-papel: #fffaf0; --d-fondo: #f6eddd;
+  --d-naranja: #ff6a3d; --d-amarillo: #ffd23f; --d-verde: #3fbf6a; --d-azul: #4a86e8; --d-lila: #8b6fe0;
+  --d-borde: 3px solid var(--d-tinta); --d-sombra: 4px 4px 0 var(--d-tinta);
+}
+/* El estilo dibujo es de papel claro: la web va siempre en modo claro (data-theme="light" en index.html) */
+.tw-heroe-dibujo text { font-variant-ligatures: none; }
+body { background: var(--d-fondo) radial-gradient(circle, rgba(29,27,36,.07) 1.2px, transparent 1.4px) 0 0 / 22px 22px; }
+
+/* Cabecera: barra de papel con borde de tinta */
+.cabecera { background: var(--d-papel); border-bottom: var(--d-borde); backdrop-filter: none; }
+.marca svg { filter: drop-shadow(2px 2px 0 var(--d-tinta)); }
+.marca b { font-size: 20px; }
+.menu a { border: 2px solid transparent; }
+.menu a:hover { background: transparent; border-color: var(--d-tinta); color: var(--tinta); }
+.menu a[aria-current="page"] { background: var(--d-amarillo); color: var(--d-tinta); border-color: var(--d-tinta); box-shadow: 2px 2px 0 var(--d-tinta); }
+.pie { border-top: var(--d-borde); background: var(--d-papel); }
+
+/* Botones: pegatina que se hunde al pulsar */
+.btn { border: var(--d-borde); box-shadow: var(--d-sombra); background: var(--d-tinta); color: #fff; transition: transform .1s, box-shadow .1s; }
+.btn:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 var(--d-tinta); }
+.btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--d-tinta); }
+.btn.azul { background: var(--d-azul); }
+.btn.sec { background: var(--d-papel); color: var(--d-tinta); box-shadow: var(--d-sombra); }
+.btn.peq { border-width: 2px; box-shadow: 2px 2px 0 var(--d-tinta); }
+.btn.peq:active { transform: translate(2px, 2px); box-shadow: none; }
+.btn[disabled] { box-shadow: none; }
+.etiqueta { display: inline-block; background: var(--d-amarillo); color: var(--d-tinta); border: 2px solid var(--d-tinta); border-radius: 8px; padding: 4px 9px; box-shadow: 2px 2px 0 var(--d-tinta); transform: rotate(-1.5deg); font-weight: 700; }
+.chip { background: var(--d-papel); color: var(--d-tinta); border: 2px solid var(--d-tinta); font-weight: 700; }
+
+/* Portada: el equipo 3D en un marco de dibujo */
+.portada h1 { font-size: clamp(40px, 6vw, 72px); }
+.portada .escena { border: var(--d-borde); box-shadow: 6px 6px 0 var(--d-tinta); background: radial-gradient(ellipse at 50% 60%, #fffaf0, #efe4d0); }
+.progreso .barra { border: 2px solid var(--d-tinta); }
+
+/* Tarjetas que se pulsan: lecciones, retos, temas */
+.leccion-card.tarjeta, .reto-card.tarjeta { background: var(--d-papel); border: var(--d-borde); box-shadow: 5px 5px 0 var(--d-tinta); border-radius: 18px; transition: transform .12s, box-shadow .12s; }
+.leccion-card.tarjeta:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--d-tinta); }
+.leccion-card.tarjeta:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--d-tinta); }
+.leccion-card .num { color: var(--d-naranja); -webkit-text-stroke: 1.5px var(--d-tinta); font-size: 38px; }
+.leccion-card h3, .reto-card h3 { font-weight: 800; }
+.leccion-card p, .reto-card p { color: var(--tinta); }
+.selector-temas a { border: 2.5px solid var(--d-tinta) !important; box-shadow: 3px 3px 0 var(--d-tinta); background: var(--d-papel); }
+.selector-temas a[aria-current], .selector-temas a.activo { background: var(--d-amarillo) !important; }
+
+/* Piezas 3D: el visor y la lista en dibujo; la ficha (texto) tranquila */
+.visor { border: var(--d-borde); box-shadow: var(--d-sombra); background: radial-gradient(ellipse at 50% 60%, #fffaf0, #efe4d0); }
+.visor .rotulo { border: 2px solid var(--d-tinta); box-shadow: 2px 2px 0 var(--d-tinta); font-weight: 700; }
+.lista-piezas button { border: 2.5px solid var(--d-tinta); box-shadow: 3px 3px 0 var(--d-tinta); background: var(--d-papel); transition: transform .1s, box-shadow .1s; }
+.lista-piezas button:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--d-tinta); }
+.lista-piezas button[aria-pressed="true"] { background: var(--d-amarillo); border-color: var(--d-tinta); }
+
+/* Práctica «Este PC no arranca»: el resultado ya va en dibujo; el resto, tranquilo */
+.av-ficha { border: var(--d-borde); box-shadow: var(--d-sombra); }
+.av-leds i { border-color: var(--d-tinta); }

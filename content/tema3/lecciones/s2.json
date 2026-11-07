@@ -1,0 +1,335 @@
+{
+ "id": "s2",
+ "titulo": "Procesador, refrigeración, memoria y unidades",
+ "objetivos": [
+  "Instalar el procesador en un zócalo LGA o PGA sin hacer fuerza.",
+  "Aplicar la pasta térmica y montar cada tipo de disipador.",
+  "Instalar la memoria, la unidad M.2 y las unidades SATA.",
+  "Colocar la fuente y la placa base en la caja."
+ ],
+ "bloques": [
+  {
+   "tipo": "p",
+   "texto": "Son los pasos más delicados: un procesador mal colocado o un disipador mal apretado estropean piezas caras. Cada paso se hace **despacio**, con la pulsera puesta y comprobando el resultado antes de seguir."
+  },
+  {
+   "tipo": "p",
+   "texto": "El procesador, la memoria, la M.2 y el disipador se montan con la placa **fuera de la caja**, sobre su **caja de cartón** o sobre la alfombrilla antiestática. Nunca sobre metal, moqueta o un trapo. La placa se saca de su bolsa por los bordes y se deja con los conectores traseros mirando hacia ti."
+  },
+  {
+   "tipo": "h",
+   "texto": "Instalar el procesador"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Zócalo",
+    "Dónde están los contactos",
+    "Ejemplos",
+    "Cuidado con"
+   ],
+   "filas": [
+    [
+     "**LGA** (*Land Grid Array*)",
+     "En el zócalo: cientos de patillas finas. El procesador tiene contactos planos",
+     "Intel LGA 1700, LGA 1851; AMD AM5",
+     "Las patillas del zócalo: si se doblan, la placa queda dañada"
+    ],
+    [
+     "**PGA** (*Pin Grid Array*)",
+     "En el procesador: las patillas salen por debajo",
+     "AMD AM4",
+     "Las patillas del procesador: nunca boca abajo en la mesa"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Solo entra en **una posición**. Las guías: un **triángulo dorado** en una esquina, que coincide con una marca del zócalo, y en los LGA unas **muescas** en los lados."
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "cpu",
+   "texto": "El triángulo dorado de la esquina marca cómo va. Si tienes que empujar, está girado.",
+   "foco": "triangulo"
+  },
+  {
+   "tipo": "p",
+   "texto": "**En un zócalo LGA:**"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Baja la palanca, sácala de su gancho y levántala.",
+    "Levanta la placa de retención metálica (la tapa de plástico puede seguir puesta).",
+    "Coge el procesador por los bordes con el pulgar y el índice.",
+    "Haz coincidir triángulo y muescas y **déjalo caer en vertical**, sin arrastrarlo.",
+    "Baja la placa de retención y la palanca hasta su gancho: hace falta algo de fuerza, es normal. La tapa de plástico suele saltar sola.",
+    "**Guarda la tapa de plástico**: para devolver la placa en garantía pueden exigirla puesta."
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "**En un zócalo PGA:** levanta la palanca en vertical, haz coincidir el triángulo, apoya el procesador (cae solo por su peso) y baja la palanca. Si no entra, no empujes: está girado o hay una patilla doblada."
+  },
+  {
+   "tipo": "nota",
+   "texto": "Una **patilla doblada** es la avería de montaje más cara, y el fabricante suele rechazarla en garantía porque es mala manipulación. **Nunca se hace fuerza.**"
+  },
+  {
+   "tipo": "analogia",
+   "texto": "El zócalo es como **un enchufe con una forma única**: el triángulo dorado es la pista. Si tienes que empujar, lo estás metiendo al revés."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "En un zócalo LGA, ¿dónde están las patillas?",
+   "opciones": [
+    "En el procesador",
+    "En el zócalo de la placa",
+    "En el disipador",
+    "No tiene patillas"
+   ],
+   "correcta": 1,
+   "explicacion": "En LGA las patillas están en el **zócalo**; el procesador solo tiene contactos planos. En PGA es al revés."
+  },
+  {
+   "tipo": "h",
+   "texto": "La pasta térmica"
+  },
+  {
+   "tipo": "p",
+   "texto": "El procesador y la base del disipador parecen lisos, pero tienen imperfecciones y entre ellas queda **aire**, que transmite muy mal el calor. La pasta rellena esos huecos."
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**Cuánta:** un punto del tamaño de un **guisante** en el centro. Al apretar el disipador, se reparte sola.",
+    "Si el disipador ya trae pasta (capa gris en la base), **no pongas más**.",
+    "Demasiada no enfría mejor: rebosa y ensucia el zócalo.",
+    "Si quitas el disipador, limpia la pasta vieja con alcohol isopropílico y paño sin pelusa, y pon nueva.",
+    "En el aula se usa pasta normal: las de metal líquido conducen la electricidad."
+   ]
+  },
+  {
+   "tipo": "analogia",
+   "texto": "La pasta térmica es como **la masilla entre dos azulejos**: rellena los huecos. Si pones demasiada, rebosa y no sirve de más. Lo puedes ver en corte en **Por dentro → La pasta térmica**."
+  },
+  {
+   "tipo": "h",
+   "texto": "El disipador del procesador"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Tipo",
+    "Cómo se fija",
+    "A tener en cuenta"
+   ],
+   "filas": [
+    [
+     "De serie de **Intel**",
+     "Cuatro patillas de presión en los agujeros de la placa",
+     "Se presionan **en diagonal** hasta el clic. Por detrás, las cuatro tienen que verse abiertas"
+    ],
+    [
+     "De serie de **AMD**",
+     "Clip con palanca en las pestañas del zócalo, o cuatro tornillos a una placa trasera",
+     "La placa trasera viene puesta: no la quites"
+    ],
+    [
+     "De **torre**",
+     "Placa trasera, separadores, soporte y tornillos",
+     "Tornillos **en cruz** y poco a poco"
+    ],
+    [
+     "Líquida (**AIO**)",
+     "Bloque con bomba sobre el procesador y radiador en la caja",
+     "El radiador va arriba o delante, según el manual"
+    ]
+   ]
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Quita el **plástico protector** de la base, si lo trae. Con él puesto, el procesador se calienta enseguida.",
+    "Apóyalo recto, sin girarlo una vez apoyado, para no mover la pasta.",
+    "Fíjalo según su tipo: firme, que no se mueva.",
+    "Conecta el ventilador a **CPU_FAN** (la bomba de una AIO, a CPU_FAN o AIO_PUMP).",
+    "Comprueba que no choca con la memoria ni con el panel lateral."
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "refri",
+   "texto": "Un disipador de torre: base de cobre, heatpipes, aletas y ventilador. Su cable va a CPU_FAN.",
+   "foco": "base"
+  },
+  {
+   "tipo": "analogia",
+   "texto": "Apretar los tornillos del disipador **en cruz** es como apretar las tuercas de la rueda de un coche: si aprietas una entera y luego la de al lado, queda torcida."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "El disipador de serie de tu procesador ya trae una capa gris en la base. ¿Qué haces?",
+   "opciones": [
+    "Añado un guisante de pasta encima",
+    "La limpio y pongo pasta nueva",
+    "Lo monto tal cual: ya trae pasta",
+    "Pongo pasta en toda la superficie"
+   ],
+   "correcta": 2,
+   "explicacion": "Esa capa gris es la pasta ya aplicada: **no se añade más**."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Si el ventilador del disipador no se conecta a CPU_FAN, ¿qué suele pasar?",
+   "opciones": [
+    "Nada",
+    "La placa avisa al arrancar con «CPU Fan Error»",
+    "El equipo arranca más rápido",
+    "Se borra la UEFI"
+   ],
+   "correcta": 1,
+   "explicacion": "La placa no detecta que el ventilador gire y avisa con **«CPU Fan Error»**."
+  },
+  {
+   "tipo": "h",
+   "texto": "La memoria RAM"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**Las ranuras correctas:** con dos módulos, el manual suele indicar **A2 y B2** (la segunda y la cuarta desde el procesador). Así trabajan en doble canal.",
+    "**La muesca:** DDR4 y DDR5 la tienen en sitios distintos. Si no coincide, no es compatible: no lo fuerces.",
+    "**Hasta el clic:** se presiona con los dos pulgares en los extremos, en vertical, hasta que las pestañas se cierren solas."
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "ram",
+   "texto": "La muesca no está en el centro: el módulo solo entra en una posición y en su tipo de ranura.",
+   "foco": "muesca"
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Con dos módulos de memoria en una placa de cuatro ranuras, ¿dónde suelen ir según el manual?",
+   "opciones": [
+    "A1 y A2",
+    "A2 y B2",
+    "B1 y B2",
+    "Da igual"
+   ],
+   "correcta": 1,
+   "explicacion": "El manual suele indicar **A2 y B2** (la segunda y la cuarta desde el procesador): así trabajan en **doble canal**."
+  },
+  {
+   "tipo": "h",
+   "texto": "La unidad M.2"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Localiza la ranura en el manual (M2_1 suele ser la más rápida).",
+    "Quita el disipador de la ranura, si lo tiene, y el plástico de su almohadilla térmica.",
+    "Comprueba que el separador del tornillo está en la longitud de tu unidad: una 2280 mide 22 × 80 mm.",
+    "Inserta la unidad **inclinada unos 30°**, con los contactos alineados con la muesca.",
+    "Bájala hasta el separador y fíjala con el tornillo **M2** o con el cierre sin herramientas.",
+    "Vuelve a poner el disipador de la ranura."
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "La fuente de alimentación"
+  },
+  {
+   "tipo": "p",
+   "texto": "Se suele instalar **antes que la placa**, porque después queda menos espacio para pasar sus cables."
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Comprueba que el interruptor está en **0** y que no está enchufada.",
+    "Ventilador **hacia abajo** si la caja tiene rejilla con filtro debajo; si no, hacia arriba.",
+    "Métela en su compartimento y atorníllala por detrás con sus **cuatro tornillos 6-32**.",
+    "Si es modular, conecta solo los cables que vas a usar."
+   ]
+  },
+  {
+   "tipo": "nota",
+   "texto": "Algunas fuentes antiguas tienen un selector **115 V / 230 V**. En España la red es de **230 V**: en 115 V se estropearía al encenderla. Las actuales se adaptan solas."
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "fuente",
+   "texto": "El interruptor trasero: durante todo el montaje, en 0.",
+   "foco": "interruptor"
+  },
+  {
+   "tipo": "h",
+   "texto": "La placa base en la caja"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Revisa otra vez los separadores: uno debajo de cada agujero y ninguno más.",
+    "Comprueba que la chapa del panel trasero está bien encajada, si no viene integrada.",
+    "Mete la placa **inclinada**, con los puertos traseros por delante, y bájala hasta los separadores.",
+    "Pon todos los tornillos sin apretar y después apriétalos **en diagonal**, firmes pero sin forzar.",
+    "Comprueba por detrás que ninguna pestaña del panel trasero se ha metido dentro de un USB o de la red."
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Discos y unidades SATA"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Unidad",
+    "Dónde va",
+    "Cómo se fija"
+   ],
+   "filas": [
+    [
+     "Disco duro de 3,5″",
+     "Bahía o bandeja de 3,5″",
+     "Tornillos **6-32** o raíles sin herramientas, con los conectores hacia los cables"
+    ],
+    [
+     "SSD SATA de 2,5″",
+     "Bahía de 2,5″ o detrás de la bandeja",
+     "Tornillos **M3**"
+    ],
+    [
+     "Unidad óptica",
+     "Bahía de 5,25″",
+     "Desde el frontal, con tornillos **M3**"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Cada unidad SATA lleva **dos cables**: el de **datos** (estrecho, a un puerto SATA de la placa) y el de **alimentación** (más ancho, de la fuente). Los dos tienen forma de L para que solo entren en una posición."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Cómo se inserta una unidad M.2?",
+   "opciones": [
+    "En vertical y empujando fuerte",
+    "Inclinada unos 30° y luego se baja hasta el separador",
+    "Con un cable SATA",
+    "Por detrás de la bandeja"
+   ],
+   "correcta": 1,
+   "explicacion": "Se mete inclinada unos **30°**, se baja hasta el separador y se fija con su tornillo M2."
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Seguridad (obligatorio):** fuente desenchufada y en 0, pulsera puesta, nunca toques las patillas del zócalo ni los contactos del procesador y **nunca fuerces** un procesador, un módulo o un conector. Para mover la caja con un disipador de torre, sujétala en horizontal: pesa y hace palanca sobre la placa."
+  },
+  {
+   "tipo": "resumen",
+   "texto": "Procesador, memoria, M.2 y disipador se montan **fuera de la caja**. El procesador entra en una sola posición (**triángulo dorado**); en **LGA** las patillas están en la placa y en **PGA**, en el procesador. **Nunca se hace fuerza.** Pasta: un **guisante**, y nada si el disipador ya la trae. El disipador, firme, **en cruz**, sin el **plástico** de la base y con su cable a **CPU_FAN**. La memoria va en las ranuras del manual (A2 y B2 con dos módulos); la M.2, a **30°** con su tornillo M2. La fuente, con cuatro **6-32**; la placa, sobre sus separadores, en diagonal. Las unidades SATA llevan cable de **datos** y de **alimentación**."
+  }
+ ]
+}
