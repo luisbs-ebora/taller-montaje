@@ -1,0 +1,361 @@
+{
+ "id": "s2",
+ "titulo": "Aparatos de medida y el polímetro",
+ "objetivos": [
+  "Nombrar los aparatos de medida y decir para qué se usa cada uno.",
+  "Identificar las partes del polímetro y elegir la magnitud y el rango.",
+  "Conectar las puntas correctamente para medir tensión, intensidad, resistencia y continuidad.",
+  "Comparar una medida con su valor típico y su tolerancia."
+ ],
+ "bloques": [
+  {
+   "tipo": "p",
+   "texto": "Saber qué es la tensión no sirve de mucho si no se sabe medirla. El aparato que más usa un técnico de mantenimiento es el **polímetro** (también llamado multímetro o *tester*): con él se comprueba si una fuente da las tensiones correctas, si un cable está cortado o si un fusible está fundido. Un polímetro mal conectado da medidas sin sentido… o se estropea."
+  },
+  {
+   "tipo": "h",
+   "texto": "Los aparatos de medida"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Aparato",
+    "Qué mide",
+    "Cuándo lo usa un técnico"
+   ],
+   "filas": [
+    [
+     "**Polímetro**",
+     "Tensión (continua y alterna), intensidad, resistencia y continuidad. Algunos, también frecuencia y temperatura",
+     "Para casi todo: fuentes, cables, fusibles, pilas"
+    ],
+    [
+     "Voltímetro",
+     "Solo tensión",
+     "Hoy está dentro del polímetro"
+    ],
+    [
+     "Amperímetro",
+     "Solo intensidad",
+     "Hoy está dentro del polímetro"
+    ],
+    [
+     "**Pinza amperimétrica**",
+     "Intensidad en un cable sin cortarlo: se abraza el cable con la pinza",
+     "Medir el consumo de una instalación sin desconectar nada"
+    ],
+    [
+     "**Osciloscopio**",
+     "Dibuja la forma de la señal en una pantalla (tensión frente a tiempo)",
+     "Ver si una señal es senoidal, cuadrada o tiene ruido; reparación de placas"
+    ],
+    [
+     "**Comprobador de fuentes ATX**",
+     "Las tensiones de todos los cables de una fuente, de un vistazo",
+     "Saber en segundos si una fuente está bien"
+    ],
+    [
+     "**Medidor de consumo** (de enchufe)",
+     "Potencia y energía que consume un aparato",
+     "Saber cuánto gasta un equipo; dimensionar un SAI"
+    ]
+   ]
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Quieres ver si una señal es senoidal o cuadrada. ¿Qué aparato usas?",
+   "opciones": [
+    "Polímetro",
+    "Pinza amperimétrica",
+    "Osciloscopio",
+    "Medidor de consumo"
+   ],
+   "correcta": 2,
+   "explicacion": "El **osciloscopio** dibuja la forma de la señal: la tensión frente al tiempo."
+  },
+  {
+   "tipo": "h",
+   "texto": "Partes del polímetro digital"
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "polimetro",
+   "texto": "Toca cada parte: pantalla, selector, botones, bornes y puntas.",
+   "foco": "selector"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Parte",
+    "Para qué sirve"
+   ],
+   "filas": [
+    [
+     "**Pantalla**",
+     "Muestra el valor medido, la unidad y avisos (pila baja, fuera de rango)"
+    ],
+    [
+     "**Selector giratorio**",
+     "Elige la magnitud (tensión continua, tensión alterna, A, Ω, continuidad) y, en los manuales, el rango"
+    ],
+    [
+     "**Punta negra**",
+     "Va siempre al borne **COM** (común)"
+    ],
+    [
+     "**Punta roja**",
+     "Va al borne **VΩ** para medir tensión, resistencia y continuidad, o a los bornes **mA** o **10 A** para medir intensidad"
+    ],
+    [
+     "Botón HOLD",
+     "Congela la medida en la pantalla"
+    ],
+    [
+     "Fusibles internos",
+     "Protegen el polímetro si se mide intensidad de forma incorrecta"
+    ]
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Rango manual y autorango"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "En un polímetro de **rango manual**, el selector tiene varias posiciones para cada magnitud (por ejemplo, 2 V, 20 V, 200 V, 600 V). Hay que elegir el rango **inmediatamente superior** al valor que se espera: para medir 12 V, la posición de 20 V.",
+    "Si el rango es demasiado pequeño, la pantalla muestra **«1»** a la izquierda o **«OL»** (*overload*, fuera de rango): hay que subir el rango.",
+    "Si no se sabe qué valor esperar, se empieza por el rango más alto y se va bajando.",
+    "Un polímetro **autorango** (*auto range*) elige el rango solo. Basta con poner la magnitud."
+   ]
+  },
+  {
+   "tipo": "analogia",
+   "texto": "El rango es como **la báscula del baño y la de la cocina**: para pesar harina usas la de la cocina (precisa, pero hasta 5 kg); para pesarte a ti, la del baño."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Vas a medir una pila de 9 V con un polímetro manual que tiene 2 V, 20 V, 200 V y 600 V. ¿Qué rango pones?",
+   "opciones": [
+    "2 V",
+    "20 V",
+    "200 V",
+    "600 V"
+   ],
+   "correcta": 1,
+   "explicacion": "El **inmediatamente superior** al valor esperado: 20 V. Con 2 V saldría «1» (fuera de rango)."
+  },
+  {
+   "tipo": "h",
+   "texto": "Categoría de seguridad"
+  },
+  {
+   "tipo": "p",
+   "texto": "Los polímetros llevan impresa una categoría (**CAT II, CAT III, CAT IV**) y una tensión máxima, que indican dónde se pueden usar con seguridad. Para medir en un enchufe hace falta como mínimo CAT II con la tensión adecuada. Un polímetro sin categoría o de muy baja calidad no debe usarse nunca en 230 V."
+  },
+  {
+   "tipo": "h",
+   "texto": "Cómo se mide cada magnitud"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Magnitud",
+    "Selector",
+    "Punta roja",
+    "Cómo se conecta",
+    "Con el circuito…"
+   ],
+   "filas": [
+    [
+     "**Tensión continua**",
+     "V con raya recta",
+     "VΩ",
+     "En paralelo: una punta en cada punto entre los que se mide",
+     "Encendido"
+    ],
+    [
+     "**Tensión alterna**",
+     "V con onda (~)",
+     "VΩ",
+     "En paralelo",
+     "Encendido (230 V: solo el profesor)"
+    ],
+    [
+     "**Intensidad**",
+     "A (mA o 10 A)",
+     "mA o 10 A",
+     "En serie: hay que abrir el circuito y que la corriente pase por el polímetro",
+     "Apagado al conectar, encendido al medir"
+    ],
+    [
+     "**Resistencia**",
+     "Ω",
+     "VΩ",
+     "En los extremos del componente",
+     "Sin tensión (desconectado)"
+    ],
+    [
+     "**Continuidad**",
+     "Símbolo de altavoz o diodo",
+     "VΩ",
+     "En los extremos del cable o fusible",
+     "Sin tensión. Pita si hay camino"
+    ]
+   ]
+  },
+  {
+   "tipo": "analogia",
+   "texto": "Medir tensión **en paralelo** es como medir la diferencia de altura entre dos pisos: pones el metro de un piso al otro, sin romper nada. Medir intensidad **en serie** es como poner un contador de agua: hay que cortar la tubería y meter el contador en medio, para que toda el agua pase por él."
+  },
+  {
+   "tipo": "nota",
+   "texto": "**El error más peligroso con el polímetro:** dejar la punta roja en el borne de intensidad (mA o 10 A) y medir después una tensión. En la posición de intensidad el polímetro es casi un cable: se provoca un **cortocircuito**, salta el fusible del polímetro y puede saltar una chispa o dañar lo que se mide. Después de medir intensidad, devuelve siempre la punta roja a **VΩ**."
+  },
+  {
+   "tipo": "enlace",
+   "ruta": "#/pordentro/polimetro",
+   "titulo": "Animación: medir con el polímetro",
+   "texto": "Mira paso a paso cómo se mide el cable amarillo, qué pasa con el rango pequeño y qué ocurre si la roja se queda en 10 A."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Dónde va la punta negra?",
+   "opciones": [
+    "En VΩ",
+    "En mA",
+    "Siempre en COM",
+    "En 10 A"
+   ],
+   "correcta": 2,
+   "explicacion": "La negra va **siempre en COM**. La que cambia de borne es la roja."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Has medido intensidad y ahora vas a medir los 12 V de la fuente. ¿Qué tienes que hacer antes?",
+   "opciones": [
+    "Nada, ya está listo",
+    "Pasar la punta roja al borne VΩ",
+    "Pasar la punta negra a 10 A",
+    "Poner el selector en Ω"
+   ],
+   "correcta": 1,
+   "explicacion": "Si la roja se queda en mA o 10 A, al medir tensión provocas un **cortocircuito**. Roja a **VΩ** y selector en tensión continua."
+  },
+  {
+   "tipo": "h",
+   "texto": "Paso a paso: medir una tensión continua"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Comprueba que las puntas no están dañadas y que el polímetro tiene pila.",
+    "Punta negra en **COM** y punta roja en **VΩ**.",
+    "Selector en tensión continua. Si es de rango manual, elige el rango inmediatamente superior al valor esperado (20 V para medir 12 V).",
+    "Toca con la punta negra el punto de referencia (masa, el negativo, GND) y con la roja el punto que quieres medir.",
+    "Lee la pantalla. Si sale un signo menos delante (por ejemplo, −12,05), es que las puntas están al revés o que esa tensión es negativa respecto a masa.",
+    "Al terminar, pon el selector en **OFF**."
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Relacionar la medida con los valores típicos"
+  },
+  {
+   "tipo": "p",
+   "texto": "Medir no es solo leer un número: hay que decidir si ese número es correcto. Para eso se compara con el **valor típico** y su **tolerancia** (cuánto se puede apartar sin que sea un problema)."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Qué mides",
+    "Valor típico",
+    "Se considera bien si…",
+    "Si no…"
+   ],
+   "filas": [
+    [
+     "Pila AA o AAA nueva",
+     "1,5 V",
+     "Más de 1,3 V",
+     "Está gastada"
+    ],
+    [
+     "Pila de la placa base (CR2032)",
+     "3 V",
+     "Más de 2,8 V aproximadamente",
+     "Cámbiala: la hora y la configuración se pueden perder"
+    ],
+    [
+     "Cable +12 V de la fuente",
+     "12 V",
+     "Entre 11,40 y 12,60 V (±5 %)",
+     "La fuente falla o no puede con la carga"
+    ],
+    [
+     "Enchufe de la pared",
+     "230 V",
+     "Entre 207 y 253 V aproximadamente (±10 %)",
+     "Problema de la instalación: aviso al electricista"
+    ],
+    [
+     "Fusible o cable",
+     "Continuidad (pita, casi 0 Ω)",
+     "Pita",
+     "Fundido o cortado"
+    ],
+    [
+     "Interruptor abierto",
+     "Sin continuidad (OL)",
+     "No pita",
+     "Interruptor estropeado"
+    ]
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Seguridad al medir"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Comprueba las puntas antes de medir: si tienen el aislante roto, no se usan.",
+    "Sujeta las puntas por la zona aislada, sin tocar la parte metálica.",
+    "Resistencia y continuidad, **siempre sin tensión**.",
+    "Después de medir intensidad, punta roja de nuevo en VΩ.",
+    "Las medidas de 230 V solo las hace el profesor o se hacen con su supervisión directa y un polímetro CAT II o superior.",
+    "Para medir dentro del equipo, pulsera antiestática puesta y cuidado de no tocar dos patillas a la vez con la punta."
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Ejemplo: comprobar la pila de la placa base"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Un equipo pierde la hora cada vez que se desenchufa. Se sospecha de la pila CR2032 (Tema 3).",
+    "Con el equipo apagado y desenchufado, y la pulsera puesta, se saca la pila de la placa.",
+    "Polímetro: punta negra en COM, roja en VΩ, selector en tensión continua (rango 20 V si es manual).",
+    "Punta roja en la cara + de la pila (la plana con letras) y negra en la cara −. La pantalla marca **2,41 V**.",
+    "El valor típico es 3 V y está muy por debajo: la pila está agotada. Se cambia por una nueva (marca 3,2 V) y se anota en el informe."
+   ]
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Mides un fusible con el polímetro en continuidad y no pita. ¿Qué significa?",
+   "opciones": [
+    "Que está bien",
+    "Que está fundido",
+    "Que el polímetro no tiene pila",
+    "Que hay que subir el rango"
+   ],
+   "correcta": 1,
+   "explicacion": "Si hay camino, **pita**. Si no pita, el fusible está **fundido** (o el cable, cortado)."
+  },
+  {
+   "tipo": "resumen",
+   "texto": "El polímetro mide tensión (continua y alterna), intensidad (A), resistencia (Ω) y continuidad. La punta negra va siempre a **COM**; la roja, a **VΩ** para tensión, resistencia y continuidad, y a mA o 10 A para intensidad. La tensión se mide **en paralelo** y con el circuito encendido; la intensidad, **en serie**; la resistencia y la continuidad, sin tensión. En un polímetro manual se elige el rango inmediatamente superior al valor esperado; «1» u «OL» indican fuera de rango. Medir tensión con la punta en el borne de intensidad provoca un cortocircuito. Toda medida se compara con su valor típico y su tolerancia."
+  }
+ ]
+}

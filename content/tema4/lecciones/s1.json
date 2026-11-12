@@ -1,0 +1,309 @@
+{
+ "id": "s1",
+ "titulo": "Corriente, magnitudes y señales",
+ "objetivos": [
+  "Explicar qué es la corriente eléctrica y qué hace falta para que circule.",
+  "Distinguir tensión, intensidad, resistencia y potencia, con sus unidades.",
+  "Usar la ley de Ohm y la fórmula de la potencia en cálculos sencillos.",
+  "Diferenciar la corriente continua de la alterna y reconocer los tipos de señal.",
+  "Aplicar las normas de seguridad eléctrica."
+ ],
+ "bloques": [
+  {
+   "tipo": "p",
+   "texto": "Un ordenador funciona con electricidad, y casi todas las averías de alimentación (un equipo que no enciende, que se reinicia solo o que se apaga al jugar) se diagnostican **midiendo**. Para medir bien hay que saber primero qué se mide."
+  },
+  {
+   "tipo": "h",
+   "texto": "¿Qué es la corriente eléctrica?"
+  },
+  {
+   "tipo": "p",
+   "texto": "La **corriente eléctrica** es el movimiento de cargas eléctricas (electrones) por un material conductor, como el cobre de un cable. Para que haya corriente hacen falta tres cosas:"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "Un **generador** que empuje las cargas: una pila, una batería, la fuente de alimentación o la red eléctrica.",
+    "Un **circuito cerrado**: un camino de ida y vuelta. Si el circuito se abre (un interruptor apagado, un cable cortado), la corriente se para.",
+    "Un **receptor** que aproveche la energía: una bombilla, un ventilador, la placa base."
+   ]
+  },
+  {
+   "tipo": "analogia",
+   "texto": "La electricidad se parece mucho al **agua en una tubería**. El generador es la bomba, los cables son las tuberías y el receptor es la rueda de un molino que el agua hace girar. Usaremos esta comparación en todo el tema."
+  },
+  {
+   "tipo": "enlace",
+   "ruta": "#/pordentro/corriente",
+   "titulo": "Animación: mira dentro del cable",
+   "texto": "Abre y cierra el circuito y mira qué hacen las cargas con una pila y con el enchufe."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Un circuito tiene pila y bombilla, pero el interruptor está abierto. ¿Qué pasa?",
+   "opciones": [
+    "Pasa la mitad de corriente",
+    "No circula corriente: el camino no está cerrado",
+    "La pila se descarga igual",
+    "La bombilla luce menos"
+   ],
+   "correcta": 1,
+   "explicacion": "Sin **circuito cerrado** no hay corriente. Hay tensión en la pila, pero la intensidad es cero."
+  },
+  {
+   "tipo": "h",
+   "texto": "Las magnitudes fundamentales"
+  },
+  {
+   "tipo": "p",
+   "texto": "Una **magnitud** es algo que se puede medir y expresar con un número y una unidad. En electricidad hay cuatro fundamentales:"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Magnitud",
+    "Qué es",
+    "Unidad",
+    "En la tubería"
+   ],
+   "filas": [
+    [
+     "**Tensión** o voltaje (V)",
+     "La «fuerza» con la que el generador empuja las cargas. Se mide entre dos puntos",
+     "Voltio (V)",
+     "La presión del agua"
+    ],
+    [
+     "**Intensidad** (I)",
+     "La cantidad de carga que pasa por un punto cada segundo",
+     "Amperio (A)",
+     "El caudal: cuánta agua pasa"
+    ],
+    [
+     "**Resistencia** (R)",
+     "Lo que se opone al paso de la corriente",
+     "Ohmio (Ω)",
+     "Un estrechamiento de la tubería"
+    ],
+    [
+     "**Potencia** (P)",
+     "La energía que se consume o se entrega cada segundo",
+     "Vatio (W)",
+     "El trabajo que hace el agua al mover la rueda"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Se usan múltiplos y submúltiplos: **mV** (milivoltio, la milésima parte de un voltio), **mA** (miliamperio), **kΩ** (kiloohmio, mil ohmios), **MΩ** (megaohmio, un millón) y **kW** (kilovatio, mil vatios)."
+  },
+  {
+   "tipo": "analogia",
+   "texto": "Una manguera con mucha presión (tensión) pero cerrada no echa agua (intensidad cero). Para que salga agua hacen falta las dos cosas: **presión y un camino abierto**."
+  },
+  {
+   "tipo": "h",
+   "texto": "La ley de Ohm y la potencia"
+  },
+  {
+   "tipo": "p",
+   "texto": "La tensión, la intensidad y la resistencia están relacionadas por la **ley de Ohm**: `V = I × R`, `I = V ÷ R`, `R = V ÷ I`. Con más tensión pasa más corriente; con más resistencia pasa menos. Por ejemplo, si una resistencia de 100 Ω se conecta a 12 V, por ella pasan 12 ÷ 100 = 0,12 A (120 mA)."
+  },
+  {
+   "tipo": "p",
+   "texto": "La **potencia** que consume un aparato es la tensión por la intensidad: `P = V × I`. Una tarjeta gráfica que toma 15 A del cable de 12 V consume 12 × 15 = 180 W. Así se calcula la potencia que tiene que dar una fuente (lo vimos en el Tema 2 al elegirla)."
+  },
+  {
+   "tipo": "p",
+   "texto": "La **energía** es la potencia durante un tiempo, y es lo que se paga en la factura de la luz, en **kilovatios hora (kWh)**. Un equipo que consume 200 W durante 5 horas gasta 200 × 5 = 1000 Wh = 1 kWh."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Un ventilador toma 0,5 A del cable de 12 V. ¿Qué potencia consume?",
+   "opciones": [
+    "24 W",
+    "6 W",
+    "12,5 W",
+    "0,04 W"
+   ],
+   "correcta": 1,
+   "explicacion": "`P = V × I` = 12 × 0,5 = **6 W**."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Si a la misma pila le pones el doble de resistencia, la intensidad…",
+   "opciones": [
+    "Se duplica",
+    "No cambia",
+    "Se reduce a la mitad",
+    "Se hace cero"
+   ],
+   "correcta": 2,
+   "explicacion": "`I = V ÷ R`: con la misma tensión y el doble de resistencia pasa **la mitad** de corriente."
+  },
+  {
+   "tipo": "h",
+   "texto": "Corriente continua y corriente alterna"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "",
+    "Corriente continua (CC)",
+    "Corriente alterna (CA)"
+   ],
+   "filas": [
+    [
+     "Cómo es",
+     "Las cargas circulan siempre en el mismo sentido. La tensión es constante",
+     "Las cargas cambian de sentido muchas veces por segundo. La tensión sube y baja continuamente"
+    ],
+    [
+     "Símbolo",
+     "Una raya recta sobre otra de puntos, o **DC** (*direct current*)",
+     "Una onda (~), o **AC** (*alternating current*)"
+    ],
+    [
+     "Polaridad",
+     "Tiene polo positivo (+) y negativo (−)",
+     "No tiene un + y un − fijos"
+    ],
+    [
+     "Dónde está",
+     "Pilas, baterías del portátil y del SAI, y todo lo que hay dentro del ordenador (12 V, 5 V, 3,3 V)",
+     "El enchufe de la pared: en España, 230 V y 50 Hz"
+    ],
+    [
+     "Por qué se usa",
+     "Los chips solo funcionan con tensión continua y estable",
+     "Es más fácil y barata de transportar a larga distancia"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Como el enchufe da alterna y el ordenador necesita continua, en medio hace falta un aparato que la convierta: la **fuente de alimentación** (Lección 3)."
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**230 V** es el **valor eficaz** de la tensión: el equivalente en continua que daría la misma potencia. Es el valor que mide el polímetro y el que pone en los aparatos.",
+    "La tensión real sube y baja hasta unos **325 V de pico** (el valor máximo de la onda), en positivo y en negativo.",
+    "**50 Hz** (hercios) es la **frecuencia**: la onda completa se repite 50 veces cada segundo."
+   ]
+  },
+  {
+   "tipo": "analogia",
+   "texto": "La continua es como **un río**, que siempre baja en la misma dirección; la alterna, como **las olas de la playa**, que van y vienen. Y el valor eficaz es como la «nota media» de la onda: aunque llega a 325 V en los picos, en energía equivale a 230 V continuos."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Qué corriente usan los componentes de dentro del ordenador?",
+   "opciones": [
+    "Alterna de 230 V",
+    "Continua de 12 V, 5 V y 3,3 V",
+    "Alterna de 12 V",
+    "Continua de 230 V"
+   ],
+   "correcta": 1,
+   "explicacion": "Los chips solo funcionan con **tensión continua y estable**. La fuente convierte los 230 V de alterna del enchufe."
+  },
+  {
+   "tipo": "h",
+   "texto": "Tipos de señales"
+  },
+  {
+   "tipo": "p",
+   "texto": "Una **señal** es cómo cambia una tensión con el tiempo. Si se dibuja (como hace un osciloscopio), cada tipo tiene su forma:"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Señal",
+    "Cómo es",
+    "Ejemplo"
+   ],
+   "filas": [
+    [
+     "**Continua**",
+     "Valor fijo que no cambia",
+     "Los 12 V de la fuente; una pila de 1,5 V"
+    ],
+    [
+     "**Alterna senoidal**",
+     "Sube y baja de forma suave y regular, cambiando de signo",
+     "El enchufe: 230 V, 50 Hz"
+    ],
+    [
+     "**Cuadrada** o digital",
+     "Solo dos valores: alto (1) y bajo (0)",
+     "Los datos de un cable USB o de red; el reloj del procesador"
+    ],
+    [
+     "**Pulsante**",
+     "Siempre del mismo signo, pero sube y baja",
+     "La salida de un rectificador antes de filtrarla, dentro de la fuente"
+    ]
+   ]
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Lo importante para medir:** antes de medir hay que saber qué tipo de señal hay, porque el polímetro tiene una posición distinta para continua y para alterna. Medir una tensión continua en la posición de alterna da un valor sin sentido."
+  },
+  {
+   "tipo": "enlace",
+   "ruta": "#/pordentro/corriente",
+   "titulo": "Animación: las cuatro señales en el osciloscopio",
+   "texto": "Cambia de continua a alterna, cuadrada o pulsante y mira la forma que dibuja cada una."
+  },
+  {
+   "tipo": "h",
+   "texto": "Seguridad eléctrica"
+  },
+  {
+   "tipo": "p",
+   "texto": "La corriente que atraviesa el cuerpo es peligrosa, y la del enchufe (**230 V**) **puede matar**. Las tensiones de dentro del ordenador (12 V o menos) no son peligrosas para las personas, pero un cortocircuito puede quemar componentes y provocar chispas."
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Nunca trabajes con las manos mojadas ni sobre suelo mojado.",
+    "Antes de abrir un equipo: apágalo, pon el interruptor de la fuente en 0 y desenchúfalo.",
+    "**Nunca abras una fuente de alimentación ni un SAI**: sus condensadores guardan carga peligrosa aunque estén desenchufados.",
+    "En el aula, las medidas de 230 V (enchufe, salida del SAI) solo las hace el profesor o se hacen con su supervisión directa. Tú medirás las tensiones bajas de la fuente.",
+    "Si ves un cable pelado, un enchufe quemado o notas olor a quemado, no lo toques y avisa al profesor.",
+    "Y como siempre al tocar componentes: pulsera antiestática puesta."
+   ]
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Qué significa que la red sea de «230 V y 50 Hz»?",
+   "opciones": [
+    "230 V de pico y 50 cambios al día",
+    "230 V eficaces y la onda se repite 50 veces por segundo",
+    "230 V continuos durante 50 segundos",
+    "50 V eficaces y 230 repeticiones por segundo"
+   ],
+   "correcta": 1,
+   "explicacion": "230 V es el **valor eficaz** (el pico llega a unos 325 V) y 50 Hz es la **frecuencia**."
+  },
+  {
+   "tipo": "h",
+   "texto": "Ejemplo: ¿cuánto consume el ordenador del aula?"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Un medidor de consumo enchufado entre la pared y el ordenador marca **150 W** con el equipo funcionando.",
+    "La red es de 230 V, así que la intensidad que toma del enchufe es I = P ÷ V = 150 ÷ 230 ≈ **0,65 A**.",
+    "Si el equipo está encendido 6 horas al día, la energía diaria es 150 × 6 = 900 Wh = **0,9 kWh**.",
+    "Con un precio de ejemplo de 0,15 € el kWh, cuesta 0,9 × 0,15 ≈ **0,14 € al día**."
+   ]
+  },
+  {
+   "tipo": "resumen",
+   "texto": "La corriente eléctrica es el movimiento de cargas por un **circuito cerrado**. Sus magnitudes son la tensión (voltios, V), la intensidad (amperios, A), la resistencia (ohmios, Ω) y la potencia (vatios, W). Ley de Ohm: `V = I × R`; potencia: `P = V × I`. La **continua** va siempre en el mismo sentido y es la que usan los componentes del ordenador (12 V, 5 V, 3,3 V); la **alterna** cambia de sentido y es la del enchufe: 230 V eficaces y 50 Hz. Las señales pueden ser continuas, senoidales, cuadradas o pulsantes, y antes de medir hay que saber cuál es. Los 230 V pueden matar: nunca se abre una fuente ni un SAI."
+  }
+ ]
+}

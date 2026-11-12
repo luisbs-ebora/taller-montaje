@@ -8,6 +8,7 @@ import { vistaAnimado } from './vistas/animado.js';
 import { vistaPorDentro } from './vistas/pordentro.js';
 import { vistaPracticas, vistaExamenes } from './vistas/evaluacion.js';
 import { vistaAveria } from './vistas/averia.js';
+import { vistaMedir } from './vistas/medir.js';
 
 const main = document.getElementById('contenido');
 let actual = null;
@@ -32,6 +33,7 @@ const RUTAS = [
   [/^lecciones$/, () => vistaLecciones()],
   [/^practicas$/, () => vistaPracticas()],
   [/^tema3\/practica$/, () => vistaAveria()],
+  [/^tema4\/practica$/, () => vistaMedir()],
   [/^examenes$/, () => vistaExamenes()],
   [/^pordentro(?:\/([\w-]+))?$/, m => vistaPorDentro(m[1])],
   [/^([\w-]+)$/, m => vistaTema(m[1])],

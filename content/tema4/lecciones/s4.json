@@ -1,0 +1,351 @@
+{
+ "id": "s4",
+ "titulo": "El SAI",
+ "objetivos": [
+  "Explicar qué problemas de la red resuelve un SAI.",
+  "Identificar los bloques de un SAI y lo que hace cada uno.",
+  "Distinguir los tipos de SAI: off-line, interactivo y on-line.",
+  "Dimensionar un SAI por vatios y autonomía.",
+  "Decir qué se mide en un SAI y quién lo mide en el aula."
+ ],
+ "bloques": [
+  {
+   "tipo": "p",
+   "texto": "Si se va la luz con el ordenador encendido, se pierde todo lo que no estaba guardado y, a veces, se estropean archivos o el propio sistema. En una empresa, además, un corte puede dejar sin servicio un servidor del que dependen todos. Para eso existe el **SAI** (sistema de alimentación ininterrumpida), en inglés **UPS** (*uninterruptible power supply*)."
+  },
+  {
+   "tipo": "h",
+   "texto": "Los problemas de la red eléctrica"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Problema",
+    "Qué es",
+    "Qué le pasa al ordenador"
+   ],
+   "filas": [
+    [
+     "**Corte** o apagón",
+     "La tensión desaparece",
+     "Se apaga de golpe: datos perdidos, archivos dañados"
+    ],
+    [
+     "**Microcorte**",
+     "Corte de una fracción de segundo",
+     "Se reinicia sin motivo aparente"
+    ],
+    [
+     "**Caída de tensión**",
+     "La tensión baja durante un rato (por ejemplo, a 190 V)",
+     "La fuente puede no aguantar: reinicios o apagados"
+    ],
+    [
+     "**Sobretensión** o pico",
+     "Subida brusca de tensión (una tormenta, maquinaria que arranca)",
+     "Puede quemar la fuente u otros componentes"
+    ],
+    [
+     "**Ruido eléctrico**",
+     "Pequeñas perturbaciones en la onda",
+     "Fallos raros, cuelgues"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Un SAI protege contra todos ellos: mientras hay red, la filtra; cuando falla, alimenta los equipos con su batería durante unos minutos, los suficientes para **guardar el trabajo y apagar bien**."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Para qué sirven los minutos de batería de un SAI?",
+   "opciones": [
+    "Para seguir trabajando toda la mañana",
+    "Para guardar el trabajo y apagar bien",
+    "Para cargar el móvil",
+    "Para que el equipo vaya más rápido"
+   ],
+   "correcta": 1,
+   "explicacion": "La batería dura unos minutos: los justos para **guardar y apagar** sin perder datos."
+  },
+  {
+   "tipo": "h",
+   "texto": "Los bloques de un SAI"
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "sai",
+   "texto": "Un SAI de torre abierto por un lado. Toca cada bloque para ver qué hace.",
+   "foco": "bateria",
+   "datos": {
+    "abierto": true
+   }
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Bloque",
+    "Qué hace"
+   ],
+   "filas": [
+    [
+     "**Filtro y protección de entrada**",
+     "Recorta los picos y quita ruido de la red"
+    ],
+    [
+     "**Rectificador y cargador**",
+     "Convierte la alterna de la red en continua para cargar la batería"
+    ],
+    [
+     "**Batería**",
+     "Guarda la energía en continua. En los SAI pequeños, una o dos baterías de plomo de 12 V"
+    ],
+    [
+     "**Inversor**",
+     "Convierte la continua de la batería en alterna de 230 V para los equipos"
+    ],
+    [
+     "**Conmutador** (relé) o *bypass*",
+     "Pasa los equipos de la red a la batería, o los conecta directamente a la red si el SAI falla"
+    ],
+    [
+     "**Control**",
+     "Vigila la red y la batería, enciende los avisos (pitidos, LED, pantalla) y se comunica con el ordenador por USB"
+    ],
+    [
+     "**Tomas de salida**",
+     "Donde se enchufan los equipos. Algunas solo tienen protección contra picos y no batería: mira el dibujo junto a cada toma"
+    ]
+   ]
+  },
+  {
+   "tipo": "enlace",
+   "ruta": "#/pordentro/sai",
+   "titulo": "Animación: el SAI por dentro",
+   "texto": "Mira por dónde va la energía con red, qué pasa en un apagón y en qué cambia cada tipo de SAI."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Qué bloque convierte la continua de la batería en alterna de 230 V?",
+   "opciones": [
+    "El rectificador",
+    "El inversor",
+    "El filtro",
+    "El relé"
+   ],
+   "correcta": 1,
+   "explicacion": "El **inversor** hace lo contrario que el rectificador: de continua a alterna."
+  },
+  {
+   "tipo": "h",
+   "texto": "Tipos de SAI"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Tipo",
+    "Cómo funciona",
+    "Ventajas e inconvenientes",
+    "Para qué"
+   ],
+   "filas": [
+    [
+     "**Off-line** (*standby*)",
+     "Con red, los equipos van directos a la red (filtrada). Si la red falla, un relé conmuta a la batería y el inversor",
+     "Barato y pequeño. Tarda unos milisegundos en conmutar y no corrige caídas de tensión",
+     "Un ordenador de casa"
+    ],
+    [
+     "**Interactivo** (*line-interactive*)",
+     "Como el off-line, pero con un regulador de tensión (AVR) que corrige caídas y subidas sin gastar batería",
+     "Buen equilibrio entre precio y protección. Sigue teniendo un pequeño tiempo de conmutación",
+     "Oficinas, equipos de aula, pequeños servidores"
+    ],
+    [
+     "**On-line** (doble conversión)",
+     "Los equipos van siempre por el inversor: la red solo carga la batería",
+     "Tiempo de conmutación cero y salida perfecta. Más caro, más ruidoso y gasta más",
+     "Servidores y equipos críticos"
+    ]
+   ]
+  },
+  {
+   "tipo": "analogia",
+   "texto": "Un SAI off-line es como **un generador de reserva en un hospital**: está parado y arranca cuando se va la luz (tarda un instante). Uno on-line es como si el hospital funcionara siempre con su propio generador y la red solo sirviera para llenarle el depósito."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Qué tipo de SAI tiene tiempo de conmutación cero?",
+   "opciones": [
+    "Off-line",
+    "Interactivo",
+    "On-line",
+    "Ninguno"
+   ],
+   "correcta": 2,
+   "explicacion": "En el **on-line** los equipos van siempre por el inversor: cuando falla la red no hay nada que conmutar."
+  },
+  {
+   "tipo": "h",
+   "texto": "La forma de onda de salida"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**Senoidal pura**: igual que la de la red. La dan los on-line y los interactivos de gama media y alta.",
+    "**Senoidal aproximada** (escalonada o «pseudosenoidal»): una onda a escalones. La dan muchos SAI baratos cuando trabajan con batería. Algunas fuentes con PFC activo no la toleran bien y pueden apagarse al pasar a batería, así que con fuentes modernas conviene un SAI de onda senoidal pura."
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Elegir un SAI: VA, vatios y autonomía"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**VA** (voltiamperios): la potencia «aparente», tensión por intensidad. Es el número grande del nombre: «SAI de 1000 VA».",
+    "**W** (vatios): la potencia real que puede dar. Siempre es menor: un SAI de 1000 VA suele dar entre 600 y 900 W. La relación entre los dos es el factor de potencia (W = VA × factor).",
+    "**Autonomía**: los minutos que aguanta con batería. Depende de la carga: cuanto más se le conecta, menos dura. El fabricante la da en una tabla o gráfica."
+   ]
+  },
+  {
+   "tipo": "analogia",
+   "texto": "Los VA son como **la capacidad del vaso**, y los vatios, lo que realmente te bebes; siempre hay un poco de espuma. Y la autonomía es como la de un móvil: con la pantalla al máximo y un juego, la batería dura mucho menos que en reposo."
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "**Suma el consumo real** de lo que se va a conectar a las tomas con batería (mejor medido con un medidor de consumo que leído de la etiqueta de la fuente).",
+    "Añade un **margen del 20 al 30 %**, para no llevar el SAI al límite y para que las baterías, al envejecer, sigan bastando.",
+    "Elige un SAI cuyos **vatios (no VA)** superen ese total.",
+    "Comprueba en la tabla del fabricante que la autonomía con esa carga es suficiente para guardar y apagar (normalmente, 5 a 10 minutos)."
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "**Ejemplo:** un ordenador de oficina (150 W) y su monitor (30 W) suman 180 W. Con un 30 % de margen, 234 W. Un SAI de 650 VA que da 360 W es suficiente. No se conectan al SAI impresoras láser ni estufas: consumen picos muy altos y lo sobrecargan."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Vas a conectar equipos que suman 200 W. Con un 30 % de margen, ¿qué SAI sirve?",
+   "opciones": [
+    "Uno de 300 VA que da 180 W",
+    "Uno de 400 VA que da 240 W",
+    "Uno de 500 VA que da 300 W",
+    "Cualquiera de 200 VA"
+   ],
+   "correcta": 2,
+   "explicacion": "200 × 1,3 = 260 W. Hay que mirar los **vatios**: solo el de 300 W lo supera."
+  },
+  {
+   "tipo": "h",
+   "texto": "Medir en un SAI"
+  },
+  {
+   "tipo": "p",
+   "texto": "Las medidas de un SAI se hacen en sus **puntos significativos**: la entrada, la batería y la salida. Se mide para saber si el SAI está bien, si la batería está gastada o si la salida es correcta en los dos modos (con red y con batería)."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Punto",
+    "Qué se mide",
+    "Valor típico",
+    "Quién lo mide en el aula"
+   ],
+   "filas": [
+    [
+     "**Entrada** (enchufe de la pared)",
+     "Tensión alterna",
+     "Unos 230 V (207 a 253 V)",
+     "El profesor"
+    ],
+    [
+     "**Batería**",
+     "Tensión continua en sus bornes",
+     "Batería de 12 V: unos 13 V cargada en reposo; por debajo de unos 11,5-12 V, descargada o gastada",
+     "El alumno, con el SAI apagado, desenchufado y la batería accesible por su tapa"
+    ],
+    [
+     "**Salida con red**",
+     "Tensión alterna en una toma de salida",
+     "Unos 230 V",
+     "El profesor"
+    ],
+    [
+     "**Salida con batería**",
+     "Tensión alterna con el SAI desenchufado de la pared",
+     "Unos 230 V (en onda escalonada, el polímetro puede marcar algo distinto)",
+     "El profesor"
+    ],
+    [
+     "**Consumo**",
+     "Potencia de la carga (medidor de consumo o pantalla del SAI)",
+     "Lo que consuman los equipos",
+     "El alumno"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Muchos SAI muestran en su pantalla o en su programa del ordenador (por USB) la tensión de entrada, la de salida, la carga en porcentaje, la carga de la batería y la autonomía estimada. Es una forma segura de «medir» sin tocar la red."
+  },
+  {
+   "tipo": "h",
+   "texto": "Mantenimiento del SAI"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "Las baterías de plomo duran entre **3 y 5 años**. Si la autonomía baja mucho o el SAI pita con un aviso de batería, hay que cambiarla.",
+    "Se hace una prueba de autonomía de vez en cuando (muchos SAI tienen un botón o una opción de *self-test*).",
+    "El SAI necesita ventilación: no se tapa ni se mete en un hueco cerrado.",
+    "Las baterías usadas son **residuos peligrosos**: se llevan a un punto limpio, nunca a la basura."
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Seguridad con el SAI"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "La salida de un SAI da **230 V aunque esté desenchufado de la pared**: es justo para lo que sirve. Trátala siempre como un enchufe.",
+    "**Nunca abras el SAI.** Solo se accede a la batería por la tapa prevista por el fabricante, con el SAI apagado y desenchufado.",
+    "No cortocircuites los bornes de la batería con una herramienta: una batería de plomo da corrientes muy altas y puede soltar chispas o calentarse mucho.",
+    "Las medidas de 230 V (entrada y salida) solo las hace el profesor o se hacen con su supervisión directa.",
+    "No conectes al SAI regletas en cadena ni aparatos de mucho consumo (impresoras láser, estufas)."
+   ]
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Desenchufas el SAI de la pared. ¿Hay tensión en sus tomas de salida?",
+   "opciones": [
+    "No, sin red no hay nada",
+    "Sí: unos 230 V, que da el inversor con la batería",
+    "Solo 12 V de la batería",
+    "Solo si pulsas el botón de test"
+   ],
+   "correcta": 1,
+   "explicacion": "Para eso sirve un SAI: su salida da **230 V aunque esté desenchufado**. Trátala siempre como un enchufe."
+  },
+  {
+   "tipo": "h",
+   "texto": "Ejemplo: elegir un SAI para el servidor del aula"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Se mide con un medidor de consumo: el servidor gasta 220 W trabajando, el switch 20 W y el router 15 W. Total: **255 W**.",
+    "Con un 30 % de margen: 255 × 1,3 ≈ **332 W**.",
+    "Como es un servidor, se elige un SAI interactivo de onda senoidal pura. El modelo de 1000 VA da 600 W: suficiente.",
+    "En la tabla del fabricante, con unos 250 W, la autonomía es de unos 12 minutos: tiempo de sobra para que el servidor se apague solo.",
+    "Se conecta el SAI al servidor por USB y se configura el apagado automático cuando quede poca batería."
+   ]
+  },
+  {
+   "tipo": "resumen",
+   "texto": "El SAI protege frente a cortes, microcortes, caídas, picos y ruido de la red, y da unos minutos de batería para guardar y apagar. Sus bloques son: filtro, rectificador y cargador, batería (normalmente de 12 V), inversor, conmutador o *bypass*, control y tomas de salida. Hay tres tipos: **off-line** (barato, conmuta a batería), **interactivo** (con regulador de tensión) y **on-line** (siempre por el inversor, sin tiempo de conmutación). Se elige por los **vatios, no por los VA**, sumando el consumo real más un 20-30 % de margen y comprobando la autonomía. Se mide en la entrada, la batería y la salida; la salida da 230 V aunque esté desenchufado. Las baterías duran 3 a 5 años y van al punto limpio."
+  }
+ ]
+}

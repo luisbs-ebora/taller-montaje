@@ -383,6 +383,12 @@
    ]
   },
   {
+   "tipo": "enlace",
+   "ruta": "#/pordentro/arranque",
+   "titulo": "Animación: la secuencia de arranque",
+   "texto": "Los ocho pasos sobre un equipo montado: qué cable se activa, qué LED se enciende y qué sale en la pantalla."
+  },
+  {
    "tipo": "p",
    "texto": "Saber este orden sirve para **diagnosticar**: si no pasa nada al pulsar el botón, el fallo está en los primeros pasos (enchufe, fuente, botón); si giran los ventiladores pero no hay imagen, en el **POST**; si sale «no se encuentra un dispositivo de arranque», en la **búsqueda del arranque**. Lo ves cable a cable en **Por dentro → La fuente de alimentación**."
   },

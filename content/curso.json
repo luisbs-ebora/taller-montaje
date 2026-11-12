@@ -13,6 +13,10 @@
     {
       "id": "tema3",
       "ruta": "tema3/tema.json"
+    },
+    {
+      "id": "tema4",
+      "ruta": "tema4/tema.json"
     }
   ]
 }

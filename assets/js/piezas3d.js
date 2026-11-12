@@ -3,6 +3,7 @@
 // Las subpiezas llevan userData.parte (clave de content/<tema>/piezas.json) para poder tocarlas.
 import * as THREE from 'three';
 import { piezaTema3 } from './piezas3d-t3.js';
+import { piezaTema4 } from './modelos-t4.js';
 
 export const C = {
   pcb: 0x2f5d4f, pcbOscuro: 0x244a3f, ranura: 0x1d2228, ranuraGris: 0x8a929c, metal: 0xb9c1c9,
@@ -436,7 +437,7 @@ export function piezaSuelta(cat, datos = {}) {
     case 'red': return tarjetaRed(datos.tipo || 'wifi');
     case 'monitor': return monitor();
     case 'auxiliar': return auxiliar();
-    default: return piezaTema3(cat, datos) || new THREE.Group();
+    default: return piezaTema3(cat, datos) || piezaTema4(cat, datos) || new THREE.Group();
   }
 }
 export function tipoRefri(d = {}) {

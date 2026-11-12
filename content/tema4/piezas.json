@@ -1,0 +1,77 @@
+{
+ "polimetro": {
+  "nombre": "Polímetro digital",
+  "resumen": "El aparato de medida que más usa un técnico: mide tensión (continua y alterna), intensidad, resistencia y continuidad. Los hay de rango manual (eliges magnitud y rango) y autorango (solo la magnitud).",
+  "donde": "En el puesto de trabajo. Las puntas se conectan a sus bornes y se tocan los dos puntos entre los que se quiere medir.",
+  "fijate": "En su categoría de seguridad (CAT II, III o IV) y su tensión máxima, en si es de rango manual o autorango, y en que las puntas no tengan el aislante roto.",
+  "partes": {
+   "pantalla": "Pantalla: muestra el valor, la unidad y los avisos. Un «1» a la izquierda u «OL» significa fuera de rango: hay que subir el rango.",
+   "selector": "Selector giratorio: elige la magnitud. V con raya recta: tensión continua. V con onda: alterna. Ω: resistencia. Altavoz: continuidad. A: intensidad. En el de rango manual, además, el rango (2, 20, 200); en el autorango, el rango lo busca él.",
+   "botones": "Botones: HOLD congela la medida en la pantalla para leerla con calma.",
+   "com": "Borne COM (común): aquí va siempre la punta negra.",
+   "v": "Borne VΩ: aquí va la punta roja para medir tensión, resistencia y continuidad. Es su sitio por defecto.",
+   "ma": "Borne mA: la punta roja va aquí solo para medir intensidades pequeñas. Después, de vuelta a VΩ.",
+   "a10": "Borne 10 A: la punta roja va aquí solo para medir intensidades grandes. Si se queda aquí y mides tensión, provocas un cortocircuito.",
+   "punta": "Puntas de prueba: negra a COM, roja a VΩ. Se sujetan por la zona aislada, sin tocar la parte metálica.",
+   "funda": "Funda de goma: protege el polímetro de golpes y caídas.",
+   "cuerpo": "Cuerpo: dentro están la pila y los fusibles que protegen el polímetro si se mide intensidad de forma incorrecta."
+  }
+ },
+ "conector24": {
+  "nombre": "Conector ATX de 24 pines",
+  "resumen": "El cable principal de la fuente a la placa. Cada color de cable lleva siempre la misma tensión, en todas las fuentes ATX.",
+  "donde": "En el conector ATX_24P de la placa base, hasta que la pestaña haga clic. Para medir, no se desconecta: se entra con la punta por detrás, por el lado de los cables.",
+  "fijate": "En el color del cable, no en la posición del pin: la posición cambia según por qué lado mires el conector; el color, no.",
+  "partes": {
+   "c12": "Amarillo, +12 V: procesador, tarjeta gráfica, ventiladores y discos. Es la que más potencia da. Correcto entre 11,40 y 12,60 V.",
+   "c5": "Rojo, +5 V: USB, discos y parte de la placa. Correcto entre 4,75 y 5,25 V.",
+   "c33": "Naranja, +3,3 V: memoria, chipset y ranuras de la placa. Correcto entre 3,14 y 3,47 V.",
+   "cgnd": "Negro, masa (GND): el 0 V, el «−» común de todas las tensiones. Aquí se apoya la punta negra para medir.",
+   "csb": "Morado, +5 V de reposo (5VSB): está siempre que la fuente esté enchufada, aunque el equipo esté apagado. Correcto entre 4,75 y 5,25 V.",
+   "con": "Verde, PS_ON: la placa lo une a masa al pulsar el botón de encendido y entonces la fuente arranca. Con el equipo apagado tiene unos 5 V.",
+   "cpg": "Gris, PWR_OK (Power Good): la fuente pone unos 5 V cuando sus tensiones ya son estables.",
+   "cm12": "Azul, −12 V: casi no se usa; queda por compatibilidad. Correcto entre −10,8 y −13,2 V.",
+   "carcasa": "Carcasa: 24 pines en dos filas de 12. El pin 20 no lleva cable (antes era −5 V).",
+   "pestana": "Pestaña de seguridad: hay que oír el clic al conectar y apretarla para desconectar. Nunca se tira de los cables."
+  }
+ },
+ "comprobador": {
+  "nombre": "Comprobador de fuentes ATX",
+  "resumen": "Un aparato pequeño que muestra de un vistazo todas las tensiones de una fuente y avisa si alguna está mal. Es la forma más rápida y segura de probar una fuente suelta.",
+  "donde": "Se conecta a la fuente fuera del equipo: primero el conector de 24 pines y después los demás. Luego se enchufa la fuente y se pone el interruptor en I.",
+  "fijate": "En que muestre los valores en una pantalla (no solo unos LED) y en que tenga zócalo para los conectores que vas a probar.",
+  "partes": {
+   "lcd": "Pantalla: +12 V, +5 V, +3,3 V, 5VSB, −12 V y el tiempo de PG (Power Good). Si algún valor está fuera de margen, pita o se pone en rojo.",
+   "atx24": "Zócalo de 24 pines: aquí va el conector principal. Al conectarlo, el comprobador arranca la fuente por ti (hace lo que haría la placa con el cable verde).",
+   "eps": "Zócalo EPS (CPU) de 8 pines: comprueba el +12 V del cable del procesador.",
+   "pcie": "Zócalo PCIe de 6 u 8 pines: comprueba el +12 V de los cables de la tarjeta gráfica.",
+   "molex": "Zócalo Molex de 4 pines: comprueba +12 V y +5 V.",
+   "sata": "Zócalo SATA de alimentación: comprueba +12 V, +5 V y +3,3 V.",
+   "led": "LED de estado: uno por tensión. Encendido, la tensión está presente.",
+   "cuerpo": "Cuerpo de aluminio. No sustituye a medir con carga: una fuente puede dar bien aquí y caerse cuando el equipo trabaja mucho."
+  }
+ },
+ "sai": {
+  "nombre": "SAI (sistema de alimentación ininterrumpida)",
+  "resumen": "Filtra la red mientras hay luz y, cuando falla, alimenta los equipos con su batería unos minutos: los justos para guardar el trabajo y apagar bien.",
+  "donde": "Entre el enchufe de la pared y los equipos que se quieren proteger (ordenador, monitor, servidor, router). Con ventilación: no se tapa ni se mete en un hueco cerrado.",
+  "fijate": "En los vatios (no solo los VA), el tipo (off-line, interactivo u on-line), la forma de onda de salida y la autonomía con tu carga. Un SAI no se abre nunca.",
+  "partes": {
+   "lcd": "Pantalla: tensión de entrada y de salida, carga en porcentaje, carga de la batería y modo (red o batería). Es una forma segura de «medir» sin tocar la red.",
+   "boton": "Botón de encendido. En muchos modelos también lanza la prueba de autonomía (self-test) y silencia el pitido.",
+   "frontal": "Frontal: el SAI necesita ventilación, no se tapa.",
+   "entrada": "Entrada: el cable que va al enchufe de la pared. Aquí hay unos 230 V de alterna: solo los mide el profesor.",
+   "salidabat": "Tomas con batería y protección: aquí van los equipos que tienen que seguir encendidos. Dan 230 V aunque el SAI esté desenchufado de la pared.",
+   "salidaprot": "Tomas solo con protección contra picos: no tienen batería. Para lo que puede apagarse sin problema.",
+   "usb": "Puerto USB: comunica el SAI con el ordenador para que se apague solo cuando quede poca batería.",
+   "bateria": "Batería de plomo sellada de 12 V: guarda la energía en continua. Unos 13 V cargada en reposo. Dura de 3 a 5 años y, usada, va al punto limpio.",
+   "filtro": "Filtro y protección de entrada: recorta los picos y quita ruido de la red.",
+   "cargador": "Rectificador y cargador: convierte la alterna de la red en continua para cargar la batería.",
+   "inversor": "Inversor: convierte la continua de la batería en alterna de 230 V para los equipos.",
+   "avr": "Regulador de tensión (AVR): en los SAI interactivos, un transformador que corrige caídas y subidas de la red sin gastar batería.",
+   "rele": "Conmutador (relé): pasa los equipos de la red a la batería en unos milisegundos.",
+   "control": "Control: vigila la red y la batería, enciende los avisos y habla con el ordenador por USB.",
+   "carcasa": "Carcasa: no se abre nunca. A la batería solo se accede por la tapa prevista por el fabricante, con el SAI apagado y desenchufado."
+  }
+ }
+}

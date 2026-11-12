@@ -14,7 +14,9 @@ const VARIANTES = {
   caja: [['ATX', { formato: 'ATX' }], ['MicroATX', { formato: 'MicroATX' }], ['Mini-ITX', { formato: 'Mini-ITX' }]],
   hdd: [['Cerrado', {}], ['Por dentro', { abierto: true }]],
   optica: [['Cerrada', {}], ['Bandeja abierta', { abierta: true }]],
-  red: [['Wi‑Fi PCIe', { tipo: 'wifi' }], ['Ethernet PCIe', { tipo: 'ethernet' }]]
+  red: [['Wi‑Fi PCIe', { tipo: 'wifi' }], ['Ethernet PCIe', { tipo: 'ethernet' }]],
+  sai: [['Cerrado', {}], ['Por dentro', { abierto: true }]],
+  polimetro: [['Rango manual', {}], ['Autorango', { auto: true }]]
 };
 
 export async function vistaPiezas(temaId) {

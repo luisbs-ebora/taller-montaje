@@ -1,0 +1,39 @@
+{
+ "id": "tema4",
+ "numero": 4,
+ "titulo": "Fundamentos eléctricos",
+ "resumen": "Qué es la corriente, cómo se mide con el polímetro, qué tensiones da la fuente ATX y cómo protege un SAI. Con las normas de seguridad eléctrica de cada medida.",
+ "lecciones": [
+  {
+   "id": "s1",
+   "titulo": "Corriente, magnitudes y señales",
+   "subtitulo": "Circuito, tensión, intensidad, resistencia y potencia; continua y alterna; seguridad",
+   "archivo": "lecciones/s1.json"
+  },
+  {
+   "id": "s2",
+   "titulo": "Aparatos de medida y el polímetro",
+   "subtitulo": "Partes, rango, bornes y cómo se mide cada magnitud",
+   "archivo": "lecciones/s2.json"
+  },
+  {
+   "id": "s3",
+   "titulo": "La fuente de alimentación ATX",
+   "subtitulo": "Bloques, colores y tensiones, medir por detrás del conector y síntomas",
+   "archivo": "lecciones/s3.json"
+  },
+  {
+   "id": "s4",
+   "titulo": "El SAI",
+   "subtitulo": "Problemas de la red, bloques, tipos, dimensionado y medidas",
+   "archivo": "lecciones/s4.json"
+  }
+ ],
+ "piezas": [
+  "polimetro",
+  "conector24",
+  "comprobador",
+  "sai"
+ ],
+ "ejercicios": []
+}

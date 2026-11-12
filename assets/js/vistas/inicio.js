@@ -39,7 +39,7 @@ export async function vistaInicio() {
       t.ejercicios && t.ejercicios.length ? h('div.rejilla', { style: 'margin-top:14px' },
         
         h('div.tarjeta.reto-card', h('span.etiqueta', 'Para clase y repaso'), h('h3', 'Montaje animado'), h('p', 'Mira cómo se monta un PC paso a paso, en dibujos animados, y qué pasa si te equivocas en cada paso.'), h('a.btn.sec', { href: `#/${t.id}/animado` }, 'Ver el montaje')),
-        h('div.tarjeta.reto-card', h('span.etiqueta', 'Para clase y repaso'), h('h3', 'Por dentro'), h('p', 'Abre las piezas y mira qué hay dentro: pasta térmica, disipadores, la fuente y el disco duro. Cambia algo y mira qué pasa.'), h('a.btn.sec', { href: '#/pordentro' }, 'Abrir las piezas')),
+        h('div.tarjeta.reto-card', h('span.etiqueta', 'Para clase y repaso'), h('h3', 'Por dentro'), h('p', 'Abre las piezas y mira qué hay dentro: pasta térmica, disipadores, la fuente, la secuencia de arranque, el disco duro, la corriente dentro de un cable, el polímetro y el SAI. Cambia algo y mira qué pasa.'), h('a.btn.sec', { href: '#/pordentro' }, 'Abrir las piezas')),
         h('div.tarjeta.reto-card', h('span.etiqueta', 'Práctica libre · Temas 1 y 2'), h('h3', 'Monta un PC por piezas'), h('p', t.ejercicios[0].descripcion + ' Puedes repetirla las veces que quieras: no cuenta para nota.'), h('a.btn', { href: `#/${t.id}/practica` }, 'Practicar')),
         EXAMEN_ACTIVO && h('div.tarjeta.reto-card', h('span.etiqueta', 'Examen'), h('h3', 'Examen Temas 1 y 2'), h('p', 'Solo cuando el profesor lo abra. Tu nota se guarda al entregarlo.'), h('a.btn.sec', { href: `#/${t.id}/examen` }, 'Ir al examen'))) : null)));
 
@@ -86,5 +86,8 @@ export async function vistaTema(temaId) {
       t.piezas && t.piezas.length ? h('a.btn.sec', { href: `#/${t.id}/piezas` }, 'Piezas en 3D') : null,
       t.id === 'tema1' ? h('a.btn.sec', { href: `#/${t.id}/animado` }, 'Montaje animado') : null,
       practica ? h('a.btn', { href: `#/${practica}/practica` }, 'Práctica: monta un PC por piezas') : null,
-      t.id === 'tema3' ? h('a.btn', { href: '#/tema3/practica' }, 'Práctica: este PC no arranca') : null)) };
+      t.id === 'tema3' ? h('a.btn', { href: '#/tema3/practica' }, 'Práctica: este PC no arranca') : null,
+      t.id === 'tema3' ? h('a.btn.sec', { href: '#/pordentro/arranque' }, 'Por dentro: la secuencia de arranque') : null,
+      t.id === 'tema4' ? h('a.btn.sec', { href: '#/pordentro/corriente' }, 'Por dentro: corriente, polímetro y SAI') : null,
+      t.id === 'tema4' ? h('a.btn', { href: '#/tema4/practica' }, 'Práctica: ¿está bien la fuente?') : null)) };
 }

@@ -8,6 +8,8 @@ export const PRACTICAS = [
     texto: 'Te llega un cliente con un encargo. Elige piezas compatibles que cumplan lo que pide y ordena el montaje con todas las medidas de seguridad.' },
   { id: 't3-averia', temas: 'Tema 3', titulo: 'Este PC no arranca', ruta: '#/tema3/practica',
     texto: 'Un equipo recién montado que no funciona. Mira el síntoma y los LED de la placa, inspecciónalo en 3D y encuentra qué está mal montado.' },
+  { id: 't4-medir', temas: 'Tema 4', titulo: '¿Está bien la fuente?', ruta: '#/tema4/practica',
+    texto: 'Te traen un equipo con un problema. Prepara el polímetro, mide por detrás del conector de 24 pines y decide si la culpa es de la fuente.' },
 ];
 
 export const EXAMENES = [

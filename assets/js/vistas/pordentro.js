@@ -10,8 +10,12 @@ import pasta from '../pordentro/pasta.js';
 import refrigeracion from '../pordentro/refrigeracion.js';
 import fuente from '../pordentro/fuente.js';
 import disco from '../pordentro/disco.js';
+import corriente from '../pordentro/corriente.js';
+import polimetro from '../pordentro/polimetro.js';
+import sai from '../pordentro/sai.js';
+import arranque from '../pordentro/arranque.js';
 
-export const PIEZAS = [pasta, refrigeracion, fuente, disco];
+export const PIEZAS = [pasta, refrigeracion, fuente, arranque, disco, corriente, polimetro, sai];
 
 export async function vistaPorDentro(idPieza) {
   const def = PIEZAS.find(p => p.id === idPieza) || PIEZAS[0];
@@ -60,7 +64,7 @@ export async function vistaPorDentro(idPieza) {
     if (!m) return;
     const f = Math.max(0, Math.min(1, (valor - m.min) / (m.max - m.min)));
     mBarra.style.height = (f * 100) + '%';
-    mValor.textContent = `${Math.round(valor)} ${m.unidad}`;
+    mValor.textContent = `${m.decimales ? valor.toFixed(m.decimales).replace('.', ',') : Math.round(valor)} ${m.unidad}`;
     const z = m.zonas.find(([a, b]) => valor >= a && valor < b) || m.zonas[m.zonas.length - 1];
     medidorEl.dataset.zona = z[2];
     mEstado.textContent = z[3];
@@ -103,30 +107,63 @@ export async function vistaPorDentro(idPieza) {
     controles.maxPolarAngle = 1.45;
     controles.minDistance = def.distancia ? def.distancia[0] : 12;
     controles.maxDistance = def.distancia ? def.distancia[1] : 120;
-    escena.add(new THREE.AmbientLight(0xffffff, 1.15));
-    const sol = new THREE.DirectionalLight(0xfff4e0, 2.2);
+    const real = !!def.realista; // aspecto realista: materiales con reflejos y mesa de taller, sin contorno de dibujo
+    if (real) {
+      renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+      // «habitación» sencilla para que los metales y plásticos tengan algo que reflejar
+      const sala = new THREE.Scene();
+      sala.add(new THREE.Mesh(new THREE.BoxGeometry(80, 50, 80), new THREE.MeshBasicMaterial({ color: 0x8d8f94, side: THREE.BackSide })));
+      const foco = (w, d, x, y, z, i) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, d), new THREE.MeshBasicMaterial({ color: new THREE.Color().setScalar(i), side: THREE.DoubleSide })); m.position.set(x, y, z); m.lookAt(0, 0, 0); sala.add(m); };
+      foco(30, 30, 0, 24, 0, 7); foco(20, 14, -34, 10, 14, 4); foco(20, 14, 30, 8, -30, 3);
+      const pm = new THREE.PMREMGenerator(renderer);
+      escena.environment = pm.fromScene(sala, 0.03).texture; pm.dispose();
+      escena.environmentIntensity = 0.55;
+      escena.background = new THREE.Color(0xe8e4dc);
+    }
+    escena.add(new THREE.AmbientLight(0xffffff, real ? 0.25 : 1.15));
+    const sol = new THREE.DirectionalLight(0xfff4e0, real ? 2.4 : 2.2);
     sol.position.set(-20, 40, 26);
     sol.castShadow = true;
     sol.shadow.mapSize.set(2048, 2048);
-    Object.assign(sol.shadow.camera, { left: -40, right: 40, top: 40, bottom: -40, near: 1, far: 120 });
+    Object.assign(sol.shadow.camera, { left: -45, right: 45, top: 45, bottom: -45, near: 1, far: 140 });
     sol.shadow.bias = -0.0006;
-    sol.shadow.intensity = 0.55;
+    sol.shadow.normalBias = real ? 0.04 : 0;
+    sol.shadow.intensity = real ? 0.8 : 0.55;
     escena.add(sol);
-    const mesa = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.ShadowMaterial({ opacity: 0.13 }));
+    const mesa = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.ShadowMaterial({ opacity: real ? 0.2 : 0.13 }));
     mesa.rotation.x = -Math.PI / 2; mesa.position.y = def.suelo ?? -0.6; mesa.receiveShadow = true;
     escena.add(mesa);
-    // alfombrilla azul como en el montaje animado
     const [AW, AD] = def.alfombrilla || [46, 34];
-    const g = new THREE.BoxGeometry(AW, 0.6, AD);
-    const alf = new THREE.Mesh(g, new THREE.MeshToonMaterial({ color: 0x9cc3e6 }));
-    alf.receiveShadow = true; alf.position.set(0, (def.suelo ?? -0.6) + 0.3, 0);
-    const borde = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: TINTA, side: THREE.BackSide }));
-    borde.scale.set((AW + 0.3) / AW, 0.9 / 0.6, (AD + 0.3) / AD); alf.add(borde);
-    escena.add(alf);
+    if (real) {
+      // alfombrilla antiestática de taller (goma mate)
+      const sh = new THREE.Shape(), r = 1.6, x = -AW / 2, y = -AD / 2;
+      sh.moveTo(x + r, y); sh.lineTo(x + AW - r, y); sh.quadraticCurveTo(x + AW, y, x + AW, y + r); sh.lineTo(x + AW, y + AD - r); sh.quadraticCurveTo(x + AW, y + AD, x + AW - r, y + AD);
+      sh.lineTo(x + r, y + AD); sh.quadraticCurveTo(x, y + AD, x, y + AD - r); sh.lineTo(x, y + r); sh.quadraticCurveTo(x, y, x + r, y);
+      const g = new THREE.ExtrudeGeometry(sh, { depth: 0.3, bevelEnabled: true, bevelSize: 0.12, bevelThickness: 0.12, bevelSegments: 2 });
+      g.rotateX(-Math.PI / 2);
+      const alf = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: 0x2a4a61, roughness: 0.95 }));
+      alf.receiveShadow = true; alf.position.y = (def.suelo ?? -0.6) + 0.12; escena.add(alf);
+    } else {
+      // alfombrilla azul como en el montaje animado
+      const g = new THREE.BoxGeometry(AW, 0.6, AD);
+      const alf = new THREE.Mesh(g, new THREE.MeshToonMaterial({ color: 0x9cc3e6 }));
+      alf.receiveShadow = true; alf.position.set(0, (def.suelo ?? -0.6) + 0.3, 0);
+      const borde = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: TINTA, side: THREE.BackSide }));
+      borde.scale.set((AW + 0.3) / AW, 0.9 / 0.6, (AD + 0.3) / AD); alf.add(borde);
+      escena.add(alf);
+    }
 
     pieza = def.crear({ ...ctx, k: kit(nuevaTinta(), []) , escena });
     escena.add(pieza.grupo);
     if (pieza.leyenda) panel.insertBefore(h('ul.pd-leyenda', pieza.leyenda.map(([c, t]) => h('li', h('i', { style: `background:#${c.toString(16).padStart(6, '0')}` }), t))), panel.querySelector('.pd-extra'));
+    if (pieza.variantes) {
+      // Interruptor de variante (por ejemplo, polímetro manual o autorango): al cambiar, se repite el modo actual
+      const v = pieza.variantes;
+      const fila = h('div.pd-variantes', { role: 'group', 'aria-label': v.nombre }, h('span', v.nombre + ':'));
+      const pintarV = () => fila.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.id === v.actual())));
+      v.lista.forEach(([id, txt]) => fila.append(h('button.am-btn', { type: 'button', 'data-id': id, onclick: () => { v.elegir(id); pintarV(); if (modoActual) elegir(modoActual); } }, txt)));
+      panel.insertBefore(fila, modosEl); pintarV();
+    }
     if (pieza.medidor) { medidorEl.hidden = false; mNombre.textContent = pieza.medidor.nombre; ctx.ponerMedidor(pieza.medidor.inicial ?? pieza.medidor.min); }
 
     // Etiquetas con el nombre de cada parte

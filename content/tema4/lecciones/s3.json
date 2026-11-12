@@ -1,0 +1,468 @@
+{
+ "id": "s3",
+ "titulo": "La fuente de alimentación ATX",
+ "objetivos": [
+  "Identificar los bloques de una fuente conmutada y lo que hace cada uno.",
+  "Relacionar cada color de cable con su tensión y su margen correcto.",
+  "Medir una fuente con el polímetro y con un comprobador, con seguridad.",
+  "Relacionar los síntomas de una fuente que falla con lo que hay que medir."
+ ],
+ "bloques": [
+  {
+   "tipo": "p",
+   "texto": "En el Tema 1 vimos para qué sirve la fuente y en el Tema 2, cómo elegirla. Ahora la miramos como un técnico de mantenimiento: qué bloques tiene, qué tensiones da por cada cable y cómo se miden para saber si está bien o hay que cambiarla. Una fuente que falla puede dar síntomas muy distintos: el equipo no enciende, se reinicia solo, se apaga al jugar o se cuelga sin motivo."
+  },
+  {
+   "tipo": "h",
+   "texto": "Los bloques de una fuente ATX"
+  },
+  {
+   "tipo": "p",
+   "texto": "Las fuentes de los ordenadores son **fuentes conmutadas**: en lugar de un transformador grande y pesado, trabajan a alta frecuencia con uno pequeño. Por eso son ligeras y eficientes. La energía pasa por estos bloques, en orden:"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Bloque",
+    "Qué hace"
+   ],
+   "filas": [
+    [
+     "1. **Filtro de entrada** (EMI)",
+     "Quita el «ruido» eléctrico de la red y evita que la fuente lo devuelva al enchufe"
+    ],
+    [
+     "2. **Rectificador y filtro**",
+     "Convierte la alterna de 230 V en continua de alta tensión (unos 325 V)"
+    ],
+    [
+     "3. **Corrector del factor de potencia** (PFC)",
+     "Hace que la fuente tome la corriente de la red de forma más limpia y eficiente. Las fuentes actuales lo llevan «activo»"
+    ],
+    [
+     "4. **Conmutación** (troceador)",
+     "Unos transistores encienden y apagan esa continua muchas miles de veces por segundo"
+    ],
+    [
+     "5. **Transformador**",
+     "Baja la tensión y aísla la salida de la red: lo de dentro del ordenador no queda conectado al enchufe"
+    ],
+    [
+     "6. **Rectificación y filtrado de salida**",
+     "Vuelve a convertir en continua, ya a 12 V, 5 V y 3,3 V, y la alisa con bobinas y condensadores"
+    ],
+    [
+     "7. **Control y protecciones**",
+     "Mantiene las tensiones estables y apaga la fuente si hay cortocircuito, sobrecarga, sobretensión o sobrecalentamiento"
+    ],
+    [
+     "Circuito de reposo (5VSB)",
+     "Una pequeña fuente aparte que da 5 V siempre que la fuente esté enchufada, aunque el equipo esté apagado"
+    ],
+    [
+     "Ventilador",
+     "Saca el calor de los transistores y del transformador"
+    ]
+   ]
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Peligro:** los condensadores del bloque 2 guardan unos 325 V y pueden mantener la carga mucho tiempo después de desenchufar. **Una fuente no se abre nunca**: si falla, se cambia entera."
+  },
+  {
+   "tipo": "enlace",
+   "ruta": "#/pordentro/fuente",
+   "titulo": "Animación: la fuente por dentro",
+   "texto": "Lo que no se puede abrir en el taller: el recorrido de la corriente y el condensador que sigue cargado."
+  },
+  {
+   "tipo": "analogia",
+   "texto": "La fuente es como **la cocina de un restaurante**: recibe los ingredientes en bruto (230 V alterna) y los prepara en las raciones exactas que pide cada mesa (12, 5 y 3,3 V continua)."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Qué bloque aísla el interior del ordenador de la red eléctrica?",
+   "opciones": [
+    "El filtro de entrada",
+    "El transformador",
+    "El ventilador",
+    "El PFC"
+   ],
+   "correcta": 1,
+   "explicacion": "El **transformador** baja la tensión y aísla la salida de la red."
+  },
+  {
+   "tipo": "h",
+   "texto": "Las tensiones de una fuente ATX"
+  },
+  {
+   "tipo": "p",
+   "texto": "Cada tensión tiene un **color de cable** fijo, igual en todas las fuentes ATX. Las tolerancias son las de la especificación ATX: si la medida se sale de ese margen, la fuente no está bien."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Tensión",
+    "Color",
+    "Margen correcto",
+    "Qué alimenta"
+   ],
+   "filas": [
+    [
+     "**+12 V**",
+     "Amarillo",
+     "11,40 a 12,60 V (±5 %)",
+     "Procesador (cable EPS), tarjeta gráfica, ventiladores, discos. Es la que más potencia da"
+    ],
+    [
+     "**+5 V**",
+     "Rojo",
+     "4,75 a 5,25 V (±5 %)",
+     "USB, discos y parte de la placa"
+    ],
+    [
+     "**+3,3 V**",
+     "Naranja",
+     "3,14 a 3,47 V (±5 %)",
+     "Memoria, chipset y ranuras de la placa"
+    ],
+    [
+     "−12 V",
+     "Azul",
+     "−10,8 a −13,2 V (±10 %)",
+     "Casi no se usa: queda por compatibilidad (puertos serie antiguos)"
+    ],
+    [
+     "**+5 V de reposo** (5VSB)",
+     "Morado",
+     "4,75 a 5,25 V (±5 %)",
+     "Mantiene viva la placa apagada: botón de encendido, arranque por red o por teclado"
+    ],
+    [
+     "**Masa** (GND)",
+     "Negro",
+     "0 V (referencia)",
+     "Es el «−» común de todas las tensiones"
+    ]
+   ]
+  },
+  {
+   "tipo": "p",
+   "texto": "Además hay dos cables de señal:"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "**PS_ON** (verde): la placa lo une a masa cuando pulsas el botón de encendido, y entonces la fuente arranca. Con el equipo apagado tiene unos 5 V.",
+    "**PWR_OK** o *Power Good* (gris): la fuente pone unos 5 V cuando sus tensiones ya son estables. Es la señal de «la corriente es buena» de la secuencia de arranque del Tema 3."
+   ]
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "conector24",
+   "texto": "El conector de 24 pines con sus colores. Toca cada cable para ver qué tensión lleva.",
+   "foco": "c12"
+  },
+  {
+   "tipo": "analogia",
+   "texto": "El 5VSB es como **el piloto rojo de la tele**: aunque esté «apagada», una parte sigue despierta esperando que pulses el botón del mando. Y la tolerancia es como la temperatura del cuerpo: 36,5 °C está bien, 37 °C también, pero 39 °C ya es fiebre. 12,3 V está bien; 11,2 V es «fiebre» de la fuente."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Mides el cable amarillo y marca 11,20 V. ¿Está bien?",
+   "opciones": [
+    "Sí, está dentro del ±5 %",
+    "No: está por debajo de 11,40 V",
+    "Sí, porque es más de 11 V",
+    "No se puede saber"
+   ],
+   "correcta": 1,
+   "explicacion": "El margen de +12 V es de **11,40 a 12,60 V**. 11,20 V está fuera: la fuente falla o no puede con la carga."
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Qué cable tiene tensión aunque el equipo esté apagado (pero enchufado)?",
+   "opciones": [
+    "El amarillo (+12 V)",
+    "El naranja (+3,3 V)",
+    "El morado (5VSB)",
+    "El azul (−12 V)"
+   ],
+   "correcta": 2,
+   "explicacion": "El **morado** da los 5 V de reposo siempre que la fuente esté enchufada y con el interruptor en I."
+  },
+  {
+   "tipo": "h",
+   "texto": "El conector de 24 pines"
+  },
+  {
+   "tipo": "p",
+   "texto": "Cada fila tiene 12 pines. La posición exacta de cada fila depende de por qué lado se mire el conector. Por eso, al medir, **guíate por el color del cable**, que no cambia, y no por la posición."
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Pin",
+    "Color",
+    "Señal",
+    "Pin",
+    "Color",
+    "Señal"
+   ],
+   "filas": [
+    [
+     "13",
+     "Naranja",
+     "+3,3 V",
+     "1",
+     "Naranja",
+     "+3,3 V"
+    ],
+    [
+     "14",
+     "Azul",
+     "−12 V",
+     "2",
+     "Naranja",
+     "+3,3 V"
+    ],
+    [
+     "15",
+     "Negro",
+     "GND",
+     "3",
+     "Negro",
+     "GND"
+    ],
+    [
+     "16",
+     "Verde",
+     "PS_ON",
+     "4",
+     "Rojo",
+     "+5 V"
+    ],
+    [
+     "17",
+     "Negro",
+     "GND",
+     "5",
+     "Negro",
+     "GND"
+    ],
+    [
+     "18",
+     "Negro",
+     "GND",
+     "6",
+     "Rojo",
+     "+5 V"
+    ],
+    [
+     "19",
+     "Negro",
+     "GND",
+     "7",
+     "Negro",
+     "GND"
+    ],
+    [
+     "20",
+     "—",
+     "Sin conectar (antes −5 V)",
+     "8",
+     "Gris",
+     "PWR_OK"
+    ],
+    [
+     "21",
+     "Rojo",
+     "+5 V",
+     "9",
+     "Morado",
+     "+5 VSB"
+    ],
+    [
+     "22",
+     "Rojo",
+     "+5 V",
+     "10",
+     "Amarillo",
+     "+12 V"
+    ],
+    [
+     "23",
+     "Rojo",
+     "+5 V",
+     "11",
+     "Amarillo",
+     "+12 V"
+    ],
+    [
+     "24",
+     "Negro",
+     "GND",
+     "12",
+     "Naranja",
+     "+3,3 V"
+    ]
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Medir una fuente: conectada al equipo"
+  },
+  {
+   "tipo": "p",
+   "texto": "Hay dos formas de medir: con la fuente conectada al ordenador (la mejor, porque se mide con carga real) o suelta, con un comprobador de fuentes ATX."
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Con el equipo apagado: polímetro con la punta negra en COM, la roja en VΩ y el selector en tensión continua (rango 20 V si es manual).",
+    "Enciende el equipo con la caja abierta y la pulsera puesta.",
+    "Mete la punta negra por detrás del conector de 24 pines, en un cable negro (masa), **sin desconectarlo**. Esta técnica se llama medir «por detrás» (*back-probing*).",
+    "Con la punta roja, ve tocando por detrás cada color: amarillo, rojo, naranja, morado y gris. Anota cada valor.",
+    "Compara con los márgenes de la tabla. Si alguno está fuera, la fuente falla.",
+    "Repite con el equipo trabajando mucho (por ejemplo, jugando o con una prueba de carga): una fuente débil puede dar bien en reposo y caerse con carga."
+   ]
+  },
+  {
+   "tipo": "enlace",
+   "ruta": "#/pordentro/polimetro",
+   "titulo": "Animación: medir por detrás del conector",
+   "texto": "Las puntas van una a una a cada color, con su lectura y su margen. Incluye la medida con carga."
+  },
+  {
+   "tipo": "h",
+   "texto": "Medir una fuente: con un comprobador"
+  },
+  {
+   "tipo": "p",
+   "texto": "El **comprobador de fuentes ATX** es un aparato pequeño con conectores para el de 24 pines, el EPS, el PCIe y el SATA. Al conectar la fuente y encenderla, muestra todas las tensiones a la vez y pita o se ilumina en rojo si alguna está mal. Es la forma más rápida y segura de comprobar una fuente suelta."
+  },
+  {
+   "tipo": "ver3d",
+   "modelo": "comprobador",
+   "texto": "Un comprobador de fuentes: pantalla con todas las tensiones y un zócalo para cada conector.",
+   "foco": "atx24"
+  },
+  {
+   "tipo": "nota",
+   "texto": "**Nada de puentes con clips.** Para arrancar una fuente sin placa se puede unir el cable verde con uno negro, pero en el aula no se hace: la fuente arranca sin carga, se trabaja con un trozo de metal junto a un conector con tensión y un error provoca un cortocircuito. Para probar una fuente suelta se usa el comprobador."
+  },
+  {
+   "tipo": "h",
+   "texto": "Síntomas de una fuente que falla"
+  },
+  {
+   "tipo": "tabla",
+   "cab": [
+    "Síntoma",
+    "Qué medir",
+    "Qué indica"
+   ],
+   "filas": [
+    [
+     "El equipo no hace nada al pulsar el botón",
+     "Morado (5VSB) con el equipo apagado; verde (PS_ON)",
+     "Sin 5VSB: la fuente está muerta. Con 5VSB pero no arranca: revisar el botón y el cable POWER SW (Tema 3)"
+    ],
+    [
+     "Se reinicia o se apaga al jugar",
+     "Amarillo (+12 V) con carga",
+     "Si baja de 11,40 V, la fuente no tiene potencia suficiente o está envejecida"
+    ],
+    [
+     "Se apaga a los pocos segundos de encender",
+     "Gris (PWR_OK)",
+     "Si no llega a unos 5 V, la fuente no se estabiliza o hay un cortocircuito en el equipo"
+    ],
+    [
+     "Olor a quemado o ruido de chispa",
+     "Nada",
+     "Desenchufar enseguida y no volver a encender. Se cambia la fuente"
+    ],
+    [
+     "Ventilador de la fuente parado",
+     "Nada (comprobación visual)",
+     "La fuente se sobrecalentará: hay que cambiarla"
+    ]
+   ]
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "Un equipo no hace nada al pulsar el botón. Mides el morado y marca 0 V con la fuente enchufada y en I. ¿Qué indica?",
+   "opciones": [
+    "Que el botón está mal",
+    "Que la fuente está muerta",
+    "Que falta la pila",
+    "Que es normal con el equipo apagado"
+   ],
+   "correcta": 1,
+   "explicacion": "Sin **5VSB** la placa no puede ni «escuchar» el botón: la fuente está muerta (o no le llega corriente)."
+  },
+  {
+   "tipo": "h",
+   "texto": "Eficiencia y potencia"
+  },
+  {
+   "tipo": "lista",
+   "items": [
+    "Ninguna fuente convierte toda la energía: una parte se pierde en calor. La **eficiencia** es el porcentaje que llega al equipo.",
+    "El sello **80 PLUS** (Bronze, Silver, Gold, Platinum, Titanium) garantiza un mínimo de eficiencia. Con 80 PLUS Bronze, por ejemplo, al menos el 85 % al 50 % de carga (en la red de 115 V con la que se certifica).",
+    "La potencia de la etiqueta es la **máxima** que puede entregar, no la que consume siempre: un equipo que necesita 300 W con una fuente de 650 W consume unos 300 W más las pérdidas."
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Seguridad con la fuente"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "**Nunca abras la fuente**: sus condensadores guardan unos 325 V.",
+    "Al medir por detrás del conector, no metas la punta tan dentro que toque dos pines a la vez: es un cortocircuito.",
+    "Pulsera antiestática puesta y caja apoyada en la mesa, nunca en el suelo.",
+    "No pruebes fuentes sueltas con un clip: usa el comprobador de fuentes.",
+    "Antes de desconectar o conectar cualquier cable de la fuente: equipo apagado, interruptor en 0 y desenchufado."
+   ]
+  },
+  {
+   "tipo": "h",
+   "texto": "Ejemplo: un equipo que se reinicia al jugar"
+  },
+  {
+   "tipo": "pasos",
+   "items": [
+    "Un cliente dice que su ordenador se reinicia cuando juega, pero navegando va bien.",
+    "Con la caja abierta y el equipo encendido en reposo, se mide por detrás del conector de 24 pines: amarillo 12,08 V, rojo 5,02 V, naranja 3,33 V, morado 5,04 V, gris 5,01 V. Todo dentro de margen.",
+    "Se abre un juego y se vuelve a medir el amarillo: baja a **11,21 V** justo antes de que el equipo se reinicie.",
+    "Está por debajo de 11,40 V: la fuente no aguanta la carga. Su etiqueta dice 450 W y la gráfica nueva recomienda 600 W.",
+    "Solución: se cambia por una fuente de 650 W 80 PLUS Bronze. Se repite la medida jugando: 11,96 V. Se anota todo en el informe."
+   ]
+  },
+  {
+   "tipo": "pregunta",
+   "enunciado": "¿Por qué se mide también con el equipo trabajando mucho?",
+   "opciones": [
+    "Porque en reposo no hay tensión",
+    "Porque una fuente débil puede dar bien en reposo y caerse con carga",
+    "Porque el polímetro necesita calentarse",
+    "Porque así se descarga el condensador"
+   ],
+   "correcta": 1,
+   "explicacion": "Con carga la fuente tiene que dar más corriente: si es débil o está envejecida, el **+12 V baja** de su margen."
+  },
+  {
+   "tipo": "enlace",
+   "ruta": "#/tema4/practica",
+   "titulo": "Práctica: ¿está bien la fuente?",
+   "texto": "Un equipo con un problema: prepara el polímetro, mide cada color y decide si la culpa es de la fuente. No cuenta para nota."
+  },
+  {
+   "tipo": "resumen",
+   "texto": "La fuente ATX es conmutada y tiene estos bloques: filtro EMI, rectificador con PFC, conmutación, transformador, rectificación y filtrado de salida, y control y protecciones, más el circuito de reposo de 5 V. Da **+12 V (amarillo), +5 V (rojo), +3,3 V (naranja)**, −12 V (azul) y +5 VSB (morado), con masa en negro; el verde (PS_ON) la enciende y el gris (PWR_OK) indica que las tensiones son estables. La tolerancia es **±5 %** (±10 % en −12 V): 12 V entre 11,40 y 12,60 V. Se mide con el polímetro por detrás del conector, con el equipo encendido y mejor con carga, o con un comprobador de fuentes. Una fuente no se abre nunca."
+  }
+ ]
+}
