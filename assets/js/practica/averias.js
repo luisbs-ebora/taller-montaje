@@ -96,6 +96,12 @@ export function corregir(caso, { fase, seguridadAntes, revisadas, causa }) {
   return { puntos: p, total, nota: Math.round(total * 20) / 10 };
 }
 
+/** Informe de referencia por campos, para compararlo con el del alumno. */
+export function informeReferencia(caso) {
+  const f = caso.fallo;
+  return { incidencia: f.sintoma + (f.led ? ` LED ${f.led} encendido.` : ''), comprobaciones: f.mal, causa: f.causa + '.', solucion: f.solucion };
+}
+
 export function informe(caso) {
   const f = caso.fallo;
   return `Incidencia: ${f.sintoma.split('.')[0].toLowerCase()}${f.led ? `, LED ${f.led} encendido` : ''}${f.pantalla && !/Apagada|Sin señal|normal/.test(f.pantalla) ? `, mensaje «${f.pantalla}»` : ''}. Causa: ${f.causa.charAt(0).toLowerCase() + f.causa.slice(1)}. Solución: ${f.solucion.charAt(0).toLowerCase() + f.solucion.slice(1)}`;

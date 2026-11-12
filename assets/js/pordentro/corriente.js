@@ -175,12 +175,14 @@ export default {
           ctx.burbuja('Una línea recta: no cambia', sobreOsc, '', 4200);
         }),
       modo('ca', 'Alterna (enchufe)', 'Corriente alterna: va y viene',
-        'En el enchufe las cargas no avanzan: van y vienen. Cambian de sentido 50 veces por segundo (50 Hz); aquí lo ves a cámara lenta. La tensión sube hasta +325 V, baja a cero, llega a −325 V y vuelve: una onda senoidal. Los 230 V que decimos siempre son el valor eficaz, la «nota media» de la onda, y es lo que marca el polímetro. No tiene un + y un − fijos.',
+        'En el enchufe las cargas no avanzan: van y vienen. Cambian de sentido 50 veces por segundo (50 Hz); aquí lo ves a cámara lenta. La tensión sube hasta +325 V, baja a cero, llega a −325 V y vuelve: una onda senoidal. Los 230 V que decimos siempre son el valor eficaz, la «nota media» de la onda, y es lo que marca el polímetro. No tiene un + y un − fijos. Ojo: una bombilla de verdad no parpadea así; a 50 Hz va tan deprisa que el ojo no lo nota.',
         async gen => {
           poner('ca'); ctx.burbuja('Van y vienen (a cámara lenta)', sobreCable, '', 4200);
           await ctx.esperar(2600); if (!ctx.vivo(gen)) return;
           ctx.burbuja('Onda senoidal: 230 V eficaces, 325 V de pico', sobreOsc, '', 5200);
           await ctx.esperar(3000); if (!ctx.vivo(gen)) return;
+          ctx.burbuja('En la realidad no parpadea: 50 veces por segundo no se ven', sobreBombilla, '', 5200);
+          await ctx.esperar(3200); if (!ctx.vivo(gen)) return;
           ctx.burbuja('230 V: solo los mide el profesor', V(-AX, 9, 0), 'peligro', 5200);
         }),
       modo('cuadrada', 'Cuadrada (datos)', 'Señal cuadrada o digital: solo dos valores',

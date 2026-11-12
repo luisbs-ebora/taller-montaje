@@ -11,7 +11,7 @@ export default {
   resumen: 'Qué hace cada bloque de un SAI, qué pasa cuando se va la luz y en qué se diferencian un off-line, un interactivo y un on-line.',
   nota: 'Esto se mira aquí, no en el taller: un SAI no se abre nunca, y su salida da 230 V aunque esté desenchufado de la pared. Las medidas de 230 V solo las hace el profesor.',
   camara: { pos: [4, 42, 70], obj: [1, 5, 2] },
-  alfombrilla: [80, 50], suelo: -0.3, distancia: [14, 150],
+  alfombrilla: [80, 58], suelo: -0.3, distancia: [14, 150],
 
   crear(ctx) {
     const g = new THREE.Group();
@@ -69,6 +69,38 @@ export default {
     imp(caja(9, 0.08, 6, M(0xffffff, { roughness: 0.8 })), 6, 9.4, 12.6);
     imp(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([V(-1.5, 3, 15), V(-6, 0.5, 13), L(-19, 0.6, 8), L(-19.5, 8, 4), L(-15.6, 13.6, 2.6)]), 40, 0.34, 8), M(0x6a7078, { roughness: 0.7 })), 0, 0, 0);
 
+    /* ----- Bypass (solo en el on-line: ocupa el sitio del relé) ----- */
+    const bypass = add(caja(3, 2.6, 3.4, M(0x596270, { roughness: 0.4, metalness: 0.4 })), SX - 11.4, 12.6, 0); bypass.visible = false;
+    function tipoSai(online) { bypass.visible = online; s.dentro.rele.visible = !online; s.brazo.visible = !online; s.dentro.avr.visible = !online; s.dentro.avr.parent.children.forEach(o => { if (o.userData.parte === 'avr') o.visible = !online; }); }
+
+    /* ----- Osciloscopio en la salida: la forma de la onda que reciben los equipos ----- */
+    const OX = SX - 6, OZ = 17;
+    add(redondo(15, 9.5, 6, 0.8, M(0xdcdad3, { roughness: 0.6 }), 0.15), OX, 0, OZ);
+    add(caja(10.6, 7, 0.2, M(0x101214, { roughness: 0.3 })), OX - 1.6, 5, OZ + 3.02);
+    const O = lienzo(480, 300);
+    const pantOsc = new THREE.Mesh(new THREE.PlaneGeometry(10, 6.25), new THREE.MeshBasicMaterial({ map: O.t, toneMapped: false })); pantOsc.position.set(OX - 1.6, 5, OZ + 3.14); g.add(pantOsc);
+    [[5.4, 6.6], [5.4, 3.4]].forEach(([dx, y]) => { const k = cil(0.7, 0.6, M(0x33373e, { roughness: 0.4 }), 24); k.rotation.x = Math.PI / 2; add(k, OX + dx, y, OZ + 3.2); });
+    add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([V(OX + 5.4, 1.2, OZ + 3), V(OX + 4, 0.4, OZ + 5), V(SX - 17, 0.4, 13), L(-19.5, 2, 9)]), 30, 0.14, 7), M(0x17181b, { roughness: 0.7 })), 0, 0, 0);
+    let onda = 'seno', faseOnda = 0;
+    const escalon = ph => (ph < 0.08 ? 0 : ph < 0.42 ? 1 : ph < 0.58 ? 0 : ph < 0.92 ? -1 : 0);
+    function pintarOnda() {
+      const x = O.x, W = 480, H = 300;
+      x.fillStyle = '#06140f'; x.fillRect(0, 0, W, H);
+      x.strokeStyle = 'rgba(120,220,170,.16)'; x.lineWidth = 1;
+      for (let i = 1; i < 6; i++) { x.beginPath(); x.moveTo(i * 80, 0); x.lineTo(i * 80, H); x.stroke(); }
+      x.strokeStyle = 'rgba(255,255,255,.4)'; x.beginPath(); x.moveTo(0, 130); x.lineTo(W, 130); x.stroke();
+      x.strokeStyle = onda === 'escalon' ? '#ffb020' : '#5dffa8'; x.lineWidth = 5; x.lineJoin = 'round'; x.beginPath();
+      for (let i = 0; i <= 240; i++) {
+        const ph = ((i / 240) * 2.5 + faseOnda) % 1;
+        const v = onda === 'nada' ? 0 : onda === 'escalon' ? escalon(ph) : Math.sin(ph * Math.PI * 2);
+        const px = (i / 240) * W, py = 130 - v * 88; i ? x.lineTo(px, py) : x.moveTo(px, py);
+      }
+      x.stroke();
+      x.fillStyle = '#dfffee'; x.font = 'bold 30px Arial, Helvetica, sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
+      x.fillText(onda === 'nada' ? 'Sin salida' : onda === 'escalon' ? 'Senoidal aproximada' : 'Senoidal pura', W / 2, 266);
+      O.t.needsUpdate = true;
+    }
+
     /* ----- Caminos de la energía ----- */
     const ZF = 3.4; // los caminos van pegados al cristal para que se vean
     const P_FILTRO = L(-11.6, 2.6, ZF), P_RELE = L(-11.4, 12.6, ZF), P_SAL = L(-15, 13.6, -2.6), P_CARG = L(-5.4, 3.6, ZF), P_BAT = L(0.4, 10.9, ZF), P_INV = L(5, 14.4, ZF), P_AVR = L(-4.4, 12.6, ZF);
@@ -99,7 +131,7 @@ export default {
     function equipo(on, texto = '', estado = 'ok') { ledPC.material.emissiveIntensity = on ? 1.8 : 0; pintarMonitor(on ? estado : 'off', texto); }
     async function rele(aBateria, ms = 260) { const a0 = brazoA, a1 = aBateria ? 1 : 0; await ctx.animar(ms, t => { brazoA = a0 + (a1 - a0) * t; }); }
     function base() {
-      bateria = 100; gasto = 0; brazoA = 0; avrBrillo = 0; pitando = false; impresora.visible = false;
+      bateria = 100; gasto = 0; brazoA = 0; avrBrillo = 0; pitando = false; impresora.visible = false; onda = 'seno'; tipoSai(false);
       Object.assign(lcd, { entrada: 230, salida: 230, carga: 45, modo: 'RED', alarma: false });
       red(true); equipo(true); ctx.ponerMedidor(100); pintar();
       for (const k in flujos) { const f = flujos[k]; f.on = false; f.parts.splice(0).forEach(p => g.remove(p.m)); }
@@ -118,6 +150,8 @@ export default {
       { texto: 'Inversor', obj: s.dentro.inversor, off: [0, 4.4, 5.6] },
       { texto: 'Regulador (AVR)', obj: s.dentro.avr, off: [0, 5.8, 5.6] },
       { texto: 'Relé', obj: s.dentro.rele, off: [-2.5, 5.8, 5.6] },
+      { texto: 'Bypass (solo si el SAI falla)', obj: bypass, off: [-2.5, 5.8, 5.6] },
+      { texto: 'Onda de salida', obj: pantOsc, off: [0, 5.6, 0] },
       { texto: 'Pantalla y control', obj: s.dentro.control, off: [5, 6.5, 0] },
       { texto: 'Tomas de salida', obj: s.tomas[0], off: [-3.5, 4.5, 0] },
       { texto: 'Red: 230 V', obj: pilotoRed, off: [3, 4.5, 0] },
@@ -136,18 +170,20 @@ export default {
       },
       {
         id: 'corte', nombre: 'Se va la luz', titulo: 'Apagón: el relé conmuta a la batería',
-        texto: 'Cuando la red falla, el control lo detecta y el relé conmuta en unos milisegundos: ahora la batería da continua, el inversor la convierte en alterna de 230 V y los equipos siguen encendidos. El SAI pita para avisar. La batería dura solo unos minutos: los justos para guardar el trabajo y apagar bien. Cuanto más le conectas, menos dura.',
+        texto: 'Cuando la red falla, el control lo detecta y el relé conmuta en unos milisegundos: ahora la batería da continua, el inversor la convierte en alterna de 230 V y los equipos siguen encendidos. El SAI pita para avisar. La batería dura solo unos minutos: los justos para guardar el trabajo y apagar bien. Cuanto más le conectas, menos dura. Fíjate en el osciloscopio: muchos SAI baratos, con batería, no dan una senoidal pura sino una onda a escalones (senoidal aproximada), que algunas fuentes con PFC activo no toleran bien.',
         async aplicar(ctx, gen) {
           base(); activar('entrada', 'directo', 'carga', 'salida');
           if (!(await vivo(gen, 2200))) return;
           await apagon(gen); activar('salida');
           await rele(true); if (!ctx.vivo(gen)) return;
-          activar('bat', 'inv', 'salida'); lcd.modo = 'BATERÍA'; pitando = true; gasto = 5.4; pintar();
+          activar('bat', 'inv', 'salida'); lcd.modo = 'BATERÍA'; pitando = true; gasto = 5.4; onda = 'escalon'; pintar();
           equipo(true, 'Funcionando con batería', 'aviso');
           ctx.burbuja('El relé conmuta en milisegundos', L(-11.4, 18.5, 3), '', 3600);
           if (!(await vivo(gen, 3200))) return;
           ctx.burbuja('El equipo sigue encendido', SOBRE_PC, '', 3600);
           if (!(await vivo(gen, 3600))) return;
+          ctx.burbuja('Con batería, este SAI da una onda a escalones', V(OX, 13, OZ), '', 4200);
+          if (!(await vivo(gen, 3800))) return;
           ctx.burbuja('Guarda el trabajo y apaga bien', SOBRE_PC, '', 4600);
           while (bateria > 20) { if (!(await vivo(gen, 400))) return; }
           ctx.burbuja('Batería baja: apaga ya', SOBRE_SAI, 'peligro', 9000);
@@ -170,14 +206,16 @@ export default {
       },
       {
         id: 'online', nombre: 'On-line', titulo: 'SAI on-line: siempre por el inversor',
-        texto: 'En un SAI on-line (doble conversión) los equipos nunca van directos a la red: la alterna se convierte en continua y el inversor vuelve a fabricar una alterna limpia, todo el tiempo. La batería está enganchada en medio. Si se va la luz no hay nada que conmutar: tiempo de conmutación cero. Es más caro, hace más ruido y gasta más; se usa en servidores y equipos críticos.',
+        texto: 'En un SAI on-line (doble conversión) los equipos nunca van directos a la red: la alterna se convierte en continua y el inversor vuelve a fabricar una alterna limpia, todo el tiempo. La batería está enganchada en medio. Si se va la luz no hay nada que conmutar: tiempo de conmutación cero, y la salida es siempre una senoidal pura. No lleva relé ni regulador: en su lugar tiene un bypass, que conecta los equipos directamente a la red solo si el propio SAI se avería. Es más caro, hace más ruido y gasta más; se usa en servidores y equipos críticos.',
         async aplicar(ctx, gen) {
-          base(); brazoA = 1; activar('entrada', 'rect', 'inv', 'salida');
+          base(); tipoSai(true); activar('entrada', 'rect', 'inv', 'salida');
           ctx.burbuja('Alterna → continua → alterna, siempre', SOBRE_SAI, '', 4600);
           if (!(await vivo(gen, 4200))) return;
           await apagon(gen); activar('bat', 'inv', 'salida'); lcd.modo = 'BATERÍA'; pitando = true; gasto = 5.4; pintar();
           if (!(await vivo(gen, 1600))) return;
           ctx.burbuja('Sin conmutar: el equipo ni se entera', SOBRE_PC, '', 5200);
+          if (!(await vivo(gen, 3600))) return;
+          ctx.burbuja('Y la onda sigue siendo senoidal pura', V(OX, 13, OZ), '', 4600);
           while (bateria > 20) { if (!(await vivo(gen, 400))) return; }
           ctx.burbuja('Batería baja: apaga ya', SOBRE_SAI, 'peligro', 9000);
         },
@@ -196,7 +234,7 @@ export default {
           lcd.alarma = 'SOBRECARGA'; pitando = true; pintar();
           ctx.burbuja('Carga: 140 %', SOBRE_SAI, 'peligro', 3200);
           if (!(await vivo(gen, 2600))) return;
-          activar('entrada', 'carga'); lcd.salida = 0; pitando = false; pintar(); equipo(false);
+          activar('entrada', 'carga'); lcd.salida = 0; pitando = false; onda = 'nada'; pintar(); equipo(false);
           ctx.burbuja('El SAI corta la salida: todo apagado', SOBRE_PC, 'peligro', 9000);
         },
       },
@@ -208,7 +246,7 @@ export default {
       leyenda: [[ALTERNA, 'Corriente alterna (230 V)'], [CONTINUA, 'Corriente continua (batería, 12 V)']],
       medidor: { nombre: 'Batería', unidad: '%', min: 0, max: 100, inicial: 100, zonas: [[-1, 20, 'peligro', 'Batería baja'], [20, 60, 'aviso', 'Descargándose'], [60, 999, 'ok', 'Cargada']] },
       cadaFrame(dt) {
-        tiempo += dt;
+        tiempo += dt; faseOnda = (faseOnda + dt * 0.5) % 1; pintarOnda();
         // batería
         if (gasto && bateria > 12) { bateria = Math.max(12, bateria - gasto * dt); ctx.ponerMedidor(bateria); if (Math.floor(bateria) !== Math.floor(lcd.bateria)) pintar(); }
         // relé y regulador

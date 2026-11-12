@@ -1,8 +1,8 @@
 // medir.js — Práctica «¿Está bien la fuente?» (Tema 4). Se genera y corrige en el navegador: no cuenta para nota.
 import { h, progreso } from '../util.js';
-import { huecoVisor } from './comun.js';
+import { huecoVisor, informeAlumno, informeCompleto, informeComparado } from './comun.js';
 import { bancoMedida } from '../modelos-t4.js';
-import { LINEAS, ORDEN, RESPUESTAS_LINEA, SELECTORES, AVISOS, crearCaso, medir, configCorrecta, enMargen, corregir } from '../practica/medidas.js';
+import { LINEAS, ORDEN, RESPUESTAS_LINEA, SELECTORES, AVISOS, crearCaso, medir, configCorrecta, enMargen, corregir, juzgable, informeReferencia } from '../practica/medidas.js';
 
 const CLAVE = 'medir:t4';
 const es = (v, d = 2) => v.toFixed(d).replace('.', ',').replace('-', '−');
@@ -23,10 +23,14 @@ export function vistaMedir() {
   function nuevo() {
     caso = crearCaso(Math.floor(Math.random() * 2147483647), { excluir: anterior });
     anterior = caso.def.id;
-    estado = { seguridad: new Set(), roja: null, sel: null, carga: false, medidas: [], preparacion: null, aviso: '', linea: null, causa: null, corregido: null, fusible: false };
+    estado = { seguridad: new Set(), roja: null, sel: null, carga: false, medidas: [], preparacion: null, aviso: '', linea: null, causa: null, corregido: null, fusible: false, informe: {} };
     const v = visor.iniciar();
     if (v) {
-      if (!banco) { banco = bancoMedida(); v.mostrar(banco.grupo, { vista: 'arriba' }); }
+      if (!banco) {
+        banco = bancoMedida(); v.mostrar(banco.grupo, { vista: 'arriba' });
+        // encuadre cerrado: el polímetro y el conector, que es donde se trabaja
+        v.camara.position.set(-2, 37, 31); v.controles.target.set(-2, 1.5, 5); v.controles.update();
+      }
       banco.usar(tipo); banco.reposo();
       banco.led.material.emissiveIntensity = caso.def.apagado ? 0 : 1.6;
       v.resaltar(null);
@@ -108,14 +112,21 @@ export function vistaMedir() {
 
     // 2. Medir
     const listo = estado.seguridad.size === SEGURIDAD.length && estado.roja && estado.sel;
-    const fila = m => { const ok = enMargen(m.id, m.v); return h('tr', h('td', LINEAS[m.id].color), h('td', LINEAS[m.id].nombre), h('td', m.carga ? 'Con carga' : d.apagado ? 'Apagado' : 'En reposo'), h('td.mono', es(m.v, m.dec) + ' V'), fin ? h('td' + (ok ? '.ok' : '.ko'), LINEAS[m.id].min === undefined ? '—' : ok ? '✓ en margen' : '✗ fuera') : null); };
+    const fila = m => {
+      const ok = enMargen(m.id, m.v), juz = juzgable(caso, m.id);
+      const juicio = !juz ? h('td', '—') : h('td', h('div.av-juicio', [[true, 'Bien'], [false, 'Fuera']].map(([val, txt]) =>
+        h('button' + (fin && m.juicio === val ? (val === ok ? '.ok' : '.ko') : ''), { type: 'button', 'aria-pressed': String(m.juicio === val), disabled: fin, onclick: () => { m.juicio = val; pintar(); } }, txt))));
+      return h('tr', h('td', LINEAS[m.id].color), h('td', LINEAS[m.id].nombre), h('td', m.carga ? 'Con carga' : d.apagado ? 'Apagado' : 'En reposo'), h('td.mono', es(m.v, m.dec) + ' V'), juicio,
+        fin ? h('td' + (ok ? '.ok' : '.ko'), !juz ? '—' : ok ? '✓ en margen' : '✗ fuera') : null);
+    };
     const med = h('div.tarjeta.av-paso' + (listo ? '' : '.bloqueado'), h('h3', '2 · Mide por detrás del conector'),
       caso.conCarga ? h('div.variantes', { role: 'group', 'aria-label': 'Estado del equipo' }, [[false, 'En reposo'], [true, 'Con carga (un juego abierto)']].map(([c, txt]) =>
         h('button', { type: 'button', 'aria-pressed': String(estado.carga === c), disabled: fin, onclick: () => { estado.carga = c; pintar(); } }, txt))) : null,
       h('p.av-nota', { style: 'margin-top:10px' }, 'La punta negra va a un cable negro (masa). Toca en el 3D el cable que quieras medir con la roja, o elígelo aquí:'),
       h('div.av-zonas', ORDEN.map(id => h('button.chip' + (estado.medidas.some(m => m.id === id && m.carga === estado.carga) ? '.ok' : ''), { type: 'button', disabled: fin, onclick: () => tocar(id) }, LINEAS[id].color))),
       estado.aviso ? h('p.mensaje.error', estado.aviso) : null,
-      estado.medidas.length ? h('table.av-tabla', h('thead', h('tr', h('th', 'Cable'), h('th', 'Línea'), h('th', 'Equipo'), h('th', 'Medida'), fin ? h('th', 'Margen') : null)), h('tbody', estado.medidas.map(fila))) : null);
+      estado.medidas.length ? h('p.av-nota', { style: 'margin:10px 0 0' }, 'Di de cada medida si está dentro de su margen (±5 %) o fuera.') : null,
+      estado.medidas.length ? h('table.av-tabla', h('thead', h('tr', h('th', 'Cable'), h('th', 'Línea'), h('th', 'Equipo'), h('th', 'Medida'), h('th', '¿En margen?'), fin ? h('th', 'Era') : null)), h('tbody', estado.medidas.map(fila))) : null);
 
     // 3. Línea
     const hay = estado.medidas.length > 0;
@@ -126,9 +137,17 @@ export function vistaMedir() {
     const diag = h('div.tarjeta.av-paso' + (hay ? '' : '.bloqueado'), h('h3', '4 · Diagnóstico'),
       h('div.av-opciones', caso.causas.map(c => h('button.opcion' + (estado.causa === c.id ? '.elegida' : '') + (fin ? (c.id === d.id ? '.ok' : estado.causa === c.id ? '.ko' : '') : ''),
         { type: 'button', disabled: !hay || fin, onclick: () => { estado.causa = c.id; pintar(); } }, c.texto))),
-      !fin ? h('button.btn.azul', { type: 'button', disabled: !estado.causa || !estado.linea, onclick: comprobar }, 'Comprobar') : null);
+      );
 
-    const partes = [ficha, prep, med, lin, diag];
+    // 5. Informe
+    const listoInforme = () => !!estado.causa && !!estado.linea && informeCompleto(estado.informe);
+    const bComprobar = h('button.btn.azul', { type: 'button', disabled: !listoInforme(), onclick: comprobar }, 'Comprobar');
+    const inf = h('div.tarjeta.av-paso' + (hay ? '' : '.bloqueado'), h('h3', '5 · Escribe el informe'),
+      h('p.av-nota', 'Como en el taller: lo que no se apunta, no se ha hecho. Escribe las medidas con su valor.'),
+      informeAlumno(estado.informe, { bloqueado: !hay || fin, alCambiar: () => { bComprobar.disabled = !listoInforme(); } }),
+      !fin ? bComprobar : null);
+
+    const partes = [ficha, prep, med, lin, diag, inf];
     if (fin) partes.push(resultado());
     panel.replaceChildren(...partes);
   }
@@ -149,9 +168,11 @@ export function vistaMedir() {
       h('ul.av-puntos',
         fila(p.preparacion, p.preparacion ? 'Polímetro bien preparado a la primera.' : `La preparación correcta era: roja en VΩ y selector en tensión continua${tipo === 'auto' ? '' : ', rango 20'}, con las comprobaciones de seguridad hechas.`),
         fila(p.medidas, p.medidas ? 'Has medido lo que hacía falta para este síntoma.' : 'Te faltaba medir: ' + falta + '.'),
+        fila(p.juicio, p.juicio ? 'Has dicho bien de cada medida si estaba en margen.' : 'Alguna medida no la has valorado bien (o la has dejado sin valorar): mira la columna «Era».'),
         fila(p.linea, p.linea ? 'Has acertado la línea.' : 'La respuesta era: ' + buena + '.'),
         fila(p.causa, p.causa ? 'Diagnóstico correcto.' : 'El diagnóstico era: ' + d.causa.charAt(0).toLowerCase() + d.causa.slice(1) + '.')),
       h('p', h('b', 'Qué se hace: '), d.solucion),
+      informeComparado(estado.informe, informeReferencia(caso)),
       h('p.av-nota', 'Márgenes (±5 %): +12 V de 11,40 a 12,60 · +5 V y 5VSB de 4,75 a 5,25 · +3,3 V de 3,14 a 3,47 · PWR_OK, unos 5 V · −12 V de −10,8 a −13,2 (±10 %).'),
       h('p.av-nota', 'En el taller: la fuente no se abre nunca, no se prueban fuentes sueltas con un clip y las medidas de 230 V solo las hace el profesor.'),
       h('button.btn.azul', { type: 'button', onclick: () => { nuevo(); el.scrollIntoView({ behavior: 'smooth' }); } }, 'Otro equipo'));

@@ -15,6 +15,30 @@ import polimetro from '../pordentro/polimetro.js';
 import sai from '../pordentro/sai.js';
 import arranque from '../pordentro/arranque.js';
 
+// Mismas formas que el kit de dibujo (caja, cil, esfera…), pero con materiales realistas y sin contorno:
+// así todas las piezas de «Por dentro» comparten luz y aspecto.
+function kitReal() {
+  const cache = new Map();
+  const mat = (color, { propio = false, ...extra } = {}) => {
+    const nuevo = () => new THREE.MeshStandardMaterial({ color, roughness: 0.5, metalness: 0.12, ...extra });
+    if (propio) return nuevo();
+    const k = color + JSON.stringify(extra);
+    if (!cache.has(k)) cache.set(k, nuevo());
+    return cache.get(k);
+  };
+  const malla = (geo, color, opts) => { const m = new THREE.Mesh(geo, mat(color, opts)); m.castShadow = true; m.receiveShadow = true; return m; };
+  return {
+    caja: (w, h, d, color, g, opts) => malla(new THREE.BoxGeometry(w, h, d), color, opts),
+    cil: (r, h, color, g, seg = 24, opts) => malla(new THREE.CylinderGeometry(r, r, h, Math.max(seg, 28)), color, opts),
+    cono: (r1, r2, h, color, g, seg = 24) => malla(new THREE.CylinderGeometry(r1, r2, h, Math.max(seg, 28)), color),
+    esfera: (r, color, g, opts) => malla(new THREE.SphereGeometry(r, 32, 20), color, opts),
+    toro: (R, r, color) => malla(new THREE.TorusGeometry(R, r, 16, 48), color),
+    tubo: (curva, r, color, g, segs = 80) => malla(new THREE.TubeGeometry(curva, segs, r, 12, false), color),
+  };
+}
+let calidadBaja = false;
+try { calidadBaja = localStorage.getItem('pordentro:calidad') === 'baja'; } catch (e) {}
+
 export const PIEZAS = [pasta, refrigeracion, fuente, arranque, disco, corriente, polimetro, sai];
 
 export async function vistaPorDentro(idPieza) {
@@ -36,10 +60,11 @@ export async function vistaPorDentro(idPieza) {
   const bNombres = h('button.am-btn', { type: 'button', 'aria-pressed': 'true' }, 'Nombres: sí');
   const bVista = h('button.am-btn', { type: 'button' }, 'Vista inicial');
   const bGrande = h('button.am-btn', { type: 'button' }, '⛶ Pantalla completa');
+  const bCalidad = h('button.am-btn', { type: 'button', title: 'Si va a tirones, ponla en baja: quita sombras y nitidez' });
   const panel = h('section.pd-panel', { 'aria-live': 'polite' },
     h('div.pd-explica', mTitulo, mTexto),
     modosEl,
-    h('div.pd-extra', bNombres, bVista, bGrande));
+    h('div.pd-extra', bNombres, bVista, bGrande, bCalidad));
 
   const lista = h('nav.pd-lista', { 'aria-label': 'Piezas' }, PIEZAS.map(p =>
     h('a.pd-pieza' + (p.id === def.id ? '.activa' : ''), { href: `#/pordentro/${p.id}`, 'aria-current': p.id === def.id ? 'page' : null },
@@ -52,7 +77,7 @@ export async function vistaPorDentro(idPieza) {
     def.nota ? h('p.am-atajos', def.nota) : null);
 
   /* ---------- Estado ---------- */
-  let renderer, escena, camara, controles, ro, pieza, modoActual = null, generacion = 0, nombres = true;
+  let sol, renderer, escena, camara, controles, ro, pieza, modoActual = null, generacion = 0, nombres = true;
   const burbujas = [], temporizadores = new Set();
   const proy = new THREE.Vector3();
   const despues = (ms, fn) => { const t = setTimeout(() => { temporizadores.delete(t); fn(); }, ms); temporizadores.add(t); };
@@ -107,7 +132,7 @@ export async function vistaPorDentro(idPieza) {
     controles.maxPolarAngle = 1.45;
     controles.minDistance = def.distancia ? def.distancia[0] : 12;
     controles.maxDistance = def.distancia ? def.distancia[1] : 120;
-    const real = !!def.realista; // aspecto realista: materiales con reflejos y mesa de taller, sin contorno de dibujo
+    const real = true; // aspecto realista: materiales con reflejos y mesa de taller, sin contorno de dibujo
     if (real) {
       renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
       // «habitación» sencilla para que los metales y plásticos tengan algo que reflejar
@@ -121,7 +146,7 @@ export async function vistaPorDentro(idPieza) {
       escena.background = new THREE.Color(0xe8e4dc);
     }
     escena.add(new THREE.AmbientLight(0xffffff, real ? 0.25 : 1.15));
-    const sol = new THREE.DirectionalLight(0xfff4e0, real ? 2.4 : 2.2);
+    sol = new THREE.DirectionalLight(0xfff4e0, real ? 2.4 : 2.2);
     sol.position.set(-20, 40, 26);
     sol.castShadow = true;
     sol.shadow.mapSize.set(2048, 2048);
@@ -153,7 +178,8 @@ export async function vistaPorDentro(idPieza) {
       escena.add(alf);
     }
 
-    pieza = def.crear({ ...ctx, k: kit(nuevaTinta(), []) , escena });
+    pieza = def.crear({ ...ctx, k: kitReal(), escena });
+    aplicarCalidad();
     escena.add(pieza.grupo);
     if (pieza.leyenda) panel.insertBefore(h('ul.pd-leyenda', pieza.leyenda.map(([c, t]) => h('li', h('i', { style: `background:#${c.toString(16).padStart(6, '0')}` }), t))), panel.querySelector('.pd-extra'));
     if (pieza.variantes) {
@@ -197,6 +223,13 @@ export async function vistaPorDentro(idPieza) {
       }
     });
   }
+  function aplicarCalidad() {
+    bCalidad.textContent = 'Calidad: ' + (calidadBaja ? 'baja' : 'alta');
+    if (!renderer) return;
+    renderer.setPixelRatio(calidadBaja ? 1 : Math.min(devicePixelRatio, 2));
+    sol.castShadow = !calidadBaja;
+    ajustar();
+  }
   function ajustar() {
     if (!renderer) return;
     const r = escenaEl.getBoundingClientRect();
@@ -232,6 +265,8 @@ export async function vistaPorDentro(idPieza) {
   }
 
   bNombres.addEventListener('click', () => { nombres = !nombres; bNombres.setAttribute('aria-pressed', String(nombres)); bNombres.textContent = 'Nombres: ' + (nombres ? 'sí' : 'no'); });
+  bCalidad.addEventListener('click', () => { calidadBaja = !calidadBaja; try { localStorage.setItem('pordentro:calidad', calidadBaja ? 'baja' : 'alta'); } catch (e) {} aplicarCalidad(); });
+  aplicarCalidad();
   bVista.addEventListener('click', () => irA(modoActual && modoActual.camara || def.camara));
   bGrande.addEventListener('click', async () => {
     try { if (document.fullscreenElement) await document.exitFullscreen(); else await el.querySelector('.pd-rejilla').requestFullscreen(); } catch (e) {}

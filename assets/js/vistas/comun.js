@@ -42,3 +42,16 @@ export function caracteristicas(p) {
   }
   return s;
 }
+
+/** Informe que escribe el alumno al final de una práctica (no se corrige solo: se compara con el de referencia). */
+const CAMPOS_INFORME = [['incidencia', 'Incidencia: qué le pasa al equipo'], ['comprobaciones', 'Qué has comprobado o medido'], ['causa', 'Causa'], ['solucion', 'Solución']];
+export function informeAlumno(valores, { bloqueado = false, alCambiar } = {}) {
+  return h('div.informe', CAMPOS_INFORME.map(([id, txt]) => h('label', h('span', txt),
+    h('textarea', { rows: 2, disabled: bloqueado, oninput: e => { valores[id] = e.target.value; if (alCambiar) alCambiar(); } }, valores[id] || ''))));
+}
+export const informeCompleto = v => CAMPOS_INFORME.every(([k]) => (v[k] || '').trim().length >= 8);
+export function informeComparado(valores, referencia) {
+  return h('div.informe-comparado',
+    h('div', h('h4', 'Tu informe'), h('dl', CAMPOS_INFORME.flatMap(([id, txt]) => [h('dt', txt.split(':')[0]), h('dd', valores[id] || '—')]))),
+    h('div', h('h4', 'Informe de referencia'), h('dl', CAMPOS_INFORME.flatMap(([id, txt]) => [h('dt', txt.split(':')[0]), h('dd', referencia[id])]))));
+}

@@ -98,15 +98,28 @@ export const AVISOS = {
 
 export const enMargen = (id, v) => LINEAS[id].min === undefined || (v >= LINEAS[id].min && v <= LINEAS[id].max);
 
-// Puntos: preparación a la primera (1), medir lo que hacía falta (1), línea que falla (1), diagnóstico (2) → sobre 5, nota sobre 10
+// ¿Se le pide al alumno que diga si esta medida está en margen? (con el equipo apagado, solo el 5VSB)
+export const juzgable = (caso, id) => LINEAS[id].min !== undefined && (!caso.def.apagado || id === 'sb');
+
+// Puntos: preparación a la primera (1), medir lo que hacía falta (1), decir bien si cada medida está en margen (1),
+// línea que falla (1), diagnóstico (2) → sobre 6, nota sobre 10
 export function corregir(caso, { preparacion, medidas, linea, causa }) {
+  const aJuzgar = medidas.filter(m => juzgable(caso, m.id));
   const hecha = ([id, conCarga]) => medidas.some(m => m.id === id && (conCarga === null || !caso.conCarga || m.carga === conCarga));
   const p = {
     preparacion: preparacion ? 1 : 0,
     medidas: caso.def.clave.every(hecha) ? 1 : 0,
+    juicio: aJuzgar.length > 0 && aJuzgar.every(m => m.juicio === enMargen(m.id, m.v)) ? 1 : 0,
     linea: linea === caso.def.fuera ? 1 : 0,
     causa: causa === caso.def.id ? 2 : 0,
   };
-  const total = p.preparacion + p.medidas + p.linea + p.causa;
-  return { puntos: p, total, nota: Math.round(total * 20) / 10 };
+  const total = p.preparacion + p.medidas + p.juicio + p.linea + p.causa;
+  return { puntos: p, total, nota: Math.round(total / 6 * 100) / 10 };
+}
+
+/** Informe de referencia del caso, con las medidas que hacían falta. */
+export function informeReferencia(caso) {
+  const d = caso.def, es = v => v.toFixed(2).replace('.', ',').replace('-', '−');
+  const med = d.clave.map(([id, c]) => { const conCarga = !!c && caso.conCarga; return `${LINEAS[id].color.toLowerCase()} (${LINEAS[id].nombre})${conCarga ? ' con carga' : ''}: ${es((conCarga ? caso.carga : caso.reposo)[id])} V`; }).join('; ');
+  return { incidencia: d.sintoma, comprobaciones: 'Medido por detrás del conector de 24 pines, con la punta negra en masa: ' + med + '.', causa: d.causa + '.', solucion: d.solucion };
 }

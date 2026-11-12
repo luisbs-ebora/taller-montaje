@@ -1,8 +1,8 @@
 // averia.js — Práctica «Este PC no arranca» (Tema 3). Se genera y corrige en el navegador: no cuenta para nota.
 import { h, md, progreso } from '../util.js';
-import { huecoVisor } from './comun.js';
+import { huecoVisor, informeAlumno, informeCompleto, informeComparado } from './comun.js';
 import { montaje } from '../piezas3d.js';
-import { FASES, ZONAS, zonaDeParte, crearCaso, corregir, informe } from '../practica/averias.js';
+import { FASES, ZONAS, zonaDeParte, crearCaso, corregir, informeReferencia } from '../practica/averias.js';
 
 const CLAVE = 'averia:t3';
 const minus = t => t.charAt(0).toLowerCase() + t.slice(1);
@@ -25,7 +25,7 @@ export function vistaAveria() {
   function nuevo() {
     caso = crearCaso(Math.floor(Math.random() * 2147483647), { excluir: anterior });
     anterior = caso.fallo.id;
-    estado = { fase: null, seguridad: new Set(), seguridadAntes: null, revisadas: [], registro: [], causa: null, corregido: null, avisoSeguridad: false };
+    estado = { fase: null, seguridad: new Set(), seguridadAntes: null, revisadas: [], registro: [], causa: null, corregido: null, avisoSeguridad: false, informe: {} };
     const v = visor.iniciar();
     if (v) {
       const sel = { caja: { formatos: ['ATX'] }, placa: { formato: 'ATX' }, cpu: {}, refri: { altura: 155 }, ram: { formato: 'DIMM', gen: 'DDR5', modulos: 2 },
@@ -96,9 +96,17 @@ export function vistaAveria() {
     const diag = h('div.tarjeta.av-paso' + (estado.registro.length ? '' : '.bloqueado'), h('h3', '4 · ¿Qué está mal?'),
       h('div.av-opciones', caso.causas.map(c => h('button.opcion' + (estado.causa === c.id ? '.elegida' : '') + (estado.corregido ? (c.id === f.id ? '.ok' : estado.causa === c.id ? '.ko' : '') : ''),
         { type: 'button', disabled: !estado.registro.length || !!estado.corregido, onclick: () => { estado.causa = c.id; pintar(); } }, c.texto))),
-      !estado.corregido ? h('button.btn.azul', { type: 'button', disabled: !estado.causa, onclick: () => comprobar() }, 'Comprobar') : null);
+      );
 
-    const partes = [ficha, fase, seg, rev, diag];
+    // 5. Informe de montaje
+    const listoInforme = () => !!estado.causa && informeCompleto(estado.informe);
+    const bComprobar = h('button.btn.azul', { type: 'button', disabled: !listoInforme(), onclick: () => comprobar() }, 'Comprobar');
+    const inf = h('div.tarjeta.av-paso' + (estado.registro.length ? '' : '.bloqueado'), h('h3', '5 · Escribe el informe'),
+      h('p.av-nota', 'Lo que irá en el informe de montaje: qué pasaba, qué has revisado, cuál era la causa y cómo se arregla.'),
+      informeAlumno(estado.informe, { bloqueado: !estado.registro.length || !!estado.corregido, alCambiar: () => { bComprobar.disabled = !listoInforme(); } }),
+      !estado.corregido ? bComprobar : null);
+
+    const partes = [ficha, fase, seg, rev, diag, inf];
     if (estado.corregido) partes.push(resultado());
     panel.replaceChildren(...partes);
   }
@@ -133,7 +141,7 @@ export function vistaAveria() {
         fila(p.zona, p.zona ? 'Has revisado donde estaba el fallo.' : 'No has revisado: ' + minus(ZONAS[f.zona].nombre) + '.'),
         fila(p.causa, p.causa ? 'Diagnóstico correcto.' : 'El fallo era: ' + minus(f.causa) + '.')),
       h('p', h('b', 'Solución: '), f.solucion),
-      h('p', h('b', 'En el informe de montaje: '), h('i', informe(caso))),
+      informeComparado(estado.informe, informeReferencia(caso)),
       h('p.av-nota', `Has revisado ${estado.revisadas.length} ${estado.revisadas.length === 1 ? 'zona' : 'zonas'}. Un técnico empieza por lo más sencillo y por lo que señalan el síntoma y los LED.`),
       h('button.btn.azul', { type: 'button', onclick: () => { nuevo(); el.scrollIntoView({ behavior: 'smooth' }); } }, 'Otro equipo'));
   }

@@ -64,7 +64,7 @@ export default {
     const anillo = add(aio, k.cil(2.2, 0.3, 0x8b6fe0, 0.03, 32), 0, 4.3, 0);
     const RAD = { y: 21, z: -8 };
     const radiador = add(aio, k.caja(26, 2.4, 6, 0x37405a), 0, RAD.y, RAD.z);
-    for (let i = 0; i < 26; i++) add(aio, new THREE.Mesh(new THREE.BoxGeometry(0.12, 2.5, 5.6), new THREE.MeshToonMaterial({ color: 0x9aa3b2 })), -12.4 + i * 1, RAD.y, RAD.z);
+    for (let i = 0; i < 26; i++) add(aio, new THREE.Mesh(new THREE.BoxGeometry(0.12, 2.5, 5.6), new THREE.MeshStandardMaterial({ color: 0x9aa3b2 })), -12.4 + i * 1, RAD.y, RAD.z);
     const vensAio = [-6.3, 6.3].map(x => { const v = ventilador(4.6, 12, 1.2); v.position.set(x, RAD.y - 1.9, RAD.z); aio.add(v); return v; });
     const ida = new THREE.CatmullRomCurve3([V(-1, 3.6, -1.8), V(-2, 6, -5), V(-6, 12, -9), V(-12.6, RAD.y, RAD.z)]);
     const vuelta = new THREE.CatmullRomCurve3([V(12.6, RAD.y, RAD.z), V(7, 12, -9), V(2.4, 6, -5), V(1, 3.6, -1.8)]);

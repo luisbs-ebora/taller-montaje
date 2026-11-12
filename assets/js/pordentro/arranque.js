@@ -87,6 +87,9 @@ export default {
         x.font = 'bold 42px Consolas, "Courier New", monospace'; x.textAlign = 'left';
         lineas.forEach((l, i) => { x.fillStyle = /✓/.test(l) ? '#8ff0b0' : '#cfd6de'; x.fillText(l, 170, 220 + i * 62); });
         x.fillStyle = '#7d8793'; x.font = '26px Arial, Helvetica, sans-serif'; x.textAlign = 'center'; x.fillText('Pulsa SUPR o F2 para entrar en la configuración', W / 2, H - 40);
+      } else if (modo === 'noboot') {
+        x.fillStyle = '#d7dde4'; x.font = '34px Consolas, "Courier New", monospace'; x.textAlign = 'left';
+        x.fillText('Reboot and select proper boot device', 60, 90); x.fillText('or insert boot media in selected boot', 60, 140); x.fillText('device and press a key_', 60, 190);
       } else if (modo === 'gestor') {
         x.fillStyle = '#e8eef5'; x.font = 'bold 44px Arial, Helvetica, sans-serif'; x.textAlign = 'center'; x.fillText('Gestor de arranque', W / 2, 220);
         x.font = '32px Arial, Helvetica, sans-serif'; x.fillStyle = '#aab4bf'; x.fillText('Cargando el sistema operativo…', W / 2, 290);
@@ -213,6 +216,48 @@ export default {
         async aplicar(ctx, gen) { poner(0); for (const p of PASOS) { if (!(await p(gen))) return; ctx.limpiarBurbujas(); } },
       },
     ];
+
+    // Lo que se ve cuando la secuencia se queda a medias (enlaza con la práctica «Este PC no arranca»)
+    const fallo = (id, nombre, titulo, texto, camara, fn) => ({ id, nombre, titulo, texto, camara, peligro: true, async aplicar(ctx, gen) { await fn(gen); } });
+    modos.push(
+      fallo('f-nada', 'Fallo: no hace nada', 'Se queda en el paso 2: pulsas y no pasa nada',
+        'Hay 5 V de reposo (el cable morado está activo), pero al pulsar el botón no ocurre nada: ni ventiladores ni luces. El aviso del botón no llega a la placa. Lo primero que se revisa es lo más sencillo: enchufe, interruptor de la fuente en I y, dentro, que el cable POWER SW esté en sus patillas de F_PANEL. Siempre con el equipo apagado, desenchufado y la pulsera puesta.', DENTRO,
+        async gen => {
+          poner(1);
+          for (let i = 0; i < 2; i++) {
+            ctx.burbuja('Pulsas el botón…', SOBRE.boton, '', 1800);
+            await ctx.animar(260, t => { boton.position.x = 14.75 - 0.3 * t; }); await ctx.animar(260, t => { boton.position.x = 14.45 + 0.3 * t; });
+            if (!(await espera(gen, 1500))) return;
+          }
+          ctx.burbuja('…y nada: el aviso no llega a la placa', P(2, -5, -4), 'peligro', 4200);
+          if (!(await espera(gen, 3000))) return;
+          luz('fpanel', 0xe5484d, 1.4);
+          ctx.burbuja('Revisa POWER SW en F_PANEL', P(2, -5, -4), 'peligro', 9000);
+        }),
+      fallo('f-dram', 'Fallo: LED DRAM', 'Se queda en el POST: giran los ventiladores, pero no hay imagen',
+        'La fuente ha arrancado (los ventiladores giran), así que el fallo no está en los primeros pasos: está en el POST. La placa comprueba el procesador, pasa a la memoria… y ahí se para, con el LED DRAM encendido y la pantalla en negro. Qué revisar primero: los módulos bien insertados, con las dos pestañas cerradas, y en las ranuras que dice el manual; después, probar con un solo módulo.', TODO,
+        async gen => {
+          poner(4);
+          luz(['aletas', 'base', 'ihs'], LEDS[0][1], 0.55); led(0, true); ctx.burbuja('LED CPU: comprueba el procesador', SOBRE.cpu, '', 1900);
+          if (!(await espera(gen, 1900))) return;
+          led(0, false); apagarLuces(); luz('carcasa', 0xffb020, 0.25);
+          luz(['dimm', 'chips'], 0xe5484d, 0.9); led(1, true);
+          ctx.burbuja('LED DRAM: se queda encendido', SOBRE.ram, 'peligro', 9000);
+          if (!(await espera(gen, 2600))) return;
+          ctx.burbuja('Sin imagen', SOBRE.mon, 'peligro', 9000);
+        }),
+      fallo('f-boot', 'Fallo: sin arranque', 'Pasa el POST, pero no encuentra con qué arrancar',
+        'Hay imagen y el POST termina bien, así que procesador, memoria y gráfica funcionan. El fallo está en la búsqueda del arranque: la UEFI no encuentra ninguna unidad con sistema operativo, deja encendido el LED BOOT y muestra «Reboot and select proper boot device». Qué revisar: que el disco esté conectado (datos y alimentación), el orden de arranque en la UEFI y que el sistema esté instalado.', TODO,
+        async gen => {
+          poner(5);
+          led(3, true); luz('ssd25', 0xffb020, 0.6);
+          ctx.burbuja('Busca una unidad con sistema…', SOBRE.disco, '', 2600);
+          if (!(await espera(gen, 2600))) return;
+          apagarLuces(); luz('carcasa', 0xffb020, 0.25); luz(['ssd25', 'sata'], 0xe5484d, 0.9); pantalla('noboot');
+          ctx.burbuja('LED BOOT encendido: no la encuentra', SOBRE.disco, 'peligro', 9000);
+          if (!(await espera(gen, 2600))) return;
+          ctx.burbuja('«Reboot and select proper boot device»', SOBRE.mon, 'peligro', 9000);
+        }));
 
     const sobreParte = (n, off) => ({ obj: (partes[n] || [pc])[0], off });
     const etiquetas = [

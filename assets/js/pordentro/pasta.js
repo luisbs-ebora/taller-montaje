@@ -32,7 +32,7 @@ export default {
     // Rugosidad de la chapa (arriba) y de la base del disipador (abajo)
     const altoChapa = [], altoBase = [];
     for (let i = 0; i < N; i++) { altoChapa.push(0.1 + rnd() * 0.55); altoBase.push(0.1 + rnd() * 0.55); }
-    const matChapa = new THREE.MeshToonMaterial({ color: C.chapa }), matCobre = new THREE.MeshToonMaterial({ color: C.cobre });
+    const matChapa = new THREE.MeshStandardMaterial({ color: C.chapa }), matCobre = new THREE.MeshStandardMaterial({ color: C.cobre });
     for (let i = 0; i < N; i++) {
       const x = X0 + PASO * (i + 0.5);
       const a = new THREE.Mesh(new THREE.BoxGeometry(PASO, altoChapa[i], 8), matChapa);
@@ -54,12 +54,12 @@ export default {
     for (let i = 0; i < 5; i++) { const p = k.caja(3.6, 0.2, 1.4, 0x4a4a55, 0.04); p.position.x = 2.2; const s = new THREE.Group(); s.rotation.y = i * Math.PI * 2 / 5; p.rotation.x = 0.35; s.add(p); rotor.add(s); }
     rotor.add(k.cil(1.1, 0.5, 0x2b2a33, 0.04));
     // El plástico protector de la base (el error de olvidarse de quitarlo)
-    const plastico = new THREE.Mesh(new THREE.BoxGeometry(16.4, 0.14, 9.6), new THREE.MeshToonMaterial({ color: C.plastico, transparent: true, opacity: 0.75 }));
+    const plastico = new THREE.Mesh(new THREE.BoxGeometry(16.4, 0.14, 9.6), new THREE.MeshStandardMaterial({ color: C.plastico, transparent: true, opacity: 0.75 }));
     plastico.position.set(0, Y_BASE - 0.5, 0); disip.add(plastico);
 
     // Lo que hay en cada hueco: aire o pasta
     const matAire = new THREE.MeshBasicMaterial({ color: C.aire, transparent: true, opacity: 0.8 });
-    const matPasta = new THREE.MeshToonMaterial({ color: C.pasta });
+    const matPasta = new THREE.MeshStandardMaterial({ color: C.pasta });
     const huecos = [];
     for (let i = 0; i < N; i++) {
       const x = X0 + PASO * (i + 0.5);
