@@ -9,6 +9,7 @@ import { vistaPorDentro } from './vistas/pordentro.js';
 import { vistaPracticas, vistaExamenes } from './vistas/evaluacion.js';
 import { vistaAveria } from './vistas/averia.js';
 import { vistaMedir } from './vistas/medir.js';
+import { vistaExamen34 } from './vistas/examen34.js';
 
 const main = document.getElementById('contenido');
 let actual = null;
@@ -34,6 +35,7 @@ const RUTAS = [
   [/^practicas$/, () => vistaPracticas()],
   [/^tema3\/practica$/, () => vistaAveria()],
   [/^tema4\/practica$/, () => vistaMedir()],
+  [/^tema3\/examen$/, () => vistaExamen34()],
   [/^examenes$/, () => vistaExamenes()],
   [/^pordentro(?:\/([\w-]+))?$/, m => vistaPorDentro(m[1])],
   [/^([\w-]+)$/, m => vistaTema(m[1])],
