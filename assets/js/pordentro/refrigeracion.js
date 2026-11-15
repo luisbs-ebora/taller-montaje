@@ -7,6 +7,7 @@ const V = (x, y, z) => new THREE.Vector3(x, y, z);
 
 export default {
   id: 'refrigeracion', icono: '🌀', titulo: 'Disipadores por dentro', tema: 'Tema 3 · Sesión 2',
+  figura: ['figuras/heatpipe.html', 'Ver la figura: cómo sube el calor por el tubo de cobre'],
   resumen: 'De serie, de torre o refrigeración líquida: los tres sacan el calor del procesador, pero de forma distinta. Y si el ventilador no se conecta a CPU_FAN…',
   nota: 'Temperaturas orientativas, con el procesador trabajando a tope. El tamaño de las piezas no está a escala exacta.',
   camara: { pos: [26, 22, 34], obj: [0, 8, 0] },

@@ -15,6 +15,15 @@ function tarjetaLeccion(t, l, i) {
     h('span.estado', p.completa ? h('span.chip.ok', '✓ Completada') : p.vista ? h('span.chip', 'Empezada') : h('span.chip', 'Sin empezar')));
 }
 
+// Figuras (páginas sueltas en figuras/), cada una en el tema donde se explica lo que enseña.
+const FIGURAS = {
+  tema1: [['Figura · Refrigeración', 'El disipador por dentro', 'Un disipador de torre cortado por la mitad: el calor sube como vapor por dentro del tubo de cobre y vuelve como líquido. Para el ventilador y mira cómo se calienta el procesador.', 'figuras/heatpipe.html']],
+  tema2: [['Figura · Almacenamiento', 'El disco duro por dentro', 'Un disco duro sin la tapa: mira cuánto tarda en mover el brazo hasta la pista y en esperar el giro del plato, a 5400 y a 7200 rpm, y compáralo con un SSD.', 'figuras/disco-duro.html']],
+  tema3: [['Figura · Montaje del procesador', 'El zócalo del procesador', 'Un zócalo LGA paso a paso: la palanca, la placa de retención, el triángulo dorado y las muescas. Y qué pasa si intentas montar el procesador girado.', 'figuras/zocalo.html']],
+};
+const tarjetaFigura = ([etiqueta, titulo, texto, href]) =>
+  h('div.tarjeta.reto-card', h('span.etiqueta', etiqueta), h('h3', titulo), h('p', texto), h('a.btn.sec', { href }, 'Ver la figura'));
+
 export async function vistaInicio() {
   const c = await curso();
   const temas = await Promise.all(c.temas.map(x => tema(x.id)));
@@ -36,8 +45,7 @@ export async function vistaInicio() {
     ...temas.map(t => h('section.seccion',
       h('header', h('div', h('span.etiqueta', 'Tema ' + t.numero), h('h2', t.titulo)), h('span.chip', `${progreso.completadas(t.id, t.lecciones)} / ${t.lecciones.length}`)),
       h('div.rejilla', t.lecciones.map((l, i) => tarjetaLeccion(t, l, i))),
-      t.id === 'tema2' ? h('div.rejilla', { style: 'margin-top:14px' },
-        h('div.tarjeta.reto-card', h('span.etiqueta', 'Figura · Almacenamiento'), h('h3', 'El disco duro por dentro'), h('p', 'Un disco duro sin la tapa: mira cuánto tarda en mover el brazo hasta la pista y en esperar el giro del plato, a 5400 y a 7200 rpm, y compáralo con un SSD.'), h('a.btn.sec', { href: 'figuras/disco-duro.html' }, 'Ver la figura'))) : null,
+      FIGURAS[t.id] ? h('div.rejilla', { style: 'margin-top:14px' }, FIGURAS[t.id].map(tarjetaFigura)) : null,
       t.ejercicios && t.ejercicios.length ? h('div.rejilla', { style: 'margin-top:14px' },
         
         h('div.tarjeta.reto-card', h('span.etiqueta', 'Para clase y repaso'), h('h3', 'Montaje animado'), h('p', 'Mira cómo se monta un PC paso a paso, en dibujos animados, y qué pasa si te equivocas en cada paso.'), h('a.btn.sec', { href: `#/${t.id}/animado` }, 'Ver el montaje')),
