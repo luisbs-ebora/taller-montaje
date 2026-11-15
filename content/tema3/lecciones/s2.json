@@ -69,6 +69,12 @@
    ]
   },
   {
+   "tipo": "enlace",
+   "ruta": "figuras/zocalo.html",
+   "titulo": "Figura: el zócalo del procesador",
+   "texto": "Estos seis pasos, uno a uno, sobre un zócalo LGA. Y qué pasa si intentas montar el procesador girado."
+  },
+  {
    "tipo": "p",
    "texto": "**En un zócalo PGA:** levanta la palanca en vertical, haz coincidir el triángulo, apoya el procesador (cae solo por su peso) y baja la palanca. Si no entra, no empujes: está girado o hay una patilla doblada."
   },

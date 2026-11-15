@@ -168,6 +168,12 @@
    }
   },
   {
+   "tipo": "enlace",
+   "ruta": "figuras/disco-duro.html",
+   "titulo": "Figura: el disco duro por dentro",
+   "texto": "Mira cuánto tarda en mover el brazo y en esperar el giro del plato, a 5400 y a 7200 rpm, y compáralo con un SSD."
+  },
+  {
    "tipo": "analogia",
    "texto": "Un **HDD es un tocadiscos**: tiene que mover el brazo hasta la canción. Un **SSD es una memoria USB enorme**: va directo al dato."
   },

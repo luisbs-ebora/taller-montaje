@@ -63,6 +63,7 @@
       "**Refrigeración líquida (AIO)**: un bloque sobre el procesador, una bomba, tubos y un **radiador** con ventiladores."
     ] },
     { "tipo": "ver3d", "modelo": "refri", "texto": "Mira el disipador de torre: base de contacto, heat pipes, aletas y ventilador." },
+    { "tipo": "enlace", "ruta": "figuras/heatpipe.html", "titulo": "Figura: el disipador por dentro", "texto": "Un disipador de torre cortado por la mitad: mira cómo sube el calor por el tubo de cobre y qué le pasa al procesador si paras el ventilador." },
     { "tipo": "p", "texto": "**Flujo de aire**: el aire frío entra **por delante** y el caliente sale **por detrás y por arriba**." },
     { "tipo": "resumen", "texto": "La **placa base** conecta todo. El **chipset** organiza la comunicación con discos y periféricos. La **UEFI** comprueba el hardware (POST), lo configura y arranca el sistema. Formatos: **ATX, MicroATX, Mini-ITX**. El calor se evacua con **disipador, pasta térmica, ventiladores** o **líquida**; si no, el procesador baja su frecuencia o el equipo se apaga." },
 
