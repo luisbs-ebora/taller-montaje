@@ -1,0 +1,80 @@
+/* figura.css — Las figuras «por dentro» hechas con Anatomy, con la estética del taller:
+   papel crema, bordes de tinta, sombra plana y piezas de colores. Se enlaza desde figuras/*.html. */
+.fig { max-width: 1240px; margin: 0 auto; }
+.fig-cab { margin: 4px 0 22px; }
+.fig-cab h1 { margin: 12px 0 8px; }
+.fig-cab .lead { font-size: 20px; color: var(--tinta-2); max-width: 64ch; margin: 0; }
+
+/* ---------- La paleta del kit, pasada a la del taller ---------- */
+.iso, .iso[data-theme="light"] {
+  --anatomy-page: transparent; --anatomy-card: #fffaf0; --anatomy-text: var(--tinta-2); --anatomy-strong: #1d1b24; --anatomy-muted: var(--tinta-2);
+  --anatomy-paper: #fffaf0; --anatomy-face: #ffe27a; --anatomy-top: #fffaf0;
+  --anatomy-shade-0: #d2c4a8; --anatomy-shade-1: #dfd2ba; --anatomy-shade-2: #eadfca; --anatomy-shade-3: #f4ecda;
+  --anatomy-lit-top: #ffd23f; --anatomy-lit-shade: #e6b524;
+  --anatomy-hi: #1d1b24; --anatomy-mid: #3d3a48; --anatomy-lo: #8d8576; --anatomy-faint: #cdc1a9; --anatomy-lit: #1d1b24;
+  --anatomy-halo: #1d1b24; --anatomy-halo-opacity: .9; --anatomy-dot: #1d1b24;
+  --anatomy-red: #e5484d; --anatomy-green: #2e9e4f; --anatomy-blue: #2f6fe0;
+  --anatomy-weight: .9px; --anatomy-mono: var(--f-mono);
+}
+.iso .iso-edge { stroke-width: 1.5px; }
+.iso .iso-halo { filter: none; transform: translate(6px, 7px); }   /* sombra plana, como las tarjetas */
+.iso .iso-plate { --anatomy-paper: #fffaf0; }
+
+/* Materiales: cada grupo <g class="m-…"> cambia los colores de sus piezas */
+.iso .m-pizarra { --anatomy-paper: #6f89ab; --anatomy-top: #7b95b7; --anatomy-shade-0: #40536e; --anatomy-shade-1: #4b607e; --anatomy-shade-2: #586f8f; --anatomy-shade-3: #647c9d; --anatomy-mid: #1d2536; --anatomy-lo: #2e3d57; --anatomy-faint: #536988; }
+.iso .m-grafito { --anatomy-paper: #555866; --anatomy-top: #626675; --anatomy-shade-0: #2e3039; --anatomy-shade-1: #383a45; --anatomy-shade-2: #434651; --anatomy-shade-3: #4d515e; --anatomy-mid: #15161b; --anatomy-lo: #23252c; --anatomy-faint: #3c3f4a; --anatomy-dot: #0e0e12; }
+.iso .m-metal { --anatomy-paper: #e4e5ea; --anatomy-top: #eef0f4; --anatomy-shade-0: #a9acb8; --anatomy-shade-1: #bbbec9; --anatomy-shade-2: #cccfd8; --anatomy-shade-3: #dbdde4; --anatomy-mid: #3d3a48; --anatomy-lo: #777a86; --anatomy-faint: #b4b7c2; }
+.iso .m-crema { --anatomy-paper: #fffaf0; --anatomy-top: #fffaf0; --anatomy-shade-0: #d2c4a8; --anatomy-shade-1: #dfd2ba; --anatomy-shade-2: #eadfca; --anatomy-shade-3: #f4ecda; --anatomy-mid: #3d3a48; --anatomy-lo: #8d8576; --anatomy-faint: #cdc1a9; }
+.iso .m-blanco { --anatomy-paper: #ffffff; --anatomy-top: #ffffff; --anatomy-shade-0: #d9d6cc; --anatomy-shade-1: #e4e1d8; --anatomy-shade-2: #eeece5; --anatomy-shade-3: #f7f6f1; --anatomy-mid: #3d3a48; --anatomy-lo: #8d8576; --anatomy-faint: #d3cfc3; }
+.iso .m-amarillo { --anatomy-paper: #ffd23f; --anatomy-top: #ffd84f; --anatomy-shade-0: #d49f10; --anatomy-shade-1: #e2ae1e; --anatomy-shade-2: #eebb2a; --anatomy-shade-3: #f8c735; --anatomy-mid: #3d2f00; --anatomy-lo: #9a7400; --anatomy-faint: #dba90f; }
+.iso .m-naranja { --anatomy-paper: #ff7a50; --anatomy-top: #ff8760; --anatomy-shade-0: #c8431c; --anatomy-shade-1: #d95028; --anatomy-shade-2: #e85d33; --anatomy-shade-3: #f5693d; --anatomy-mid: #4a1403; --anatomy-lo: #9a3413; --anatomy-faint: #d85129; }
+.iso .m-verde { --anatomy-paper: #4fc779; --anatomy-top: #5fd088; --anatomy-shade-0: #25914a; --anatomy-shade-1: #30a155; --anatomy-shade-2: #3aaf60; --anatomy-shade-3: #45bb6b; --anatomy-mid: #0d3319; --anatomy-lo: #1c7038; --anatomy-faint: #34a558; }
+.iso .m-azul { --anatomy-paper: #5b90ea; --anatomy-top: #6c9cef; --anatomy-shade-0: #2f61bd; --anatomy-shade-1: #396ecc; --anatomy-shade-2: #447ad9; --anatomy-shade-3: #4f85e3; --anatomy-mid: #0d234d; --anatomy-lo: #23499a; --anatomy-faint: #3f74d2; }
+.iso .m-vidrio { --anatomy-paper: #d9edf7; --anatomy-top: #e6f4fb; --anatomy-shade-0: #9fc8e0; --anatomy-shade-1: #b1d4e8; --anatomy-shade-2: #c2deee; --anatomy-shade-3: #d1e8f4; --anatomy-mid: #284a5e; --anatomy-lo: #5b8aa3; --anatomy-faint: #a9cde2; }
+.iso .m-negro { --anatomy-paper: #2b2c35; --anatomy-top: #383a45; --anatomy-shade-0: #121318; --anatomy-shade-1: #191a20; --anatomy-shade-2: #202128; --anatomy-shade-3: #272830; --anatomy-mid: #08080b; --anatomy-lo: #0e0e12; --anatomy-faint: #33343e; --anatomy-dot: #000; }
+
+/* ---------- La lámina: marco de dibujo con el panel de explicación al lado ---------- */
+.iso-figure { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(290px, 370px); grid-template-rows: auto auto 1fr; gap: 18px 24px; align-items: start; }
+.iso-plate { grid-column: 1; padding: 62px 22px 64px; border-radius: 18px; border: var(--d-borde); box-shadow: 6px 6px 0 var(--d-tinta); background: radial-gradient(ellipse at 50% 60%, #fffaf0, #efe4d0); }
+.iso-plate-corners { inset: 16px 18px; }
+.iso-plate-corner { font: 700 13px/1.25 var(--f-mono); color: var(--tinta-2); letter-spacing: .02em; }
+.iso-plate-corner[data-corner="fig"] { display: none; }
+.iso-plate-corner[data-corner="title"] { right: auto; left: 0; background: var(--d-amarillo); color: var(--d-tinta); border: 2px solid var(--d-tinta); border-radius: 8px; padding: 5px 9px; box-shadow: 2px 2px 0 var(--d-tinta); transform: rotate(-1.5deg); letter-spacing: .06em; }
+.iso-plate-corner[data-corner="hint"] { text-transform: none; letter-spacing: 0; font: 700 14px/1.2 var(--f-texto); max-width: 40%; white-space: normal; }
+.iso-plate-corner[data-corner="readout"] { color: var(--d-tinta); background: #fff; border: 2px solid var(--d-tinta); border-radius: 10px; padding: 7px 10px; box-shadow: 2px 2px 0 var(--d-tinta); white-space: normal; text-align: right; max-width: 72%; }
+.iso-plate-corner[data-corner="readout"]:empty { display: none; }
+.iso-stage:focus-visible { box-shadow: none; outline: 3px solid var(--ambar); outline-offset: 6px; border-radius: 10px; }
+
+.iso-legend { grid-column: 2; grid-row: 1 / span 3; margin: 0; padding: 18px 20px 20px; gap: 12px; background: var(--d-papel); border: var(--d-borde); border-radius: 18px; box-shadow: var(--d-sombra); color: var(--tinta); font: 400 17px/1.5 var(--f-texto); }
+.fig-panel-t { font: 800 23px/1.15 var(--f-titulo); color: var(--d-tinta); letter-spacing: -.01em; }
+.iso-caption { display: block; }
+.fig-claves { grid-column: 1; }
+.iso-keys { gap: 8px 22px; font: 700 15.5px/1.35 var(--f-texto); color: var(--tinta); }
+.iso-key { align-items: flex-start; gap: 9px; }
+.iso-swatch { width: 24px; height: 12px; margin-top: 4px; }
+.iso-swatch path { stroke-width: 2.6; }
+.fig-color { flex: none; width: 20px; height: 20px; margin-top: 1px; border: 2px solid var(--d-tinta); border-radius: 6px; }
+
+/* Controles bajo la lámina: botones de pegatina */
+.fig-controles { grid-column: 1; display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; margin: 0; font: 700 16px/1.2 var(--f-texto); color: var(--tinta); }
+.fig-controles button { all: unset; box-sizing: border-box; cursor: pointer; padding: 11px 15px; border: 2.5px solid var(--d-tinta); border-radius: 12px; background: var(--d-papel); box-shadow: 3px 3px 0 var(--d-tinta); font: 700 16px/1 var(--f-texto); color: var(--d-tinta); transition: transform .1s, box-shadow .1s; }
+.fig-controles button:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--d-tinta); }
+.fig-controles button:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--d-tinta); }
+.fig-controles button[aria-pressed="true"] { background: var(--d-amarillo); }
+.fig-controles button:focus-visible { outline: 3px solid var(--ambar); outline-offset: 2px; }
+.fig-controles .fig-grupo { display: inline-flex; flex-wrap: wrap; gap: 8px; }
+.fig-controles label { display: inline-flex; align-items: center; gap: 10px; flex: 1 1 260px; min-width: 0; }
+.fig-controles input[type="range"] { flex: 1 1 auto; min-width: 90px; accent-color: var(--d-naranja); }
+.fig-controles output { min-width: 4.2em; text-align: right; font-family: var(--f-mono); }
+.fig-controles [data-off] { opacity: .45; }
+
+@media (max-width: 980px) {
+  .iso-figure { grid-template-columns: minmax(0, 1fr); }
+  .iso-legend { grid-column: 1; grid-row: auto; }
+}
+@media (max-width: 560px) {
+  .iso-plate { padding: 58px 10px 86px; }
+  .iso-plate-corner[data-corner="hint"] { bottom: 0; max-width: 100%; }
+  .iso-plate-corner[data-corner="readout"] { bottom: 26px; max-width: 100%; }
+  .fig-cab .lead { font-size: 18px; }
+}

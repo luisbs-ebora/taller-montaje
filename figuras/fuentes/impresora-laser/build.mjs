@@ -4,6 +4,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import * as M from "./model.mjs";
+import { paginaTaller } from "../marco.mjs";
 
 // La skill Anatomy (MIT, github.com/wheresryan22/anatomy) no va en este repo: indica dónde la tienes clonada.
 const ANATOMY = process.env.ANATOMY ?? "/home/claude/terceros/anatomy";
@@ -12,8 +13,6 @@ const G = await import(`${ANATOMY}/kit/lathe.mjs`);
 const { kitScript } = await import(`${ANATOMY}/scripts/inline-kit.mjs`);
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const theme = process.argv.includes("--dark") ? "dark" : "light";
-const VOLVER = process.env.VOLVER ?? "Taller de Montaje";
 const WIDTH = 720, HEIGHT = 470;
 const DEPTH = 60;                       // fondo de la máquina; el corte es el plano y = 0
 const D = M.DRUM, R = M.TURNS.RIGHT, Lf = M.TURNS.LEFT;
@@ -32,17 +31,17 @@ const circle = (cx, cz, r, n = 40) => k.pathOf(Array.from({ length: n }, (_, i) 
 
 const items = [];
 // Prisma a lo largo del fondo. `cut` pinta su cara de corte como material seccionado.
-function box(x0, x1, z0, z1, { tone = "mid", part, cut, y0 = -DEPTH, y1 = 0, extra = "", key } = {}) {
+function box(x0, x1, z0, z1, { tone = "hi", part, cut, y0 = -DEPTH, y1 = 0, extra = "", key, mat = "crema" } = {}) {
   let svg = S(G.prismOf(FY, [[z0, x0], [z0, x1], [z1, x1], [z1, x0]], y0, y1, P), { tone });
   if (cut) svg += `<path class="lp-${cut}" d="${faceOf([[x0 + 0.3, z0 + 0.3], [x1 - 0.3, z0 + 0.3], [x1 - 0.3, z1 - 0.3], [x0 + 0.3, z1 - 0.3]])}"/>`;
-  items.push({ key: key ?? keyOf(x1, z1), svg: `<g${part ? ` data-part="${part}"` : ""}>${svg}${extra}</g>` });
+  items.push({ key: key ?? keyOf(x1, z1), svg: `<g class="m-${mat}"${part ? ` data-part="${part}"` : ""}>${svg}${extra}</g>` });
 }
 // Rodillo a lo largo del fondo, con su eje a la vista en la cara de corte y un radio que gira (vivo).
-function roller(name, cx, cz, r, { tone = "mid", part, spin = 1 } = {}) {
+function roller(name, cx, cz, r, { tone = "hi", part, spin = 1, mat = "grafito" } = {}) {
   const F = G.frameOf([cx, 0, cz], [0, 1, 0], [0, 0, 1], [1, 0, 0]);
   const svg = S(G.disc(-DEPTH, 0, r, F, P), { tone }) + Ln(circle(cx, cz, Math.max(1.1, r * 0.24), 32), { tone: "lo" }) + Dots([at([cx, 0, cz])], { size: 0.45 }) +
     `<path class="iso-line lp-spoke" data-tone="lo" data-roller="${name}"/>`;
-  items.push({ key: keyOf(cx + r * 0.7, cz + r * 0.7), svg: `<g${part ? ` data-part="${part}"` : ""} data-name="${name}">${svg}</g>` });
+  items.push({ key: keyOf(cx + r * 0.7, cz + r * 0.7), svg: `<g class="m-${mat}"${part ? ` data-part="${part}"` : ""} data-name="${name}">${svg}</g>` });
   return { name, x: cx, z: cz, r, spin };
 }
 
@@ -54,37 +53,37 @@ box(Lf.x + 2, 30, 106, 110, { cut: "cut" });
 box(30, 96, 114, 118, { cut: "cut" });
 box(30, 33, 106, 114, { cut: "cut" });
 // Bandeja de papel y la pila de hojas.
-box(-70, 58, 6, 12, { tone: "mid" });
-box(-66, 50, 12, M.STACK_Z - 0.6, { tone: "hi", extra: Ln([13.5, 15, 16.5].map((z) => k.segment([-66, 0, z], [50, 0, z], P)).join(""), { tone: "faint" }) });
+box(-70, 58, 6, 12, { mat: "metal" });
+box(-66, 50, 12, M.STACK_Z - 0.6, { mat: "blanco", extra: Ln([13.5, 15, 16.5].map((z) => k.segment([-66, 0, z], [50, 0, z], P)).join(""), { tone: "faint" }) });
 
 const ROLLERS = [
   roller("pick", 44, M.STACK_Z + 6, 6, { spin: -1 }),
-  roller("feed", R.x, R.z, R.r - 0.6, { spin: -1 }),
+  roller("feed", R.x, R.z, R.r - 0.6, { spin: -1, mat: "metal" }),
   roller("reg-up", 30, M.PATH_Z + 4.4, 4, { spin: 1 }),
   roller("reg-down", 30, M.PATH_Z - 4.4, 4, { spin: -1 }),
-  roller("transfer", D.x, M.PATH_Z - 6.4, 6, { part: "transferencia", spin: -1 }),
-  roller("drum", D.x, D.z, D.r, { tone: "hi", part: "tambor", spin: 1 }),
+  roller("transfer", D.x, M.PATH_Z - 6.4, 6, { part: "transferencia", spin: -1, mat: "metal" }),
+  roller("drum", D.x, D.z, D.r, { part: "tambor", spin: 1, mat: "verde" }),
   roller("charge", ...polar(D, D.r + 5, M.AT.charge), 5, { part: "carga", spin: -1 }),
-  roller("developer", ...polar(D, D.r + 7, M.AT.developer), 7, { part: "revelado", spin: -1 }),
-  roller("fuser-hot", -60, M.PATH_Z + 9.4, 9, { part: "fusion", spin: 1 }),
+  roller("developer", ...polar(D, D.r + 7, M.AT.developer), 7, { part: "revelado", spin: -1, mat: "metal" }),
+  roller("fuser-hot", -60, M.PATH_Z + 9.4, 9, { part: "fusion", spin: 1, mat: "naranja" }),
   roller("fuser-press", -60, M.PATH_Z - 8.9, 8.5, { part: "fusion", spin: -1 }),
-  roller("exit", Lf.x, Lf.z, Lf.r - 0.6, { spin: 1 }),
+  roller("exit", Lf.x, Lf.z, Lf.r - 0.6, { spin: 1, mat: "metal" }),
 ];
 // Tolva de tóner (con el tóner a la vista en el corte), unidad láser, cuchilla y depósito de residuos.
-box(30, 74, 64, 92, { part: "revelado", cut: "toner-box", extra: `<path class="lp-toner" d="${faceOf([[31.2, 65.2], [72.8, 65.2], [72.8, 82], [31.2, 78]])}"/>` });
+box(30, 74, 64, 92, { part: "revelado", mat: "grafito", cut: "toner-box", extra: `<path class="lp-toner" d="${faceOf([[31.2, 65.2], [72.8, 65.2], [72.8, 82], [31.2, 78]])}"/>` });
 const SLIT = [34, 101];
-box(34, 90, 98, 112, { part: "exposicion", extra: Ln(faceOf([[34.4, 99.6], [37.4, 99.6], [37.4, 102.4], [34.4, 102.4]]), { tone: "mid" }) + Ln(faceOf([[40, 101], [84, 101], [84, 109], [40, 109]]), { tone: "faint" }) + Dots([[38, 110], [86, 110], [38, 100], [86, 100]].map(([x, z]) => at([x, 0, z])), { size: 0.4 }) });
+box(34, 90, 98, 112, { part: "exposicion", mat: "amarillo", extra: Ln(faceOf([[34.4, 99.6], [37.4, 99.6], [37.4, 102.4], [34.4, 102.4]]), { tone: "mid" }) + Ln(faceOf([[40, 101], [84, 101], [84, 109], [40, 109]]), { tone: "faint" }) + Dots([[38, 110], [86, 110], [38, 100], [86, 100]].map(([x, z]) => at([x, 0, z])), { size: 0.4 }) });
 const blade = polar(D, D.r, M.AT.blade);
-box(blade[0] - 13, blade[0], blade[1] - 1.6, blade[1] + 1.6, { part: "limpieza", tone: "hi" });
-box(blade[0] - 27, blade[0] - 13, blade[1] - 11, blade[1] + 9, { part: "limpieza", cut: "toner-box", extra: `<path class="lp-toner" d="${faceOf([[blade[0] - 26, blade[1] - 10], [blade[0] - 14, blade[1] - 10], [blade[0] - 14, blade[1] - 5], [blade[0] - 26, blade[1] - 6.5]])}"/>` });
+box(blade[0] - 13, blade[0], blade[1] - 1.6, blade[1] + 1.6, { part: "limpieza", mat: "azul" });
+box(blade[0] - 27, blade[0] - 13, blade[1] - 11, blade[1] + 9, { part: "limpieza", mat: "grafito", cut: "toner-box", extra: `<path class="lp-toner" d="${faceOf([[blade[0] - 26, blade[1] - 10], [blade[0] - 14, blade[1] - 10], [blade[0] - 14, blade[1] - 5], [blade[0] - 26, blade[1] - 6.5]])}"/>` });
 // Lámpara del fusor, dentro del rodillo caliente.
 items.push({ key: keyOf(-60 + 9, M.PATH_Z + 18.5), svg: `<path class="lp-lamp" d="${circle(-60, M.PATH_Z + 9.4, 4.2, 24)}"/>` });
 
 items.sort((a, b) => a.key - b.key);
 const expo = polar(D, D.r, M.AT.exposure);
-const back = S(k.slabOf({ x: -114, y: -DEPTH - 4, w: 214, d: 4, r: 0.5 }, 0, 118, P, 2), { tone: "mid" });
+const back = `<g class="m-crema">${S(k.slabOf({ x: -114, y: -DEPTH - 4, w: 214, d: 4, r: 0.5 }, 0, 118, P, 2), { tone: "hi" })}</g>`;
 const halo = `<path class="iso-halo" d="${k.haloOf({ x: -114, y: -DEPTH - 4, w: 214, d: DEPTH + 4, r: 2 }, -6, 6, P)}"/>`;
-const feet = [[-100, -8], [86, -8], [-100, -DEPTH + 6], [86, -DEPTH + 6]].sort((a, b) => k.depthOf([a[0], a[1], 0], P) - k.depthOf([b[0], b[1], 0], P)).map(([x, y]) => S(k.cylinder(x, y, 6, -6, 6, P, 24), { tone: "lo" })).join("");
+const feet = [[-100, -8], [86, -8], [-100, -DEPTH + 6], [86, -DEPTH + 6]].sort((a, b) => k.depthOf([a[0], a[1], 0], P) - k.depthOf([b[0], b[1], 0], P)).map(([x, y]) => `<g class="m-grafito">${S(k.cylinder(x, y, 6, -6, 6, P, 24), { tone: "hi" })}</g>`).join("");
 
 const svg = k.figureSvg({
   width: WIDTH,
@@ -94,28 +93,21 @@ const svg = k.figureSvg({
 });
 
 const CSS = `
-.iso{--lp-heat:#ff8a5c;--lp-cut:#0d0d0d}
-.iso[data-theme="light"]{--lp-heat:#f0a070;--lp-cut:#d6d6d2}
-.lp-cut{fill:var(--lp-cut);stroke:none}
-.lp-toner-box{fill:var(--anatomy-paper);stroke:none}
-.lp-toner{fill:var(--anatomy-hi);opacity:.8;stroke:none}
-.lp-lamp{fill:var(--anatomy-shade-1);stroke:var(--anatomy-lo);stroke-width:var(--anatomy-weight);transition:fill .4s}
-.lp-stage[data-hot] .lp-lamp{fill:var(--lp-heat)}
-.iso-line.lp-paper{stroke:var(--anatomy-hi);stroke-width:1.7px}
-.lp-sheet{fill:var(--anatomy-top);stroke:var(--anatomy-hi);stroke-width:var(--anatomy-weight);stroke-linejoin:round}
-.iso-line.lp-beam{stroke:var(--anatomy-red);stroke-width:1.2px}
-.iso-line.lp-latent{stroke:var(--anatomy-red);stroke-width:1.6px;stroke-dasharray:.1 3.2;opacity:.75}
-.iso-line.lp-ink{stroke:var(--anatomy-lit);stroke-width:2.4px;stroke-dasharray:.1 3.4}
-.iso-line.lp-ink[data-fixed]{stroke-dasharray:none;stroke-width:1.5px}
-.lp-stage [data-part] .iso-edge{transition:stroke .2s}
-.lp-stage[data-step="carga"] [data-part="carga"] .iso-edge,.lp-stage[data-step="exposicion"] [data-part="exposicion"] .iso-edge,.lp-stage[data-step="revelado"] [data-part="revelado"] .iso-edge,.lp-stage[data-step="transferencia"] [data-part="transferencia"] .iso-edge,.lp-stage[data-step="fusion"] [data-part="fusion"] .iso-edge,.lp-stage[data-step="limpieza"] [data-part="limpieza"] .iso-edge{stroke:var(--anatomy-red);stroke-width:1.4px}
+.lp-cut{fill:#c9b995;stroke:none}
+.lp-toner-box{fill:#efe7d6;stroke:none}
+.lp-toner{fill:#1d1b24;stroke:none}
+.lp-lamp{fill:#fff0b8;stroke:#1d1b24;stroke-width:1.2px;transition:fill .4s}
+.lp-stage[data-hot] .lp-lamp{fill:#ff3d2e}
+.iso-line.lp-paper-b{stroke:#1d1b24;stroke-width:4.6px}
+.iso-line.lp-paper{stroke:#ffffff;stroke-width:2.4px}
+.lp-sheet{fill:#ffffff;stroke:#1d1b24;stroke-width:1.5px;stroke-linejoin:round}
+.iso-line.lp-beam{stroke:var(--anatomy-red);stroke-width:2px}
+.iso-line.lp-latent{stroke:var(--anatomy-red);stroke-width:2.4px;stroke-dasharray:.1 3.6}
+.iso-line.lp-ink{stroke:#1d1b24;stroke-width:3px;stroke-dasharray:.1 3.8}
+.iso-line.lp-ink[data-fixed]{stroke-dasharray:none;stroke-width:1.8px}
+.lp-stage [data-part] .iso-edge{transition:stroke .2s,stroke-width .2s}
+.lp-stage[data-step="carga"] [data-part="carga"] .iso-edge,.lp-stage[data-step="exposicion"] [data-part="exposicion"] .iso-edge,.lp-stage[data-step="revelado"] [data-part="revelado"] .iso-edge,.lp-stage[data-step="transferencia"] [data-part="transferencia"] .iso-edge,.lp-stage[data-step="fusion"] [data-part="fusion"] .iso-edge,.lp-stage[data-step="limpieza"] [data-part="limpieza"] .iso-edge{stroke:var(--anatomy-red);stroke-width:3px}
 .lp-stage{outline:none;touch-action:manipulation}
-.lp-stage:focus-visible{box-shadow:0 0 0 2px var(--anatomy-mid);border-radius:6px}
-.lp-controls{display:flex;flex-wrap:wrap;gap:8px;margin:14px 2px 0;font:12px/1.2 var(--anatomy-mono)}
-.lp-controls button{all:unset;cursor:pointer;padding:8px 11px;border:1px solid var(--anatomy-lo);border-radius:8px;color:var(--anatomy-strong)}
-.lp-controls button[aria-pressed="true"]{background:var(--anatomy-strong);color:var(--anatomy-card);border-color:var(--anatomy-strong)}
-.lp-controls button:focus-visible{outline:2px solid var(--anatomy-mid);outline-offset:1px}
-.fig-volver{display:inline-block;margin:0 0 18px;font:12px/1 var(--anatomy-mono);color:var(--anatomy-text);text-decoration:none}.fig-volver:hover{color:var(--anatomy-strong)}
 `;
 
 const STEPS = [
@@ -162,7 +154,7 @@ function lpDraw() {
     const x0 = along(Math.max(sheet.tail, topFrom)).x, x1 = along(sheet.lead).x;
     html += '<path class="lp-sheet" d="' + pathOf([lpAt(x0, TOP_Z), lpAt(x1, TOP_Z), lpAt(x1, TOP_Z, -LP.DEPTH + 4), lpAt(x0, TOP_Z, -LP.DEPTH + 4)], true) + '"/>';
   }
-  html += '<path class="iso-line lp-paper" data-free="both" d="' + lpPath(lpRun(sheet.tail, sheet.lead)) + '"/>';
+  { const canto = lpPath(lpRun(sheet.tail, sheet.lead)); html += '<path class="iso-line lp-paper-b" data-free="both" d="' + canto + '"/><path class="iso-line lp-paper" data-free="both" d="' + canto + '"/>'; }
   // El tóner sobre el papel: suelto entre el tambor y el fusor, fijado después (queda en la cara de abajo al salir).
   const inkFrom = sheet.tail + MARGIN, inkTo = sheet.lead - MARGIN;
   if (inkTo > S.nip) {
@@ -217,7 +209,7 @@ if (lpStill.matches) lpT = 4.4;
 lpDraw();
 `;
 
-const controls = `<div class="lp-controls" role="group" aria-label="Pasos de la impresión">${STEPS.map(([id, label]) => `<button type="button" data-step="${id}" aria-pressed="false">${label}</button>`).join("")}</div>`;
+const controls = `<div class="lp-controls fig-controles" role="group" aria-label="Pasos de la impresión">${STEPS.map(([id, label]) => `<button type="button" data-step="${id}" aria-pressed="false">${label}</button>`).join("")}</div>`;
 const card = k
   .plateHtml({
     fig: "Fig 3",
@@ -226,15 +218,27 @@ const card = k
     readout: "",
     keys: [
       { mark: "red", label: "Haz del láser y, punteada, la imagen que deja en el tambor" },
-      { mark: "lit", label: "Tóner: suelto (puntos) hasta el fusor, fijado (línea) después" },
-      { mark: "raised", label: "Tambor fotosensible: el cilindro grande del centro" },
+      { mark: "flat", label: "[#1d1b24] Tóner: suelto (puntos) hasta el fusor, fijado (línea) después" },
+      { mark: "flat", label: "[#4fc779] Tambor fotosensible" },
+      { mark: "flat", label: "[#ffd23f] Unidad láser" },
+      { mark: "flat", label: "[#ff7a50] Rodillo caliente del fusor" },
+      { mark: "flat", label: "[#5b90ea] Cuchilla de limpieza" },
     ],
     caption:
-      "Una impresora láser con el panel lateral quitado. El tambor gira a la misma velocidad que el papel y pasa por seis pasos en cada vuelta. Carga: un rodillo deja su superficie con carga eléctrica negativa. Exposición: el láser, movido por un espejo giratorio, barre el tambor de lado a lado y descarga solo los puntos que forman la página. Revelado: el tóner, un polvo de plástico con carga, se pega a esos puntos. Transferencia: un rodillo con carga contraria, debajo del papel, hace que el tóner salte a la hoja. Fusión: dos rodillos, uno caliente (unos 200 °C), funden el tóner y lo aprietan contra el papel; hasta ahí se podría borrar con el dedo. Limpieza: una cuchilla rasca el tóner que ha quedado en el tambor y lo lleva al depósito de residuos. La hoja sale con la cara impresa hacia abajo.",
+      "Una impresora láser con el panel lateral quitado. El tambor gira a la misma velocidad que el papel y pasa por seis pasos en cada vuelta. ¶**Carga:** un rodillo deja su superficie con carga eléctrica negativa. ¶**Exposición:** el láser, movido por un espejo giratorio, barre el tambor de lado a lado y descarga solo los puntos que forman la página. ¶**Revelado:** el tóner, un polvo de plástico con carga, se pega a esos puntos. ¶**Transferencia:** un rodillo con carga contraria, debajo del papel, hace que el tóner salte a la hoja. ¶**Fusión:** dos rodillos, uno caliente (unos 200 °C), funden el tóner y lo aprietan contra el papel; hasta ahí se podría borrar con el dedo. ¶**Limpieza:** una cuchilla rasca el tóner que ha quedado en el tambor y lo lleva al depósito de residuos. ¶La hoja sale con la cara impresa hacia abajo.",
     body: `<div class="iso-stage lp-stage" tabindex="0" role="group" aria-label="Impresora láser: pulsa del 1 al 6 para parar la impresión en cada paso; Escape la reanuda">${svg}</div>`,
   })
   .replace("</div><figcaption", `</div>${controls}<figcaption`);
 
-const name = theme === "light" ? "impresora-laser-light.html" : "impresora-laser.html";
-writeFileSync(join(HERE, name), k.pageHtml({ title: "Impresora láser por dentro", theme, body: `<style>${CSS}</style><a class="fig-volver" href="../index.html">← ${VOLVER}</a>${card}`, script: kitScript() + live, width: 780 }).replace('<html lang="en">', '<html lang="es">'));
-console.log("wrote", name, "· ciclo", M.CYCLE.toFixed(1), "s ·", items.length, "piezas");
+const out = join(HERE, "../../impresora-laser.html");
+writeFileSync(out, paginaTaller({
+  isoCss: k.ISO_CSS,
+  titulo: "Impresora láser por dentro",
+  etiqueta: "Figura · Periféricos",
+  h1: "Impresora láser por dentro",
+  lead: "Una impresora láser sin el panel lateral. Sigue la hoja desde la bandeja hasta la salida y párala en cada uno de los seis pasos.",
+  css: CSS,
+  card,
+  script: kitScript() + live,
+}));
+console.log("wrote", out, "· ciclo", M.CYCLE.toFixed(1), "s ·", items.length, "piezas");
