@@ -14,10 +14,11 @@ export const mat = (nombre, svg) => `<g class="m-${nombre}">${svg}</g>`;
 
 /**
  * paginaTaller({ isoCss, titulo, etiqueta, h1, lead, css, card, script, panel })
+ * extra: HTML que va debajo de la figura (una chuleta, una tabla).
  * card: lo que devuelve plateHtml. En el pie (caption), «¶» separa párrafos.
  * En las claves, una etiqueta «[#ff7a50] Texto» pinta una muestra de ese color. **Texto** va en negrita.
  */
-export function paginaTaller({ isoCss, titulo, etiqueta, h1, lead, css = "", card, script = "", panel = "Qué estás viendo" }) {
+export function paginaTaller({ isoCss, titulo, etiqueta, h1, lead, css = "", card, script = "", panel = "Qué estás viendo", extra = "" }) {
   const fuentes = [...INDEX.matchAll(/<link rel="(?:preconnect|stylesheet)" href="https:\/\/fonts[^>]*>/g)].map((m) => m[0]).join("\n  ");
   const taller = (trozo(/<title>[^<]*<\/title>/).replace(/<\/?title>/g, "").split("·")[0] || "Taller").trim();
   // La leyenda de colores sale del panel y va bajo la lámina; el panel se queda con la explicación.
@@ -55,6 +56,7 @@ export function paginaTaller({ isoCss, titulo, etiqueta, h1, lead, css = "", car
         <p class="lead">${lead}</p>
       </div>
       ${cuerpo}
+      ${extra}
     </div>
   </main>
   ${fuera(trozo(/<footer class="pie">[\s\S]*?<\/footer>/))}

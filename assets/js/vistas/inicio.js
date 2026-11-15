@@ -36,14 +36,18 @@ export async function vistaInicio() {
     ...temas.map(t => h('section.seccion',
       h('header', h('div', h('span.etiqueta', 'Tema ' + t.numero), h('h2', t.titulo)), h('span.chip', `${progreso.completadas(t.id, t.lecciones)} / ${t.lecciones.length}`)),
       h('div.rejilla', t.lecciones.map((l, i) => tarjetaLeccion(t, l, i))),
+      t.id === 'tema2' ? h('div.rejilla', { style: 'margin-top:14px' },
+        h('div.tarjeta.reto-card', h('span.etiqueta', 'Figura · Almacenamiento'), h('h3', 'El disco duro por dentro'), h('p', 'Un disco duro sin la tapa: mira cuánto tarda en mover el brazo hasta la pista y en esperar el giro del plato, a 5400 y a 7200 rpm, y compáralo con un SSD.'), h('a.btn.sec', { href: 'figuras/disco-duro.html' }, 'Ver la figura'))) : null,
       t.ejercicios && t.ejercicios.length ? h('div.rejilla', { style: 'margin-top:14px' },
         
         h('div.tarjeta.reto-card', h('span.etiqueta', 'Para clase y repaso'), h('h3', 'Montaje animado'), h('p', 'Mira cómo se monta un PC paso a paso, en dibujos animados, y qué pasa si te equivocas en cada paso.'), h('a.btn.sec', { href: `#/${t.id}/animado` }, 'Ver el montaje')),
         h('div.tarjeta.reto-card', h('span.etiqueta', 'Para clase y repaso'), h('h3', 'Por dentro'), h('p', 'Abre las piezas y mira qué hay dentro: pasta térmica, disipadores, la fuente, la secuencia de arranque, el disco duro, la corriente dentro de un cable, el polímetro y el SAI. Cambia algo y mira qué pasa.'), h('a.btn.sec', { href: '#/pordentro' }, 'Abrir las piezas')),
-        h('div.tarjeta.reto-card', h('span.etiqueta', 'Figura · Periféricos'), h('h3', 'Impresora láser por dentro'), h('p', 'Una impresora láser sin el panel lateral: sigue la hoja y párala en cada paso, de la carga del tambor a la fusión del tóner.'), h('a.btn.sec', { href: 'figuras/impresora-laser.html' }, 'Ver la figura')),
-        h('div.tarjeta.reto-card', h('span.etiqueta', 'Figura · Almacenamiento'), h('h3', 'El disco duro por dentro'), h('p', 'Un disco duro sin la tapa: mira cuánto tarda en mover el brazo hasta la pista y en esperar el giro del plato, a 5400 y a 7200 rpm, y compáralo con un SSD.'), h('a.btn.sec', { href: 'figuras/disco-duro.html' }, 'Ver la figura')),
         h('div.tarjeta.reto-card', h('span.etiqueta', 'Práctica libre · Temas 1 y 2'), h('h3', 'Monta un PC por piezas'), h('p', t.ejercicios[0].descripcion + ' Puedes repetirla las veces que quieras: no cuenta para nota.'), h('a.btn', { href: `#/${t.id}/practica` }, 'Practicar')),
-        EXAMEN_ACTIVO && h('div.tarjeta.reto-card', h('span.etiqueta', 'Examen'), h('h3', 'Examen Temas 1 y 2'), h('p', 'Solo cuando el profesor lo abra. Tu nota se guarda al entregarlo.'), h('a.btn.sec', { href: `#/${t.id}/examen` }, 'Ir al examen'))) : null)));
+        EXAMEN_ACTIVO && h('div.tarjeta.reto-card', h('span.etiqueta', 'Examen'), h('h3', 'Examen Temas 1 y 2'), h('p', 'Solo cuando el profesor lo abra. Tu nota se guarda al entregarlo.'), h('a.btn.sec', { href: `#/${t.id}/examen` }, 'Ir al examen'))) : null)),
+    h('section.seccion',
+      h('header', h('div', h('span.etiqueta', 'Más adelante'), h('h2', 'Periféricos'))),
+      h('div.rejilla',
+        h('div.tarjeta.reto-card', h('span.etiqueta', 'Figura · Periféricos'), h('h3', 'Impresora láser por dentro'), h('p', 'Una impresora láser sin el panel lateral: sigue la hoja y párala en cada paso, de la carga del tambor a la fusión del tóner.'), h('a.btn.sec', { href: 'figuras/impresora-laser.html' }, 'Ver la figura')))));
 
   return {
     el,
