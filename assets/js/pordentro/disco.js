@@ -7,6 +7,7 @@ const V = (x, y, z) => new THREE.Vector3(x, y, z);
 
 export default {
   id: 'disco', icono: '💽', titulo: 'Disco duro y SSD', tema: 'Tema 2 · Sesión 2 y UD5',
+  figura: ['figuras/disco-duro.html', 'Ver la figura: cuánto tarda el disco en abrir un archivo'],
   resumen: 'Un disco duro tiene platos que giran y un brazo que se mueve; un SSD solo tiene chips. Mira cómo leen un archivo, qué pasa con un golpe y cómo se aparca el cabezal.',
   nota: 'El disco duro está abierto para verlo: uno de verdad no se abre, porque el polvo lo estropea. El SSD está dibujado más grande de lo que es. Los tiempos son orientativos.',
   camara: { pos: [3, 34, 30], obj: [2, 0, 1] },

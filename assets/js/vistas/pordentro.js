@@ -181,6 +181,7 @@ export async function vistaPorDentro(idPieza) {
     pieza = def.crear({ ...ctx, k: kitReal(), escena });
     aplicarCalidad();
     escena.add(pieza.grupo);
+    if (def.figura) panel.insertBefore(h('p.pd-figura', h('a', { href: def.figura[0] }, def.figura[1] + ' →')), panel.querySelector('.pd-extra'));
     if (pieza.leyenda) panel.insertBefore(h('ul.pd-leyenda', pieza.leyenda.map(([c, t]) => h('li', h('i', { style: `background:#${c.toString(16).padStart(6, '0')}` }), t))), panel.querySelector('.pd-extra'));
     if (pieza.variantes) {
       // Interruptor de variante (por ejemplo, polímetro manual o autorango): al cambiar, se repite el modo actual

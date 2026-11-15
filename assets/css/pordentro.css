@@ -134,3 +134,5 @@ a.enlace-anim .ic { background: var(--naranja, #ff6a3d); font-size: 15px; }
 .av-juicio button { font: 700 13px var(--f-texto); padding: 3px 8px; border-radius: 999px; border: 2px solid var(--linea); background: var(--papel); cursor: pointer; }
 .av-juicio button[aria-pressed="true"] { border-color: var(--tinta); background: var(--tinta); color: var(--papel); }
 .av-juicio button.ok { border-color: var(--bien); background: var(--bien); } .av-juicio button.ko { border-color: var(--mal); background: var(--mal); }
+
+.pd-figura { margin: 0; font-weight: 700; font-size: 16px; }
