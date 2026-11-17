@@ -269,3 +269,5 @@ dialog p { margin: 10px 0 18px; }
   .lateral { position: fixed; z-index: 15; top: 0; left: 0; bottom: 0; width: min(320px, 86vw); padding-top: max(16px, env(safe-area-inset-top)); box-shadow: 8px 0 30px -12px rgba(0,0,0,.4); translate: -105% 0; visibility: hidden; transition: translate .2s ease, visibility .2s; }
   .lateral.abierto { translate: 0 0; visibility: visible; }
 }
+
+.btn-volver { margin-left: auto; text-decoration: none; color: var(--tinta); }

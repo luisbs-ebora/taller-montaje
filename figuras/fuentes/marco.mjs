@@ -7,6 +7,10 @@ import { fileURLToPath } from "node:url";
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const INDEX = readFileSync(join(AQUI, "../../index.html"), "utf8");
 const trozo = (re) => (INDEX.match(re) || [""])[0];
+// En una figura no hay menú lateral: la cabecera lleva la marca y un enlace para volver al taller.
+const cabeceraFigura = () => fuera(trozo(/<header class="cabecera">[\s\S]*?<\/header>/))
+  .replace(/\s*<button class="btn-lateral"[\s\S]*?<\/button>/, "")
+  .replace("</header>", '  <a class="btn-lateral btn-volver" href="../index.html#/">← Volver al taller</a>\n  </header>');
 const fuera = (html) => html.replace(/href="#\//g, 'href="../index.html#/');
 
 /** Agrupa piezas con un material del taller (colores de relleno y de línea). Ver assets/css/figura.css. */
@@ -47,7 +51,7 @@ export function paginaTaller({ isoCss, titulo, etiqueta, h1, lead, css = "", car
 </head>
 <body>
   <a class="saltar" href="#contenido">Saltar al contenido</a>
-  ${fuera(trozo(/<header class="cabecera">[\s\S]*?<\/header>/))}
+  ${cabeceraFigura()}
   <main id="contenido" tabindex="-1">
     <div class="fig iso" data-theme="light">
       <div class="fig-cab">
