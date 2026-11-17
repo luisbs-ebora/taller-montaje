@@ -227,3 +227,45 @@ dialog p { margin: 10px 0 18px; }
 .selector-temas a span { font-weight: 700; line-height: 1.3; }
 .selector-temas a:hover { box-shadow: inset 0 0 0 2px var(--azul); }
 .selector-temas a[aria-current="page"] { background: var(--azul-2); box-shadow: inset 0 0 0 2px var(--azul); }
+
+/* ---------- Menú lateral ---------- */
+.cabecera { justify-content: flex-start; flex-direction: row !important; align-items: center !important; }
+.btn-lateral { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid var(--linea); border-radius: 10px; background: var(--superficie); font-weight: 700; font-size: 16px; cursor: pointer; }
+.btn-lateral svg { width: 22px; height: 22px; }
+.btn-lateral:hover { border-color: var(--tinta-2); }
+.marco { flex: 1; display: flex; align-items: flex-start; width: 100%; }
+.marco > main { flex: 1; min-width: 0; }
+.lateral { --cab: 57px; flex: none; width: 292px; padding: 16px 12px 40px; font-size: 16px; line-height: 1.3; overflow-y: auto; overscroll-behavior: contain; background: var(--papel); border-right: 1px solid var(--linea); }
+.lateral ul { list-style: none; margin: 0; padding: 0; }
+.lateral a { display: flex; gap: 8px; align-items: baseline; padding: 8px 10px; border-radius: 8px; text-decoration: none; color: var(--tinta); }
+.lateral a:hover { background: var(--papel-2); }
+.lateral a[aria-current="page"] { background: var(--azul-2); color: var(--tinta); font-weight: 700; box-shadow: inset 3px 0 0 var(--azul); }
+.lat-inicio a, .lat-grupo > ul a { font-weight: 700; }
+.lat-rotulo { margin: 18px 10px 6px; font: 500 12px/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--tinta-2); }
+.lat-tema { border-radius: 10px; }
+.lat-tema + .lat-tema { margin-top: 2px; }
+.lat-tema summary { display: grid; grid-template-columns: 1fr auto; gap: 0 8px; padding: 9px 10px; border-radius: 8px; cursor: pointer; list-style: none; }
+.lat-tema summary::-webkit-details-marker { display: none; }
+.lat-tema summary:hover { background: var(--papel-2); }
+.lat-n { grid-column: 1; font: 500 12px/1.3 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--azul); }
+.lat-n::before { content: '▸ '; }
+.lat-tema[open] .lat-n::before { content: '▾ '; }
+.lat-t { grid-column: 1; font-weight: 700; }
+.lat-tema .cuenta { grid-column: 2; grid-row: 1 / span 2; align-self: center; font: 500 12px/1 var(--f-mono); color: var(--tinta-2); padding: 4px 7px; border: 1px solid var(--linea); border-radius: 999px; }
+.lat-tema ul { margin: 2px 0 8px 12px; padding-left: 8px; border-left: 2px solid var(--linea); }
+.lat-tema li a { font-size: 15.5px; padding: 7px 8px; }
+.lat-tema a.ver-tema { color: var(--tinta-2); font-size: 14.5px; }
+.marca-l { flex: none; width: 16px; height: 16px; border: 2px solid var(--linea); border-radius: 50%; font-size: 11px; line-height: 12px; text-align: center; font-weight: 700; translate: 0 2px; }
+.marca-l.vista { border-color: var(--ambar); }
+.marca-l.ok { border-color: var(--bien); background: var(--bien); color: var(--superficie); }
+.lat-velo { position: fixed; inset: 0; z-index: 14; background: rgba(20, 24, 30, .45); }
+.lat-velo[hidden] { display: none; }
+@media (min-width: 1280px) {
+  .lateral { display: none; position: sticky; top: var(--cab); height: calc(100vh - var(--cab)); }
+  body.con-lateral .lateral { display: block; }
+  .btn-lateral span { display: none; }
+}
+@media (max-width: 1279.98px) {
+  .lateral { position: fixed; z-index: 15; top: 0; left: 0; bottom: 0; width: min(320px, 86vw); padding-top: max(16px, env(safe-area-inset-top)); box-shadow: 8px 0 30px -12px rgba(0,0,0,.4); translate: -105% 0; visibility: hidden; transition: translate .2s ease, visibility .2s; }
+  .lateral.abierto { translate: 0 0; visibility: visible; }
+}

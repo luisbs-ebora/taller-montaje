@@ -1,8 +1,6 @@
 // inicio.js — Portada y lista de lecciones de un tema.
 import { h, curso, tema, progreso, cargarJSON } from '../util.js';
 import { huecoVisor } from './comun.js';
-import { configExamen, PRACTICAS } from '../evaluacion.js';
-const EXAMEN_ACTIVO = configExamen('t1t2').activo;
 import { montaje } from '../piezas3d.js';
 
 const EQUIPO_PORTADA = ['caja-gredos', 'pb-z790', 'cpu-c7-14700k', 'ref-t120', 'ram-d5-2x16', 'ssd-nvme-1tb', 'gpu-rx60', 'fte-650'];
@@ -33,19 +31,25 @@ export async function vistaInicio() {
         h('div.fila', h('a.btn.azul', { href: siguiente }, hechas ? 'Seguir donde lo dejé' : 'Empezar'), h('a.btn.sec', { href: `#/${t1.id}/piezas` }, 'Ver las piezas en 3D')),
         h('div.progreso', h('div.barra', h('i', { style: `width:${total ? 100 * hechas / total : 0}%` })), h('span.mono', `${hechas} de ${total} lecciones`))),
       h('div.escena', visor.el)),
-    ...temas.map(t => h('section.seccion',
-      h('header', h('div', h('span.etiqueta', 'Tema ' + t.numero), h('h2', t.titulo)), h('span.chip', `${progreso.completadas(t.id, t.lecciones)} / ${t.lecciones.length}`)),
-      h('div.rejilla', t.lecciones.map((l, i) => tarjetaLeccion(t, l, i))),
-      t.ejercicios && t.ejercicios.length ? h('div.rejilla', { style: 'margin-top:14px' },
-        
-        h('div.tarjeta.reto-card', h('span.etiqueta', 'Para clase y repaso'), h('h3', 'Montaje animado'), h('p', 'Mira cómo se monta un PC paso a paso, en dibujos animados, y qué pasa si te equivocas en cada paso.'), h('a.btn.sec', { href: `#/${t.id}/animado` }, 'Ver el montaje')),
-        h('div.tarjeta.reto-card', h('span.etiqueta', 'Para clase y repaso'), h('h3', 'Por dentro'), h('p', 'Abre las piezas y mira qué hay dentro: pasta térmica, disipadores, la fuente, la secuencia de arranque, el disco duro, la corriente dentro de un cable, el polímetro y el SAI. Cambia algo y mira qué pasa.'), h('a.btn.sec', { href: '#/pordentro' }, 'Abrir las piezas')),
-        h('div.tarjeta.reto-card', h('span.etiqueta', 'Práctica libre · Temas 1 y 2'), h('h3', 'Monta un PC por piezas'), h('p', t.ejercicios[0].descripcion + ' Puedes repetirla las veces que quieras: no cuenta para nota.'), h('a.btn', { href: `#/${t.id}/practica` }, 'Practicar')),
-        EXAMEN_ACTIVO && h('div.tarjeta.reto-card', h('span.etiqueta', 'Examen'), h('h3', 'Examen Temas 1 y 2'), h('p', 'Solo cuando el profesor lo abra. Tu nota se guarda al entregarlo.'), h('a.btn.sec', { href: `#/${t.id}/examen` }, 'Ir al examen'))) : null)),
+    // La portada es fija: un acceso por tema y los apartados de siempre. Los temas nuevos salen solos de curso.json.
     h('section.seccion',
-      h('header', h('div', h('span.etiqueta', 'Más adelante'), h('h2', 'Periféricos'))),
+      h('header', h('div', h('span.etiqueta', 'Lecciones'), h('h2', 'Temas'))),
+      h('div.rejilla', temas.map(t => h('a.tarjeta.leccion-card', { href: `#/${t.id}` },
+        h('span.num', String(t.numero).padStart(2, '0')),
+        h('h3', t.titulo), h('p', t.resumen),
+        h('span.estado', h('span.chip', `${progreso.completadas(t.id, t.lecciones)} de ${t.lecciones.length} lecciones`)))))),
+    h('section.seccion',
+      h('header', h('div', h('span.etiqueta', 'Para clase y repaso'), h('h2', 'Herramientas'))),
       h('div.rejilla',
-        h('div.tarjeta.reto-card', h('span.etiqueta', 'Figura · Periféricos'), h('h3', 'Impresora láser por dentro'), h('p', 'Una impresora láser sin el panel lateral: sigue la hoja y párala en cada paso, de la carga del tambor a la fusión del tóner.'), h('a.btn.sec', { href: 'figuras/impresora-laser.html' }, 'Ver la figura')))));
+        h('div.tarjeta.reto-card', h('h3', 'Piezas en 3D'), h('p', 'Gira cada pieza, tócala y mira para qué sirve y dónde va.'), h('a.btn.sec', { href: `#/${t1.id}/piezas` }, 'Ver las piezas')),
+        h('div.tarjeta.reto-card', h('h3', 'Montaje animado'), h('p', 'Mira cómo se monta un PC paso a paso, en dibujos animados, y qué pasa si te equivocas en cada paso.'), h('a.btn.sec', { href: `#/${t1.id}/animado` }, 'Ver el montaje')),
+        h('div.tarjeta.reto-card', h('h3', 'Por dentro'), h('p', 'Abre las piezas y mira qué hay dentro. Cambia algo y mira qué pasa.'), h('a.btn.sec', { href: '#/pordentro' }, 'Abrir las piezas')),
+        h('div.tarjeta.reto-card', h('span.etiqueta', 'Más adelante · Periféricos'), h('h3', 'Impresora láser por dentro'), h('p', 'Una impresora láser sin el panel lateral: sigue la hoja y párala en cada paso, de la carga del tambor a la fusión del tóner.'), h('a.btn.sec', { href: 'figuras/impresora-laser.html' }, 'Ver la figura')))),
+    h('section.seccion',
+      h('header', h('div', h('span.etiqueta', 'Ponte a prueba'), h('h2', 'Evaluación'))),
+      h('div.rejilla',
+        h('div.tarjeta.reto-card', h('h3', 'Prácticas'), h('p', 'Puedes repetirlas las veces que quieras: cada vez sale un caso distinto y se corrige al momento. No cuentan para nota.'), h('a.btn', { href: '#/practicas' }, 'Ver las prácticas')),
+        h('div.tarjeta.reto-card', h('h3', 'Exámenes'), h('p', 'Cada examen se abre solo el día que lo diga el profesor. Para entrar necesitas tu código.'), h('a.btn.sec', { href: '#/examenes' }, 'Ver los exámenes')))));
 
   return {
     el,
@@ -80,10 +84,8 @@ export async function vistaLecciones() {
 export async function vistaTema(temaId) {
   const t = await tema(temaId);
   try { localStorage.setItem(CLAVE_TEMA, t.id); } catch (e) { /* sin almacenamiento */ }
-  const selector = await selectorTemas(t.id);
   const practica = (t.ejercicios && t.ejercicios.length) ? t.id : t.practicaEn;
   return { el: h('div',
-    selector,
     h('span.etiqueta', 'Tema ' + t.numero), h('h1', t.titulo), h('p.lead', { style: 'color:var(--tinta-2);font-size:20px;max-width:60ch' }, t.resumen),
     h('div.rejilla', { style: 'margin-top:24px' }, t.lecciones.map((l, i) => tarjetaLeccion(t, l, i))),
     h('div.fila', { style: 'margin-top:24px' },

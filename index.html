@@ -25,23 +25,21 @@
 <body>
   <a class="saltar" href="#contenido">Saltar al contenido</a>
   <header class="cabecera">
+    <button class="btn-lateral" id="btn-lateral" type="button" aria-controls="lateral" aria-expanded="false" aria-label="Mostrar el menú">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span>Menú</span>
+    </button>
     <a class="marca" href="#/">
       <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="5" fill="var(--azul)"/><rect x="10" y="10" width="12" height="12" rx="1.5" fill="var(--ambar)"/><path d="M13 3v4M19 3v4M13 25v4M19 25v4M3 13h4M3 19h4M25 13h4M25 19h4" stroke="var(--azul)" stroke-width="2.4" stroke-linecap="round"/></svg>
       <span><b>Taller de Montaje</b><small>1.º SMR</small></span>
     </a>
-    <nav class="menu" aria-label="Secciones">
-      <a href="#/" data-ruta="inicio">Inicio</a>
-      <a href="#/lecciones" data-ruta="tema">Lecciones</a>
-      <a href="#/tema1/piezas" data-ruta="piezas">Piezas 3D</a>
-      <a href="#/tema1/animado" data-ruta="animado">Montaje animado</a>
-      <a href="#/pordentro" data-ruta="pordentro">Por dentro</a>
-      <a href="#/practicas" data-ruta="practicas">Prácticas</a>
-      <a href="#/examenes" data-ruta="examenes">Exámenes</a>
-    </nav>
   </header>
-  <main id="contenido" tabindex="-1">
-    <div class="cargando">Cargando…</div>
-  </main>
+  <div class="marco">
+    <nav class="lateral" id="lateral" aria-label="Temas y secciones" inert></nav>
+    <main id="contenido" tabindex="-1">
+      <div class="cargando">Cargando…</div>
+    </main>
+  </div>
   <footer class="pie">
     <span>Montaje y mantenimiento de equipos · Ébora Formación</span>
     <a href="#/creditos">Créditos y licencias</a>
