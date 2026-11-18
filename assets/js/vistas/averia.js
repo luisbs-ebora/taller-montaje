@@ -2,7 +2,7 @@
 import { h, md, progreso } from '../util.js';
 import { huecoVisor, informeAlumno, informeCompleto, informeComparado } from './comun.js';
 import { montaje } from '../piezas3d.js';
-import { FASES, ZONAS, zonaDeParte, crearCaso, corregir, informeReferencia } from '../practica/averias.js';
+import { FASES_PRACTICA as FASES, ZONAS_PRACTICA as ZONAS, zonaDeParte, crearCaso, corregir, informeReferencia } from '../practica/averias.js';
 
 const CLAVE = 'averia:t3';
 const minus = t => t.charAt(0).toLowerCase() + t.slice(1);
@@ -44,7 +44,7 @@ export function vistaAveria() {
   function revisarZona(zona, desdeLista = false) {
     if (!zona) { visor.rotulo(''); return; }
     const z = ZONAS[zona];
-    if (desdeLista && visor.visor) visor.visor.resaltar(z.partes[0]);
+    if (desdeLista && visor.visor && z.partes.length) visor.visor.resaltar(z.partes[0]);
     visor.rotulo(z.nombre);
     if (estado.seguridad.size < SEGURIDAD.length) {
       // tocar dentro sin prepararse: aviso y cuenta como fallo de seguridad
@@ -68,7 +68,7 @@ export function vistaAveria() {
       h('span.etiqueta', caso.equipo), h('h2', 'Lo que pasa'), h('p', f.sintoma),
       h('dl.av-datos',
         h('dt', 'Ventiladores'), h('dd', f.id === 'separador' ? 'Giran un segundo y se paran' : f.ventiladores ? 'Giran' : 'No giran'),
-        h('dt', 'Pantalla'), h('dd', /Press|Reboot/.test(f.pantalla) ? h('code.av-pantalla', f.pantalla) : f.pantalla),
+        h('dt', 'Pantalla'), h('dd', /Press|Reboot|Windows 11/.test(f.pantalla) ? h('code.av-pantalla', f.pantalla) : f.pantalla),
         h('dt', 'LED de la placa'), h('dd', leds),
         h('dt', 'Gráfica'), h('dd', caso.conGpu ? 'Tarjeta gráfica dedicada' : 'La del procesador (sin tarjeta)')));
 
@@ -88,7 +88,7 @@ export function vistaAveria() {
     // 3. Revisar
     const listo = estado.seguridad.size === SEGURIDAD.length;
     const rev = h('div.tarjeta.av-paso' + (listo ? '' : '.bloqueado'), h('h3', '3 · Revisa el equipo'),
-      h('p.av-nota', listo ? 'Toca en el 3D lo que quieras revisar (acerca con la rueda) o elígelo de la lista. Empieza por lo más sencillo y por lo que señalan el síntoma y los LED.' : 'Primero, el paso 2.'),
+      h('p.av-nota', listo ? 'Toca en el 3D lo que quieras revisar (acerca con la rueda) o elígelo de la lista. La hoja de montaje solo está en la lista. Empieza por lo más sencillo y por lo que señalan el síntoma y los LED.' : 'Primero, el paso 2.'),
       h('div.av-zonas', Object.entries(ZONAS).map(([id, z]) => h('button.chip' + (estado.revisadas.includes(id) ? '.ok' : ''), { type: 'button', disabled: !!estado.corregido, onclick: () => revisarZona(id, true) }, z.nombre))),
       estado.registro.length ? h('ol.av-registro', estado.registro.map(r => h('li' + (r.mal ? '.mal' : ''), h('b', ZONAS[r.zona].nombre + ': '), r.texto))) : null);
 
@@ -116,6 +116,7 @@ export function vistaAveria() {
       fuente: 'Si **no pasa nada** (o se enciende y se apaga enseguida), la fuente no llega a arrancar o se corta: enchufe, interruptor, 24 pines, POWER SW o un cortocircuito.',
       post: 'Si **los ventiladores giran** pero no hay imagen, o sale un aviso al arrancar, el fallo está en el **POST**: memoria, EPS, gráfica, monitor o ventilador del procesador.',
       arranque: 'Si pasa el POST pero dice que **no encuentra con qué arrancar**, el fallo está en la búsqueda del arranque: disco, orden de arranque o sistema.',
+      despues: 'Si **arranca y funciona**, el fallo no está en el arranque: sale después, al comprobar el equipo en la UEFI, en Windows o con una utilidad (velocidad y canales de la memoria, temperatura, TPM, luces del frontal).',
       reposo: 'Si **funciona** pero pierde la fecha y la hora al desenchufarlo, el fallo está en lo que guarda la placa en **reposo**: la pila.',
     };
     return f.fase.map(x => txt[x]).join(' ');
@@ -125,7 +126,7 @@ export function vistaAveria() {
     estado.corregido = corregir(caso, { fase: estado.fase, seguridadAntes: !!estado.seguridadAntes, revisadas: estado.revisadas, causa: estado.causa });
     progreso.anotarPractica({ tema: 'tema3', tipo: CLAVE, nota: estado.corregido.nota });
     const v = visor.visor;
-    if (v) v.resaltar(ZONAS[caso.fallo.zona].partes[0]);
+    if (v && ZONAS[caso.fallo.zona].partes.length) v.resaltar(ZONAS[caso.fallo.zona].partes[0]);
     visor.rotulo('Aquí estaba el fallo: ' + ZONAS[caso.fallo.zona].nombre);
     pintar();
   }
