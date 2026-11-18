@@ -106,6 +106,16 @@ export function crearCaso(semilla, { excluir } = {}) {
   return { semilla, equipo: EQUIPOS[Math.floor(r() * EQUIPOS.length)], conGpu, fallo, causas };
 }
 
+// Reto de clase: con el mismo número, todos reciben los mismos equipos, en el mismo orden y sin repetir avería
+export function crearReto(codigo, cuantos = 5) {
+  const casos = [], usados = new Set();
+  for (let i = 0; casos.length < cuantos && i < 500; i++) {
+    const c = crearCaso((codigo * 7919 + i * 104729) % 2147483647 + 1);
+    if (!usados.has(c.fallo.id)) { usados.add(c.fallo.id); casos.push(c); }
+  }
+  return casos;
+}
+
 // Puntos: fase (1), seguridad antes de abrir (1), revisar la zona del fallo (1), causa (2) → sobre 5, nota sobre 10
 export function corregir(caso, { fase, seguridadAntes, revisadas, causa }) {
   const p = {

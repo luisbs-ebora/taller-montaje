@@ -136,3 +136,13 @@ a.enlace-anim .ic { background: var(--naranja, #ff6a3d); font-size: 15px; }
 .av-juicio button.ok { border-color: var(--bien); background: var(--bien); } .av-juicio button.ko { border-color: var(--mal); background: var(--mal); }
 
 .pd-figura { margin: 0; font-weight: 700; font-size: 16px; }
+
+/* Reto de clase de «Este PC no arranca» */
+.av-marcador { display: inline-block; margin: 0 0 14px; padding: 8px 14px; font: 700 18px/1.2 var(--f-mono); background: var(--ambar-2); color: var(--tinta); border: 2.5px solid var(--tinta); border-radius: 10px; box-shadow: 3px 3px 0 var(--tinta); }
+.av-reto { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; margin-top: 26px; padding: 16px 18px; border: 2px dashed var(--tinta-2); border-radius: 14px; }
+.av-reto span { flex: 1 1 280px; color: var(--tinta-2); }
+.av-reto input { width: 120px; padding: 10px 12px; font: 700 18px var(--f-mono); border: 2px solid var(--tinta); border-radius: 10px; }
+.av-final { margin-top: 16px; padding: 16px 18px; background: var(--ambar-2); border: 3px solid var(--tinta); border-radius: 14px; }
+.av-final h3 { margin: 0 0 6px; }
+.av-final-nota { font-size: 26px; margin: 0 0 10px; }
+.av-final ol { margin: 0 0 12px; padding-left: 22px; }

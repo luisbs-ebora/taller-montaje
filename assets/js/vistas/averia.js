@@ -2,7 +2,7 @@
 import { h, md, progreso } from '../util.js';
 import { huecoVisor, informeAlumno, informeCompleto, informeComparado } from './comun.js';
 import { montaje } from '../piezas3d.js';
-import { FASES_PRACTICA as FASES, ZONAS_PRACTICA as ZONAS, zonaDeParte, crearCaso, corregir, informeReferencia } from '../practica/averias.js';
+import { FASES_PRACTICA as FASES, ZONAS_PRACTICA as ZONAS, zonaDeParte, crearCaso, crearReto, corregir, informeReferencia } from '../practica/averias.js';
 
 const CLAVE = 'averia:t3';
 const minus = t => t.charAt(0).toLowerCase() + t.slice(1);
@@ -13,17 +13,30 @@ const SEGURIDAD = [
   ['pulsera', 'Ponerme la pulsera antiestática'],
 ];
 
-export function vistaAveria() {
+const reloj = ms => { const s = Math.floor(ms / 1000); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+
+// Con «reto» (un número), es el reto de clase: cinco equipos iguales para todos, sin informe y con cronómetro
+export function vistaAveria(reto = null) {
   let caso, estado, anterior = null;
+  const casosReto = reto ? crearReto(reto) : null;
+  let turno = 0, inicio = 0, fin = 0, tic = null;
+  const notas = [];
+  const marcador = h('p.av-marcador');
+  const pintaMarcador = () => { if (reto) marcador.textContent = `Reto ${reto} · Equipo ${Math.min(turno + 1, casosReto.length)} de ${casosReto.length} · ${reloj((fin || Date.now()) - inicio)}`; };
   const visor = huecoVisor({ pista: 'Arrastra para girar · rueda para acercar · toca una pieza para revisarla', alTocar: parte => revisar(parte) });
   const panel = h('div.av-panel');
   const el = h('section.averia',
-    h('span.etiqueta', 'Práctica · Tema 3 · no cuenta para nota'), h('h1', 'Este PC no arranca'),
+    h('span.etiqueta', reto ? 'Reto de clase · Tema 3 · no cuenta para nota' : 'Práctica · Tema 3 · no cuenta para nota'), h('h1', reto ? 'Reto: cinco equipos que no van bien' : 'Este PC no arranca'),
+    reto ? marcador : null,
     h('p.lead', { style: 'color:var(--tinta-2);font-size:19px;max-width:66ch;margin:6px 0 18px' }, 'Un equipo recién montado que no funciona bien. Mira el síntoma, piensa en qué paso del arranque falla, prepárate con seguridad, revisa el equipo en 3D y di qué está mal montado.'),
-    h('div.av-rejilla', h('div.av-visor', visor.el), panel));
+    h('div.av-rejilla', h('div.av-visor', visor.el), panel),
+    reto ? null : h('form.av-reto', { onsubmit: e => { e.preventDefault(); const n = parseInt(e.target.elements.n.value, 10); if (n > 0) location.hash = '#/tema3/reto/' + n; } },
+      h('b', 'Reto de clase'), h('span', 'Escribe el número que diga el profesor: a toda la clase le salen los mismos cinco equipos.'),
+      h('input', { name: 'n', type: 'number', min: '1', max: '99999', required: true, placeholder: 'Número', 'aria-label': 'Número del reto' }),
+      h('button.btn.sec', { type: 'submit' }, 'Empezar el reto')));
 
   function nuevo() {
-    caso = crearCaso(Math.floor(Math.random() * 2147483647), { excluir: anterior });
+    caso = reto ? casosReto[turno] : crearCaso(Math.floor(Math.random() * 2147483647), { excluir: anterior });
     anterior = caso.fallo.id;
     estado = { fase: null, seguridad: new Set(), seguridadAntes: null, revisadas: [], registro: [], causa: null, corregido: null, avisoSeguridad: false, informe: {} };
     const v = visor.iniciar();
@@ -99,14 +112,14 @@ export function vistaAveria() {
       );
 
     // 5. Informe de montaje
-    const listoInforme = () => !!estado.causa && informeCompleto(estado.informe);
+    const listoInforme = () => !!estado.causa && (!!reto || informeCompleto(estado.informe));
     const bComprobar = h('button.btn.azul', { type: 'button', disabled: !listoInforme(), onclick: () => comprobar() }, 'Comprobar');
     const inf = h('div.tarjeta.av-paso' + (estado.registro.length ? '' : '.bloqueado'), h('h3', '5 · Escribe el informe'),
       h('p.av-nota', 'Lo que irá en el informe de montaje: qué pasaba, qué has revisado, cuál era la causa y cómo se arregla.'),
       informeAlumno(estado.informe, { bloqueado: !estado.registro.length || !!estado.corregido, alCambiar: () => { bComprobar.disabled = !listoInforme(); } }),
       !estado.corregido ? bComprobar : null);
 
-    const partes = [ficha, fase, seg, rev, diag, inf];
+    const partes = reto ? [ficha, fase, seg, rev, diag, estado.corregido ? null : h('div', bComprobar)].filter(Boolean) : [ficha, fase, seg, rev, diag, inf];
     if (estado.corregido) partes.push(resultado());
     panel.replaceChildren(...partes);
   }
@@ -124,7 +137,8 @@ export function vistaAveria() {
 
   function comprobar() {
     estado.corregido = corregir(caso, { fase: estado.fase, seguridadAntes: !!estado.seguridadAntes, revisadas: estado.revisadas, causa: estado.causa });
-    progreso.anotarPractica({ tema: 'tema3', tipo: CLAVE, nota: estado.corregido.nota });
+    if (reto) { notas[turno] = estado.corregido.nota; if (turno === casosReto.length - 1) { fin = Date.now(); clearInterval(tic); pintaMarcador(); } }
+    else progreso.anotarPractica({ tema: 'tema3', tipo: CLAVE, nota: estado.corregido.nota });
     const v = visor.visor;
     if (v && ZONAS[caso.fallo.zona].partes.length) v.resaltar(ZONAS[caso.fallo.zona].partes[0]);
     visor.rotulo('Aquí estaba el fallo: ' + ZONAS[caso.fallo.zona].nombre);
@@ -142,10 +156,22 @@ export function vistaAveria() {
         fila(p.zona, p.zona ? 'Has revisado donde estaba el fallo.' : 'No has revisado: ' + minus(ZONAS[f.zona].nombre) + '.'),
         fila(p.causa, p.causa ? 'Diagnóstico correcto.' : 'El fallo era: ' + minus(f.causa) + '.')),
       h('p', h('b', 'Solución: '), f.solucion),
-      informeComparado(estado.informe, informeReferencia(caso)),
+      reto ? null : informeComparado(estado.informe, informeReferencia(caso)),
       h('p.av-nota', `Has revisado ${estado.revisadas.length} ${estado.revisadas.length === 1 ? 'zona' : 'zonas'}. Un técnico empieza por lo más sencillo y por lo que señalan el síntoma y los LED.`),
-      h('button.btn.azul', { type: 'button', onclick: () => { nuevo(); el.scrollIntoView({ behavior: 'smooth' }); } }, 'Otro equipo'));
+      !reto ? h('button.btn.azul', { type: 'button', onclick: () => { nuevo(); el.scrollIntoView({ behavior: 'smooth' }); } }, 'Otro equipo')
+        : turno < casosReto.length - 1 ? h('button.btn.azul', { type: 'button', onclick: () => { turno++; pintaMarcador(); nuevo(); el.scrollIntoView({ behavior: 'smooth' }); } }, `Siguiente equipo (${turno + 2} de ${casosReto.length})`)
+        : finalReto());
   }
 
-  return { el, montado() { nuevo(); }, destruir() { visor.destruir(); } };
+  function finalReto() {
+    const media = Math.round(notas.reduce((a, b) => a + b, 0) / notas.length * 10) / 10;
+    return h('div.av-final',
+      h('h3', `Reto ${reto} terminado`),
+      h('p.av-final-nota', h('b', media.toLocaleString('es-ES') + ' / 10'), ' en ', h('b', reloj(fin - inicio))),
+      h('ol', casosReto.map((c, i) => h('li', `${c.fallo.causa}: `, h('b', notas[i].toLocaleString('es-ES'))))),
+      h('p.av-nota', 'Enséñale esta pantalla al profesor. Gana quien tenga más nota; si hay empate, quien haya tardado menos.'),
+      h('a.btn.sec', { href: '#/tema3/practica' }, 'Volver a la práctica'));
+  }
+
+  return { el, montado() { if (reto) { inicio = Date.now(); pintaMarcador(); tic = setInterval(pintaMarcador, 1000); } nuevo(); }, destruir() { clearInterval(tic); visor.destruir(); } };
 }
