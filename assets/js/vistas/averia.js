@@ -2,7 +2,7 @@
 import { h, md, progreso } from '../util.js';
 import { huecoVisor, informeAlumno, informeCompleto, informeComparado } from './comun.js';
 import { montaje } from '../piezas3d.js';
-import { FASES_PRACTICA as FASES, ZONAS_PRACTICA as ZONAS, zonaDeParte, crearCaso, crearReto, corregir, informeReferencia } from '../practica/averias.js';
+import { FASES_PRACTICA as FASES, ZONAS_PRACTICA as ZONAS, zonaDeParte, crearCaso, crearReto, corregir, informeReferencia, TOPE_CRITICO } from '../practica/averias.js';
 
 const CLAVE = 'averia:t3';
 const minus = t => t.charAt(0).toLowerCase() + t.slice(1);
@@ -87,23 +87,23 @@ export function vistaAveria(reto = null) {
 
     // 1. Fase
     const fase = h('div.tarjeta.av-paso', h('h3', '1 · ¿En qué paso del arranque falla?'),
-      h('div.av-opciones', Object.entries(FASES).map(([id, txt]) => h('button.opcion' + (estado.fase === id ? (f.fase.includes(id) ? '.ok' : '.ko') : ''),
-        { type: 'button', disabled: !!estado.fase || !!estado.corregido, onclick: () => { estado.fase = id; pintar(); } }, txt))),
-      estado.fase ? h('p.explicacion', { html: (f.fase.includes(estado.fase) ? '<b>Bien.</b> ' : '<b>No es ese.</b> ') + md(explicaFase(f)) }) : null);
+      h('div.av-opciones', Object.entries(FASES).map(([id, txt]) => h('button.opcion' + (estado.corregido ? (f.fase.includes(id) ? '.ok' : estado.fase === id ? '.ko' : '') : estado.fase === id ? '.elegida' : ''),
+        { type: 'button', disabled: !!estado.corregido, onclick: () => { estado.fase = id; pintar(); } }, txt))),
+      estado.corregido ? h('p.explicacion', { html: (f.fase.includes(estado.fase) ? '<b>Bien.</b> ' : '<b>No era ese.</b> ') + md(explicaFase(f)) }) : null);
 
     // 2. Seguridad
     const seg = h('div.tarjeta.av-paso' + (estado.fase ? '' : '.bloqueado'), h('h3', '2 · Antes de abrir la caja'),
       h('div.av-seguridad', SEGURIDAD.map(([id, txt]) => h('button.av-check' + (estado.seguridad.has(id) ? '.hecho' : ''),
         { type: 'button', disabled: !estado.fase || estado.seguridad.has(id) || !!estado.corregido, onclick: () => { estado.seguridad.add(id); estado.avisoSeguridad = false; pintar(); } },
         h('span', estado.seguridad.has(id) ? '✓' : ''), txt))),
-      estado.avisoSeguridad ? h('p.mensaje.error', '¡Alto! Antes de tocar nada dentro: apaga, interruptor en 0, desenchufa, descarga y ponte la pulsera.') : null);
+      estado.avisoSeguridad ? h('p.mensaje.error', '¡Alto! Has ido a tocar dentro sin prepararte: es un fallo crítico y este equipo ya no pasa de un 4. Apaga, interruptor en 0, desenchufa, descarga y ponte la pulsera.') : null);
 
     // 3. Revisar
     const listo = estado.seguridad.size === SEGURIDAD.length;
     const rev = h('div.tarjeta.av-paso' + (listo ? '' : '.bloqueado'), h('h3', '3 · Revisa el equipo'),
-      h('p.av-nota', listo ? 'Toca en el 3D lo que quieras revisar (acerca con la rueda) o elígelo de la lista. La hoja de montaje solo está en la lista. Empieza por lo más sencillo y por lo que señalan el síntoma y los LED.' : 'Primero, el paso 2.'),
+      h('p.av-nota', listo ? 'Toca en el 3D lo que quieras revisar (acerca con la rueda) o elígelo de la lista. La hoja de montaje solo está en la lista. Lee bien lo que encuentras: nadie te va a decir cuál es el fallo.' : 'Primero, el paso 2.'),
       h('div.av-zonas', Object.entries(ZONAS).map(([id, z]) => h('button.chip' + (estado.revisadas.includes(id) ? '.ok' : ''), { type: 'button', disabled: !!estado.corregido, onclick: () => revisarZona(id, true) }, z.nombre))),
-      estado.registro.length ? h('ol.av-registro', estado.registro.map(r => h('li' + (r.mal ? '.mal' : ''), h('b', ZONAS[r.zona].nombre + ': '), r.texto))) : null);
+      estado.registro.length ? h('ol.av-registro', estado.registro.map(r => h('li' + (r.mal && estado.corregido ? '.mal' : ''), h('b', ZONAS[r.zona].nombre + ': '), r.texto))) : null);
 
     // 4. Diagnóstico
     const diag = h('div.tarjeta.av-paso' + (estado.registro.length ? '' : '.bloqueado'), h('h3', '4 · ¿Qué está mal?'),
@@ -150,6 +150,7 @@ export function vistaAveria(reto = null) {
     const fila = (ok, txt) => h('li' + (ok ? '.ok' : '.ko'), ok ? '✓ ' : '✗ ', txt);
     return h('div.tarjeta.av-resultado',
       h('h3', `Resultado: ${r.nota.toLocaleString('es-ES')} / 10`),
+      r.criticos.length ? h('p.mensaje.error', h('b', `Fallo crítico: la nota no pasa de ${TOPE_CRITICO}. `), r.criticos.join(' ')) : null,
       h('ul.av-puntos',
         fila(p.fase, p.fase ? 'Has acertado en qué paso del arranque falla.' : 'El paso del arranque no era ese: ' + f.fase.map(x => FASES[x]).join(' o ') + '.'),
         fila(p.seguridad, p.seguridad ? 'Te has preparado con seguridad antes de tocar nada.' : 'Has intentado tocar dentro sin apagar, desenchufar y ponerte la pulsera.'),
@@ -169,7 +170,7 @@ export function vistaAveria(reto = null) {
       h('h3', `Reto ${reto} terminado`),
       h('p.av-final-nota', h('b', media.toLocaleString('es-ES') + ' / 10'), ' en ', h('b', reloj(fin - inicio))),
       h('ol', casosReto.map((c, i) => h('li', `${c.fallo.causa}: `, h('b', notas[i].toLocaleString('es-ES'))))),
-      h('p.av-nota', 'Enséñale esta pantalla al profesor. Gana quien tenga más nota; si hay empate, quien haya tardado menos.'),
+      h('p.av-nota', 'Enséñale esta pantalla al profesor. Gana quien tenga más nota; si hay empate, quien haya tardado menos. Con un fallo crítico, ese equipo no pasa de un 4.'),
       h('a.btn.sec', { href: '#/tema3/practica' }, 'Volver a la práctica'));
   }
 

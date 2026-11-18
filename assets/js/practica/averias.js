@@ -116,6 +116,7 @@ export function crearReto(codigo, cuantos = 5) {
   return casos;
 }
 
+export const TOPE_CRITICO = 4;
 // Puntos: fase (1), seguridad antes de abrir (1), revisar la zona del fallo (1), causa (2) → sobre 5, nota sobre 10
 export function corregir(caso, { fase, seguridadAntes, revisadas, causa }) {
   const p = {
@@ -125,7 +126,12 @@ export function corregir(caso, { fase, seguridadAntes, revisadas, causa }) {
     causa: causa === caso.fallo.id ? 2 : 0,
   };
   const total = p.fase + p.seguridad + p.zona + p.causa;
-  return { puntos: p, total, nota: Math.round(total * 20) / 10 };
+  // Fallos críticos: tocar dentro sin las medidas de seguridad o dejar el equipo sin arreglar. Con cualquiera de los dos, como mucho un 4.
+  const criticos = [];
+  if (!p.seguridad) criticos.push('Has tocado dentro del equipo sin apagar, desenchufar y ponerte la pulsera.');
+  if (!p.causa) criticos.push('El equipo sigue sin arreglar: la causa no era esa.');
+  const nota = Math.round(total * 20) / 10;
+  return { puntos: p, total, criticos, nota: criticos.length ? Math.min(nota, TOPE_CRITICO) : nota };
 }
 
 /** Informe de referencia por campos, para compararlo con el del alumno. */
