@@ -121,7 +121,7 @@ export function crearReto(codigo, cuantos = 5) {
 
 export const TOPE_CRITICO = 4;
 // Puntos: fase (1), seguridad antes de abrir (1), revisar la zona del fallo (1), causa (2) → sobre 5, nota sobre 10
-export function corregir(caso, { fase, seguridadAntes, revisadas, causa }) {
+export function corregir(caso, { fase, seguridadAntes, revisadas, causa, informe = null }) {
   const p = {
     fase: caso.fallo.fase.includes(fase) ? 1 : 0,
     seguridad: seguridadAntes ? 1 : 0,
@@ -133,8 +133,60 @@ export function corregir(caso, { fase, seguridadAntes, revisadas, causa }) {
   const criticos = [];
   if (!p.seguridad) criticos.push('Has tocado dentro del equipo sin apagar, desenchufar y ponerte la pulsera.');
   if (!p.causa) criticos.push('El equipo sigue sin arreglar: la causa no era esa.');
-  const nota = Math.round(total * 20) / 10;
-  return { puntos: p, total, criticos, nota: criticos.length ? Math.min(nota, TOPE_CRITICO) : nota };
+  // Con informe, la práctica vale 7 puntos (5 del diagnóstico y 2 del informe); sin él (reto de clase), 5
+  const inf = informe ? valorarInforme(caso, informe) : null;
+  const nota = inf ? Math.round((total + inf.puntos) / 7 * 100) / 10 : Math.round(total * 20) / 10;
+  return { puntos: p, total, criticos, informe: inf, nota: criticos.length ? Math.min(nota, TOPE_CRITICO) : nota };
+}
+
+// --- Valoración del informe ---
+// No se puede leer un texto libre como lo haría un profesor: se comprueba que cada apartado diga algo y que nombre
+// lo que tiene que nombrar. Para cada avería, la causa y la solución llevan grupos de palabras: tiene que salir
+// al menos una de cada grupo.
+const CLAVES = {
+  powersw: { causa: [['power sw', 'powersw', 'pwr', 'boton', 'f_panel', 'fpanel', 'frontal']], solucion: [['conect', 'poner', 'coloc', 'enchuf', 'pinch']] },
+  interruptor: { causa: [['interruptor']], solucion: [['interruptor'], ['encend', 'poner', 'cambi', 'activ', 'posicion']] },
+  atx24: { causa: [['24']], solucion: [['clic', 'fondo', 'conect', 'apret', 'empuj', 'meter', 'insert', 'encaj']] },
+  ram: { causa: [['ram', 'memoria', 'modulo', 'dimm']], solucion: [['insert', 'clic', 'pestan', 'presion', 'encaj', 'meter', 'coloc', 'apret']] },
+  eps: { causa: [['eps', '8 pines', 'cpu_pwr', 'atx12v', 'procesador', 'cpu']], solucion: [['conect', 'enchuf', 'poner', 'coloc']] },
+  gpu: { causa: [['grafica', 'gpu', 'pcie', 'pci-e', 'vga']], solucion: [['conect', 'enchuf', 'poner']] },
+  monitor: { causa: [['monitor', 'hdmi', 'displayport', 'video', 'cable'], ['placa', 'grafica']], solucion: [['grafica', 'gpu']] },
+  cpufan: { causa: [['cpu_fan', 'cpu fan', 'cpufan', 'ventilador']], solucion: [['cpu_fan', 'cpu fan', 'cpufan']] },
+  separador: { causa: [['separador', 'corto', 'tornillo']], solucion: [['quit', 'retir', 'sacar', 'sobr']] },
+  disco: { causa: [['sata', 'disco', 'ssd']], solucion: [['conect', 'enchuf', 'poner']] },
+  pila: { causa: [['pila', 'cr2032', 'bateria']], solucion: [['cambi', 'sustitu', 'nueva', 'reemplaz', 'poner']] },
+  velram: { causa: [['xmp', 'expo', 'perfil']], solucion: [['activ', 'habilit']] },
+  cmos: { causa: [['frecuencia', 'memoria', 'ram', 'xmp', 'uefi', 'bios']], solucion: [['cmos', 'clr', 'pila', 'borr', 'reset', 'restablec']] },
+  canal: { causa: [['ranura', 'canal', 'a1', 'a2', 'b2']], solucion: [['a2', 'b2', 'cambi', 'mover', 'ranura']] },
+  tpm: { causa: [['tpm', 'ptt']], solucion: [['activ', 'habilit']] },
+  calor: { causa: [['disipador', 'refriger']], solucion: [['apret', 'atornill', 'mont', 'coloc', 'pasta', 'fij', 'asent']] },
+  pled: { causa: [['led', 'polaridad', 'reves']], solucion: [['vuelta', 'girar', 'gira', 'invert', 'polaridad', 'reves', 'positivo', '+']] },
+};
+const SINTOMAS = ['ventilador', 'imagen', 'pantalla', 'monitor', 'enciende', 'encend', 'arranc', 'mensaje', 'led', 'reinici', 'apaga', 'fecha', 'hora', 'temperatura',
+  'memoria', 'luz', 'windows', 'nada', 'senal', 'error', 'velocidad', 'canal', 'mhz', 'calient', 'boot', 'post'];
+const llano = t => String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const palabras = t => llano(t).split(/[^a-z0-9ñ_+]+/).filter(p => p.length > 1);
+const conAlguna = (t, lista) => lista.some(c => llano(t).includes(c));
+const conTodos = (t, grupos) => grupos.every(g => conAlguna(t, g));
+
+/** Valora los cuatro apartados del informe. Devuelve por cada uno { ok, porque } y los puntos (0,5 por apartado). */
+export function valorarInforme(caso, informe = {}) {
+  const k = CLAVES[caso.fallo.id];
+  const corto = t => palabras(t).length < 3;
+  const zona = palabras(ZONAS_PRACTICA[caso.fallo.zona].nombre).filter(p => p.length > 3);
+  const campo = (id, vale, falta) => {
+    const t = informe[id] || '';
+    if (corto(t)) return { ok: false, porque: 'Está vacío o no dice nada: escribe una frase completa.' };
+    return vale(t) ? { ok: true, porque: '' } : { ok: false, porque: falta };
+  };
+  const r = {
+    incidencia: campo('incidencia', t => conAlguna(t, SINTOMAS), 'No cuenta qué le pasa al equipo: qué hace al encenderlo y qué se ve.'),
+    comprobaciones: campo('comprobaciones', t => conAlguna(t, [...k.causa.flat(), ...zona]), 'No nombra lo que había que revisar: ' + ZONAS_PRACTICA[caso.fallo.zona].nombre.toLowerCase() + '.'),
+    causa: campo('causa', t => conTodos(t, k.causa), 'No nombra la causa de este equipo.'),
+    solucion: campo('solucion', t => conTodos(t, k.solucion), 'No dice cómo se arregla esta avería.'),
+  };
+  const puntos = Object.values(r).filter(x => x.ok).length * 0.5;
+  return { campos: r, puntos };
 }
 
 /** Informe de referencia por campos, para compararlo con el del alumno. */
