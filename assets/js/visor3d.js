@@ -66,7 +66,7 @@ export class Visor {
       this._raf = requestAnimationFrame(bucle);
       if (!this._visible || document.hidden) return;
       const t = (performance.now() - this._t0) / 1000;
-      this.raiz.traverse(o => { if (o.userData.gira) o.rotation.z = t * 6; });
+      this.raiz.traverse(o => { if (o.userData.gira && !o.userData.parado) o.rotation.z = t * 6; });
       this.controles.update();
       this.renderer.render(this.escena, this.camara);
     };

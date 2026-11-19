@@ -1,6 +1,7 @@
 // averia.js — Práctica «Este PC no arranca» (Tema 3). Se genera y corrige en el navegador: no cuenta para nota.
 import { h, md, progreso } from '../util.js';
 import { huecoVisor, informeAlumno, informeCompleto, informeComparado } from './comun.js';
+import * as THREE from 'three';
 import { montaje } from '../piezas3d.js';
 import { FASES_PRACTICA as FASES, ZONAS_PRACTICA as ZONAS, zonaDeParte, crearCaso, crearReto, corregir, informeReferencia, TOPE_CRITICO } from '../practica/averias.js';
 
@@ -13,6 +14,31 @@ const SEGURIDAD = [
   ['pulsera', 'Ponerme la pulsera antiestática'],
 ];
 
+// --- Lo que se ve en el equipo: ventiladores, LED de diagnóstico de la placa, luz del frontal y monitor ---
+const COLOR_LED = { CPU: 0xff3b30, DRAM: 0xffb020, VGA: 0xffffff, BOOT: 0x35d07f };
+const luz = () => new THREE.MeshStandardMaterial({ color: 0x23262b, emissive: 0x000000, roughness: 0.4 });
+function ponerLuces(modelo) {
+  const luces = {};
+  let atx = null, cajaG = null;
+  modelo.traverse(o => { if (!atx && o.userData.parte === 'atx24') atx = o; if (!cajaG && o.userData.tipo === 'caja') cajaG = o; });
+  if (atx) ['CPU', 'DRAM', 'VGA', 'BOOT'].forEach((n, i) => {
+    // cuatro LED en fila junto al conector de 24 pines, como en una placa real
+    const m = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.6, 0.35), luz());
+    m.position.set(atx.position.x - 1.3, atx.position.y + 1.8 - i * 1.2, atx.position.z);
+    m.userData.parte = atx.userData.parte;
+    atx.parent.add(m); luces[n] = m;
+  });
+  if (cajaG) {
+    const { P, A, W } = cajaG.userData;
+    const m = new THREE.Mesh(new THREE.SphereGeometry(0.42, 16, 12), luz());
+    m.position.set((P / 2 + 5) / 10, (A / 2 - 30) / 10, (W / 2 - 25) / 10);
+    m.userData.noTocar = true;
+    cajaG.add(m); luces.POWER = m;
+  }
+  return luces;
+}
+const encender = (m, color) => { if (!m) return; m.material.emissive.setHex(color || 0x000000); m.material.emissiveIntensity = color ? 2.2 : 0; m.material.color.setHex(color || 0x23262b); };
+
 const reloj = ms => { const s = Math.floor(ms / 1000); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
 
 // Con «reto» (un número), es el reto de clase: cinco equipos iguales para todos, sin informe y con cronómetro
@@ -23,13 +49,15 @@ export function vistaAveria(reto = null) {
   const notas = [];
   const marcador = h('p.av-marcador');
   const pintaMarcador = () => { if (reto) marcador.textContent = `Reto ${reto} · Equipo ${Math.min(turno + 1, casosReto.length)} de ${casosReto.length} · ${reloj((fin || Date.now()) - inicio)}`; };
+  const monitor = h('div.av-monitor', { 'aria-hidden': 'true' });
+  let modelo = null, luces = {}, pulso = null, arrancando = false;
   const visor = huecoVisor({ pista: 'Arrastra para girar · rueda para acercar · toca una pieza para revisarla', alTocar: parte => revisar(parte) });
   const panel = h('div.av-panel');
   const el = h('section.averia',
     h('span.etiqueta', reto ? 'Reto de clase · Tema 3 · no cuenta para nota' : 'Práctica · Tema 3 · no cuenta para nota'), h('h1', reto ? 'Reto: cinco equipos que no van bien' : 'Este PC no arranca'),
     reto ? marcador : null,
     h('p.lead', { style: 'color:var(--tinta-2);font-size:19px;max-width:66ch;margin:6px 0 18px' }, 'Un equipo recién montado que no funciona bien. Mira el síntoma, piensa en qué paso del arranque falla, prepárate con seguridad, revisa el equipo en 3D y di qué está mal montado.'),
-    h('div.av-rejilla', h('div.av-visor', visor.el), panel),
+    h('div.av-rejilla', h('div.av-visor', (visor.el.append(monitor), visor.el)), panel),
     reto ? null : h('form.av-reto', { onsubmit: e => { e.preventDefault(); const n = parseInt(e.target.elements.n.value, 10); if (n > 0) location.hash = '#/tema3/reto/' + n; } },
       h('b', 'Reto de clase'), h('span', 'Escribe el número que diga el profesor: a toda la clase le salen los mismos cinco equipos.'),
       h('input', { name: 'n', type: 'number', min: '1', max: '99999', required: true, placeholder: 'Número', 'aria-label': 'Número del reto' }),
@@ -43,8 +71,12 @@ export function vistaAveria(reto = null) {
     if (v) {
       const sel = { caja: { formatos: ['ATX'] }, placa: { formato: 'ATX' }, cpu: {}, refri: { altura: 155 }, ram: { formato: 'DIMM', gen: 'DDR5', modulos: 2 },
         almac: { formato: '2,5"' }, fuente: { formato: 'ATX' }, gpu: caso.conGpu ? { largo: 260, pcie8: 2 } : { ninguna: true } };
-      v.mostrar(montaje(sel), { vista: 'frente' });
+      modelo = montaje(sel); luces = ponerLuces(modelo);
+      v.mostrar(modelo, { vista: 'frente' });
     }
+    // el equipo que «se enciende un segundo y se apaga» lo hace de verdad al cargar
+    clearTimeout(pulso); arrancando = caso.fallo.id === 'separador';
+    if (arrancando) pulso = setTimeout(() => { arrancando = false; ambientar(); }, 1400);
     visor.rotulo('');
     pintar();
   }
@@ -74,7 +106,27 @@ export function vistaAveria(reto = null) {
     pintar();
   }
 
+  // Pone el 3D y el monitor como dice el síntoma. Al apagar o desenchufar (paso 2), el equipo se para.
+  function ambientar() {
+    const f = caso.fallo;
+    const enchufado = !estado.seguridad.has('apagar') && !estado.seguridad.has('desenchufar');
+    const giran = enchufado && (f.ventiladores || arrancando);
+    if (modelo) modelo.traverse(o => {
+      if (!o.userData.gira) return;
+      // sin sus cables de alimentación, los ventiladores de la gráfica tampoco giran
+      const deGrafica = o.children.some(p => p.children.some(a => a.userData.parte === 'ventiladores'));
+      o.userData.parado = !giran || (deGrafica && f.id === 'gpu');
+    });
+    for (const n of ['CPU', 'DRAM', 'VGA', 'BOOT']) encender(luces[n], giran && f.led === n ? COLOR_LED[n] : 0);
+    encender(luces.POWER, giran && f.id !== 'pled' ? 0x35d07f : 0);
+    const p = !giran || arrancando ? 'Apagada' : f.pantalla;
+    const tipo = /^Apagada/.test(p) ? 'apagada' : /Sin señal/.test(p) ? 'sin' : /^Arranca normal|^Da imagen/.test(p) ? 'imagen' : 'texto';
+    monitor.className = 'av-monitor ' + tipo;
+    monitor.replaceChildren(h('div.av-monitor-pantalla', tipo === 'sin' ? 'Sin señal' : tipo === 'texto' ? p : tipo === 'imagen' ? (/UEFI/.test(p) ? 'UEFI' : 'Windows') : ''), h('div.av-monitor-pie'));
+  }
+
   function pintar() {
+    ambientar();
     const f = caso.fallo;
     const leds = h('div.av-leds', LEDS.map(([n, c]) => h('span' + (f.led === n ? '.on' : ''), { style: `--led:${c}` }, h('i'), n)));
     const ficha = h('div.tarjeta.av-ficha',
@@ -174,5 +226,5 @@ export function vistaAveria(reto = null) {
       h('a.btn.sec', { href: '#/tema3/practica' }, 'Volver a la práctica'));
   }
 
-  return { el, montado() { if (reto) { inicio = Date.now(); pintaMarcador(); tic = setInterval(pintaMarcador, 1000); } nuevo(); }, destruir() { clearInterval(tic); visor.destruir(); } };
+  return { el, montado() { if (reto) { inicio = Date.now(); pintaMarcador(); tic = setInterval(pintaMarcador, 1000); } nuevo(); }, destruir() { clearInterval(tic); clearTimeout(pulso); visor.destruir(); } };
 }

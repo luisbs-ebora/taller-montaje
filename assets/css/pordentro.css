@@ -146,3 +146,12 @@ a.enlace-anim .ic { background: var(--naranja, #ff6a3d); font-size: 15px; }
 .av-final h3 { margin: 0 0 6px; }
 .av-final-nota { font-size: 26px; margin: 0 0 10px; }
 .av-final ol { margin: 0 0 12px; padding-left: 22px; }
+
+/* Monitor del equipo averiado, en una esquina del 3D */
+.av-monitor { position: absolute; right: 12px; bottom: 46px; width: 150px; pointer-events: none; }
+.av-monitor-pantalla { display: grid; place-items: center; aspect-ratio: 16 / 10; padding: 6px; border: 5px solid #1d1b24; border-radius: 6px; background: #05060a; color: #d7dbe2; font: 600 11px/1.25 var(--f-mono); text-align: center; overflow: hidden; }
+.av-monitor-pie { width: 44px; height: 9px; margin: 0 auto; background: #1d1b24; border-radius: 0 0 6px 6px; }
+.av-monitor.sin .av-monitor-pantalla { color: #8fa3c7; }
+.av-monitor.imagen .av-monitor-pantalla { background: linear-gradient(135deg, #2b62b8, #6aa5ff); color: #fff; font-size: 13px; }
+.av-monitor.texto .av-monitor-pantalla { color: #f2f2f2; font-size: 10px; }
+@media (max-width: 960px) { .av-monitor { width: 110px; } }
